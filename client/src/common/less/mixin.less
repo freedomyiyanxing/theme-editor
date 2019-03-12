@@ -1,0 +1,17 @@
+/* 自定义函数 */
+
+// 一行显示超出省略
+.no-wrap() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 两行显示超出隐藏
+.no-wrap-clamp() {
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  max-height: 34px;
+  line-height: 17px;
+  word-break: break-all;
+}

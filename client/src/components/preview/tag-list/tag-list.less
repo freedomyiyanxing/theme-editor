@@ -1,0 +1,58 @@
+@import "../../../common/less/variable.less";
+
+.container{
+  margin-top: 30px;
+  padding: 0 92px;
+}
+
+.phone{
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+.wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+  h2{
+    font-size: 22px;
+    font-weight: bold;
+    color: @color-text-lg;
+  }
+}
+
+.items{
+  flex: 1;
+  margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-size: 60px;
+  background: @color-background-style;
+  color: @color-text-style;
+}
+.info{
+  padding: 4px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  font-size: @font-size;
+  background: @color-background;
+  &:first-child{
+    margin-bottom: 4px;
+  }
+}

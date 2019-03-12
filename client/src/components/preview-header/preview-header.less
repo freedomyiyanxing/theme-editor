@@ -1,0 +1,92 @@
+@import "../../common/less/variable.less";
+
+.container{
+  flex: none;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: @color-background-lg;
+  border-bottom: 1px solid @color-border;
+}
+
+.wrapper{
+  flex-basis: 100%;
+  height: 100%;
+  width: 100%;
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left{
+  flex: 0 0 35%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.center{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: @font-size-sm;
+  color: @color-text-lg;
+  height: 100%;
+}
+
+.right{
+  flex: 0 0 35%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.headerBtn{
+  flex: 0 0 84px;
+  width: 84px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: @color-background-md;
+  i {
+    background: @color-background;
+  }
+}
+
+.btnItems{
+  flex: 0 0 84px;
+  width: 84px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: @color-background-md;
+  color: @color-text;
+  font-size: @font-size-xs;
+  cursor: pointer;
+}
+
+.btn{
+  width: 100%;
+  text-align: center;
+  line-height: 34px;
+  cursor: pointer;
+  color: @color-text;
+  font-size: @font-size-xs;
+}
+
+.iconDropDown{
+  margin-left: 4px;
+  font-size: @font-size;
+}
+
+.icon {
+  font-size: @font-size;
+  margin-right: 5px;
+}
