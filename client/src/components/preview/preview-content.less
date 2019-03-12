@@ -1,0 +1,32 @@
+@import "../../common/less/variable.less";
+
+
+.container{
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  min-height: 0;
+  background: @color-background-lg;
+  user-select: none;
+}
+
+.wrapper{
+  overflow: auto;
+  height: 100%;
+  transition: all .15s linear;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1), 0 0 12px rgba(0,0,0,0.1);
+}
+
+.isStart {
+  transform: scale(0.5);
+  min-height: 200%;
+  height: 200%;
+}
+
+.phone {
+  width: 375px;
+  max-height: 667px;
+}

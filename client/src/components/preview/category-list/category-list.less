@@ -1,0 +1,88 @@
+@import "../../../common/less/variable.less";
+
+.container{
+  width: 100%;
+  margin-top: 30px;
+  padding: 0 92px;
+}
+
+.phone {
+  margin-top: 10px;
+  padding: 0 10px;
+  & > div {
+    padding-top: 10px;
+  }
+  & > h1 {
+    padding-bottom: 4px;
+    font-size: @font-size-sm;
+  }
+}
+
+.title{
+  padding-bottom: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  font-style: italic;
+  color: @color-text-lg;
+}
+
+.wrapper{
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid @color-border-lg;
+}
+
+.item{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.phoneItem{
+  margin-right: 10px;
+  & > h2 {
+    font-size: @font-size-xs;
+  }
+}
+
+.itemTitle{
+  font-style: italic;
+  text-align: center;
+  font-size: @font-size-md;
+  color: @color-text-lg;
+  font-weight: bold;
+}
+
+.itemImg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 190px;
+  margin: 10px 0 8px;
+  background: @color-background-style;
+  font-size: 50px;
+  color: @color-text-style;
+}
+
+.phoneImg {
+  height: 120px;
+  font-size: 20px;
+}
+
+.itemBtn{
+  width: 106px;
+  height: 24px;
+  font-size: @font-size-sm;
+}
+
+.phoneBtn{
+  width: 100%;
+  font-size: @font-size;
+}

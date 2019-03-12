@@ -1,0 +1,79 @@
+@import "../../common/less/variable.less";
+@import "../../common/less/mixin.less";
+
+.container{
+  margin: 20px 0 55px;
+}
+
+.scroll{
+  margin-bottom: 20px;
+}
+.left{
+  flex: 1;
+  display: flex;
+}
+.right{
+  flex: 0 0 74px;
+  width: 74px;
+  margin-right: 10px;
+  span{
+    height: 40px;
+    font-size: @font-size-sm;
+  }
+}
+.display{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 8px;
+  font-size: @font-size-sm;
+  border-bottom: 1px solid @color-border-md;
+  &:last-child{
+    border-bottom: none;
+  }
+  &:first-child{
+    border-top: 1px solid @color-border-md;
+  }
+}
+.displayL{
+  display: flex;
+  align-items: center;
+}
+.displayR{
+  width: 50px;
+  height: 27px;
+  font-size: @font-size-xs;
+  span {
+    font-size: @font-size-xs;
+  }
+}
+.displayS{
+  margin-right: 25px;
+  color: @color-background-style;
+}
+
+.iconDropDown{
+  flex: 0 0 18px;
+  margin-right: 24px;
+  transition: all .2s linear;
+  color: @color-text-xs;
+}
+.icon{
+  flex: 0 0 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: @color-text-md;
+}
+.text{
+  font-size: @font-size-sm;
+  color: @color-text-lg;
+  line-height: 22px;
+  .no-wrap()
+}
+.listLeft{
+  flex: 1;
+  display: flex;
+}
