@@ -37,9 +37,9 @@ class ListBar extends React.Component {
       },
       onChange: (evt) => {
         const { oldIndex, newIndex, originalEvent } = evt;
-        // templateData.handleChangeSort(index, newIndex);
         // console.log(index, newIndex, oldIndex);
         templateData.handleDropScroll('int', index, index, newIndex);
+        console.log('index :', index, '   oldIndex :', oldIndex, '    newIndex :', newIndex)
         // 判断向上 或者向下拖动...
         // 判断条件： 如果 上一次y 大于 当前y 则是向上拖动 或 第一次拖动时 当前下标 大于 目标下标 则也是向上拖动
         if (layer_y > originalEvent.layerY || (is && oldIndex > newIndex)) {
@@ -86,7 +86,7 @@ class ListBar extends React.Component {
             role="button"
             key={v}
             className={classes.link}
-            onClick={() => { this.handleClick(i) }}
+            // onClick={() => { this.handleClick(i) }}
           >
             {v}
           </span>

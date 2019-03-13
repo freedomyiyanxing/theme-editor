@@ -24,9 +24,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
-
 .icon-add:before {
   content: "\e900";
 }
@@ -59,69 +56,75 @@
 .icon-displayPicture:before {
   content: "\e908";
 }
-.icon-drag:before {
+.icon-displayPicture-single:before {
   content: "\e909";
 }
-.icon-drop-down:before {
+.icon-drag:before {
   content: "\e90a";
 }
-.icon-edit:before {
+.icon-drop-down:before {
   content: "\e90b";
 }
-.icon-files:before {
+.icon-edit:before {
   content: "\e90c";
 }
-.icon-footer:before {
+.icon-files:before {
   content: "\e90d";
 }
-.icon-handle-view:before {
+.icon-footer:before {
   content: "\e90e";
 }
-.icon-header:before {
+.icon-handle-view:before {
   content: "\e90f";
 }
-.icon-hidden:before {
+.icon-header:before {
   content: "\e910";
 }
-.icon-logo:before {
+.icon-hidden:before {
   content: "\e911";
 }
-.icon-productList:before {
+.icon-logo:before {
   content: "\e912";
 }
-.icon-publish:before {
+.icon-productList:before {
   content: "\e913";
 }
-.icon-revirt:before {
+.icon-publish:before {
   content: "\e914";
 }
-.icon-scrollBanner:before {
+.icon-revirt:before {
   content: "\e915";
 }
-.icon-style1:before {
+.icon-scrollBanner:before {
   content: "\e916";
 }
-.icon-style2:before {
+.icon-scrollBanner-single:before {
   content: "\e917";
 }
-.icon-style3:before {
+.icon-style1:before {
   content: "\e918";
 }
-.icon-style4:before {
+.icon-style2:before {
   content: "\e919";
 }
-.icon-style5:before {
+.icon-style3:before {
   content: "\e91a";
 }
-.icon-subscribe:before {
+.icon-style4:before {
   content: "\e91b";
 }
-.icon-tagList:before {
+.icon-style5:before {
   content: "\e91c";
 }
-.icon-upload:before {
+.icon-subscribe:before {
   content: "\e91d";
 }
-.icon-video:before {
+.icon-tagList:before {
   content: "\e91e";
+}
+.icon-upload:before {
+  content: "\e91f";
+}
+.icon-video:before {
+  content: "\e920";
 }

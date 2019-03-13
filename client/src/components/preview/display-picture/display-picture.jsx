@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid';
 import {
   inject,
   observer,
@@ -10,8 +11,9 @@ import { TemplateData } from '../../../store/index';
 import classes from './display-picture.less';
 
 const IMGUrl = process.env.IMG_BASE || '';
-const IMAGE_1_MAX_LENGTH = 3;
-const IMAGE_2_MAX_LENGTH = 5;
+// const IMAGE_1_MAX_LENGTH = 3;
+// 最多展示的数目
+const IMAGE_MAX_LENGTH = 5;
 // 导出背景图片
 const _bg = (v) => {
   return v ? {
@@ -20,7 +22,7 @@ const _bg = (v) => {
 };
 
 // 先遍历所有数据, 踢掉(隐藏 , 过期)的数据
-const createSuccessData = (config, type) => {
+const createSuccessData = (config) => {
   const img = config.modules;
   const mod = config.modulesOrder;
   const arr = [];
@@ -30,12 +32,12 @@ const createSuccessData = (config, type) => {
     const {
       title, imgPath, isShow, effDate, expDate,
     } = img[i][mod[i]].config;
-    const len = type === 'images-1' ? IMAGE_1_MAX_LENGTH : IMAGE_2_MAX_LENGTH;
+    // const len = type === 'images-1' ? IMAGE_1_MAX_LENGTH : IMAGE_2_MAX_LENGTH;
     const dataTime = new Date().getTime();
     if (effDate && expDate) {
       // 设置 -> 开始时间得 < 当前渲染时间 且 结束时间得 > 当前渲染时间
       const isOverdue = effDate < dataTime && expDate > dataTime;
-      if (isShow && isOverdue && j < len) {
+      if (isShow && isOverdue && j < IMAGE_MAX_LENGTH) {
         j += 1;
         arr.push({
           title,
@@ -43,7 +45,7 @@ const createSuccessData = (config, type) => {
         })
       }
     } else {
-      if (isShow && j < len) { // eslint-disable-line
+      if (isShow && j < IMAGE_MAX_LENGTH) { // eslint-disable-line
         j += 1;
         arr.push({
           title,
@@ -67,8 +69,12 @@ const publicCreateHtml = (obj, type, isMobile) => (
       <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
         {
           obj.map(v => (
-            <span className={classes.item} key={v.title} style={_bg(v.imgPath)}>
-              <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
+            <span className={classes.item} key={uuid()} style={_bg(v.imgPath)}>
+              {
+                v.imgPath
+                  ? <span style={{ height: 50 }} />
+                  : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
+              }
               <span>{v.title}</span>
             </span>
           ))
@@ -84,12 +90,14 @@ const publicCreateHtml = (obj, type, isMobile) => (
  * @param isMobile
  */
 const single = (obj, isMobile) => (
-  <span key={obj.title} className={classes.item} style={_bg(obj.imgPath)}>
+  <span key={uuid()} className={classes.item} style={_bg(obj.imgPath)}>
     {
       obj !== ''
         ? [
-          <span key={obj.title + 1} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
-          <span key={obj.title + 2}>{obj.title}</span>,
+          obj.imgPath
+            ? <span key={uuid()} />
+            : <span key={uuid()} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
+          <span key={uuid()}>{obj.title}</span>,
         ]
         : null
     }
@@ -300,7 +308,7 @@ const htmlImg5 = (obj, type, isMobile) => (
         <div className={classes.wrapper}>
           {
             type === 'images-1' && modulesOrder.length
-              ? publicCreateHtml(createSuccessData(config, type), type, isMobile)
+              ? publicCreateHtml(createSuccessData(config), type, isMobile)
               : type === 'images-2' && modulesOrder.length
                 ? htmlImg2(_img2(config), type, isMobile)
                 : type === 'images-3' && modulesOrder.length

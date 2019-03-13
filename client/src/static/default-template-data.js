@@ -6,7 +6,7 @@ export const slideImagesData = {
       {
         modules0: {
           config: {
-            title: 'Scroll banner - 1',
+            title: 'Banner - 1',
             url: null,
             isShow: true,
             effDate: null,
@@ -26,7 +26,7 @@ export const slideImagesData = {
       {
         modules0: {
           config: {
-            title: 'Style - 1',
+            title: 'Picture - 1',
             url: null,
             isShow: true,
             effDate: null,
@@ -46,7 +46,7 @@ export const slideImagesData = {
       {
         modules0: {
           config: {
-            title: 'Style - 1',
+            title: 'Picture - 1',
             url: null,
             isShow: true,
             effDate: null,
@@ -58,7 +58,7 @@ export const slideImagesData = {
       {
         modules1: {
           config: {
-            title: 'Style - 2',
+            title: 'Picture - 2',
             url: null,
             isShow: true,
             effDate: null,
@@ -70,7 +70,7 @@ export const slideImagesData = {
       {
         modules2: {
           config: {
-            title: 'Style - 3',
+            title: 'Picture - 3',
             url: null,
             isShow: true,
             effDate: null,
@@ -82,7 +82,7 @@ export const slideImagesData = {
       {
         modules3: {
           config: {
-            title: 'Style - 4',
+            title: 'Picture - 4',
             url: null,
             isShow: true,
             effDate: null,
@@ -94,7 +94,7 @@ export const slideImagesData = {
       {
         modules4: {
           config: {
-            title: 'Style - 5',
+            title: 'Picture - 5',
             url: null,
             isShow: true,
             effDate: null,
@@ -118,7 +118,7 @@ export const slideImagesData = {
       {
         modules0: {
           config: {
-            title: 'Style - 1',
+            title: 'Picture - 1',
             url: null,
             isShow: true,
             effDate: null,
@@ -130,7 +130,7 @@ export const slideImagesData = {
       {
         modules1: {
           config: {
-            title: 'Style - 2',
+            title: 'Picture - 2',
             url: null,
             isShow: true,
             effDate: null,
@@ -142,7 +142,7 @@ export const slideImagesData = {
       {
         modules2: {
           config: {
-            title: 'Style - 3',
+            title: 'Picture - 3',
             url: null,
             isShow: true,
             effDate: null,
@@ -154,7 +154,7 @@ export const slideImagesData = {
       {
         modules3: {
           config: {
-            title: 'Style - 4',
+            title: 'Picture - 4',
             url: null,
             isShow: true,
             effDate: null,
@@ -166,7 +166,7 @@ export const slideImagesData = {
       {
         modules4: {
           config: {
-            title: 'Style - 5',
+            title: 'Picture - 5',
             url: null,
             isShow: true,
             effDate: null,
@@ -190,7 +190,7 @@ export const slideImagesData = {
       {
         modules0: {
           config: {
-            title: 'Style - 1',
+            title: 'Picture - 1',
             url: null,
             isShow: true,
             effDate: null,
@@ -202,7 +202,7 @@ export const slideImagesData = {
       {
         modules1: {
           config: {
-            title: 'Style - 2',
+            title: 'Picture - 2',
             url: null,
             isShow: true,
             effDate: null,
@@ -214,7 +214,7 @@ export const slideImagesData = {
       {
         modules2: {
           config: {
-            title: 'Style - 3',
+            title: 'Picture - 3',
             url: null,
             isShow: true,
             effDate: null,
@@ -226,7 +226,7 @@ export const slideImagesData = {
       {
         modules3: {
           config: {
-            title: 'Style - 4',
+            title: 'Picture - 4',
             url: null,
             isShow: true,
             effDate: null,
@@ -238,7 +238,7 @@ export const slideImagesData = {
       {
         modules4: {
           config: {
-            title: 'Style - 5',
+            title: 'Picture - 5',
             url: null,
             isShow: true,
             effDate: null,
@@ -262,7 +262,7 @@ export const slideImagesData = {
       {
         modules0: {
           config: {
-            title: 'Style - 1',
+            title: 'Picture - 1',
             url: null,
             isShow: true,
             effDate: null,
@@ -274,7 +274,7 @@ export const slideImagesData = {
       {
         modules1: {
           config: {
-            title: 'Style - 2',
+            title: 'Picture - 2',
             url: null,
             isShow: true,
             effDate: null,
@@ -327,7 +327,7 @@ export const templateData = {
         {
           modules0: {
             config: {
-              title: 'Style - 1',
+              title: 'Picture – 1',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -339,7 +339,7 @@ export const templateData = {
         {
           modules1: {
             config: {
-              title: 'Style - 2',
+              title: 'Picture - 2',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -351,7 +351,7 @@ export const templateData = {
         {
           modules2: {
             config: {
-              title: 'Style - 3',
+              title: 'Picture - 3',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -363,7 +363,7 @@ export const templateData = {
         {
           modules3: {
             config: {
-              title: 'Style - 4',
+              title: 'Picture - 4',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -375,7 +375,7 @@ export const templateData = {
         {
           modules4: {
             config: {
-              title: 'Style - 5',
+              title: 'Picture - 5',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -403,7 +403,7 @@ export const templateData = {
         {
           modules0: {
             config: {
-              title: 'Style - 1',
+              title: 'Picture – 1',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -415,7 +415,7 @@ export const templateData = {
         {
           modules1: {
             config: {
-              title: 'Style - 2',
+              title: 'Picture - 2',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -427,7 +427,7 @@ export const templateData = {
         {
           modules2: {
             config: {
-              title: 'Style - 3',
+              title: 'Picture - 3',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -439,7 +439,7 @@ export const templateData = {
         {
           modules3: {
             config: {
-              title: 'Style - 4',
+              title: 'Picture - 4',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -451,7 +451,7 @@ export const templateData = {
         {
           modules4: {
             config: {
-              title: 'Style - 5',
+              title: 'Picture - 5',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -479,7 +479,7 @@ export const templateData = {
         {
           modules0: {
             config: {
-              title: 'Scroll banner - 1',
+              title: 'Banner - 1',
               url: null,
               isShow: true,
               effDate: null,
@@ -491,7 +491,7 @@ export const templateData = {
         {
           modules1: {
             config: {
-              title: 'Scroll banner - 2',
+              title: 'Banner - 2',
               url: null,
               isShow: true,
               effDate: null,
@@ -503,7 +503,7 @@ export const templateData = {
         {
           modules2: {
             config: {
-              title: 'Scroll banner - 3',
+              title: 'Banner - 3',
               url: null,
               isShow: true,
               effDate: null,
@@ -515,7 +515,7 @@ export const templateData = {
         {
           modules3: {
             config: {
-              title: 'Scroll banner - 4',
+              title: 'Banner - 4',
               url: null,
               isShow: true,
               effDate: null,
@@ -527,7 +527,7 @@ export const templateData = {
         {
           modules4: {
             config: {
-              title: 'Scroll banner - 5',
+              title: 'Banner - 5',
               url: null,
               isShow: true,
               effDate: null,
@@ -539,7 +539,7 @@ export const templateData = {
         {
           modules5: {
             config: {
-              title: 'Scroll banner - 6',
+              title: 'Banner - 6',
               url: null,
               isShow: true,
               effDate: null,
@@ -575,7 +575,7 @@ export const templateData = {
         {
           modules0: {
             config: {
-              title: 'Style - 1',
+              title: 'Picture - 1',
               url: null,
               isShow: true,
               effDate: null,

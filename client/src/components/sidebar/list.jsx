@@ -59,6 +59,8 @@ import { deleteUploadImg } from '../../api/http'; // eslint-disable-line
 
   // 区块 修改功能 点击事件
   handleEdit = (value, index) => {
+    // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
+    if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
     const { handleEdit, isRefresh, templateData } = this.props; // eslint-disable-line
     isRefresh();
     templateData.handleDropScroll('loading', index);

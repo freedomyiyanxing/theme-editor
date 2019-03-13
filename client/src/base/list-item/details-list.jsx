@@ -30,7 +30,7 @@ import { deleteUploadImg } from '../../api/http';
 
   // 进入添加图片页面
   handleEdit = (val, index) => {
-    const { click, name } = this.props;
+    const { click, name } = this.props; // eslint-disable-line
     click(index, val, name);
   };
 
@@ -97,12 +97,17 @@ import { deleteUploadImg } from '../../api/http';
     const { section } = templateData;
     const { config } = section[name];
     const { modules, modulesOrder } = config;
-    const icon = isTypeOf(name) ? 'scrollBanner' : 'displayPicture';
+    const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
     return [
       modulesOrder.map((v, i) => (
         <ListView key={v} isFlex index={v}>
           <div className={classes.container}>
-            <div className={classes.left}>
+            <div
+              tabIndex={i}
+              role="button"
+              onClick={() => { this.handleEdit(v, i) }}
+              className={classes.left}
+            >
               <span className={`${classes.icon} icon-${icon}`} />
               <span className={classes.text}>
                 {modules[i][v].config.title}

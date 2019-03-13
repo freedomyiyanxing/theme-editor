@@ -1,6 +1,6 @@
 module.exports = {
   displayPicturesDf4r4: {
-    type: 'images-5',
+    type: 'images-4',
     isHidden: true,
     config: {
       title: 'Display picture 4',
@@ -8,7 +8,7 @@ module.exports = {
         {
           modules0: {
             config: {
-              title: 'Style - 1',
+              title: 'Picture – 1',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -20,7 +20,7 @@ module.exports = {
         {
           modules1: {
             config: {
-              title: 'Style - 2',
+              title: 'Picture - 2',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -32,7 +32,7 @@ module.exports = {
         {
           modules2: {
             config: {
-              title: 'Style - 3',
+              title: 'Picture - 3',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -44,7 +44,7 @@ module.exports = {
         {
           modules3: {
             config: {
-              title: 'Style - 4',
+              title: 'Picture - 4',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -56,7 +56,7 @@ module.exports = {
         {
           modules4: {
             config: {
-              title: 'Style - 5',
+              title: 'Picture - 5',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -84,7 +84,7 @@ module.exports = {
         {
           modules0: {
             config: {
-              title: 'Style - 1',
+              title: 'Picture – 1',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -96,7 +96,7 @@ module.exports = {
         {
           modules1: {
             config: {
-              title: 'Style - 2',
+              title: 'Picture - 2',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -108,7 +108,7 @@ module.exports = {
         {
           modules2: {
             config: {
-              title: 'Style - 3',
+              title: 'Picture - 3',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -120,7 +120,7 @@ module.exports = {
         {
           modules3: {
             config: {
-              title: 'Style - 4',
+              title: 'Picture - 4',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -132,7 +132,7 @@ module.exports = {
         {
           modules4: {
             config: {
-              title: 'Style - 5',
+              title: 'Picture - 5',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
@@ -160,7 +160,7 @@ module.exports = {
         {
           modules0: {
             config: {
-              title: 'Scroll banner - 1',
+              title: 'Banner - 1',
               url: null,
               isShow: true,
               effDate: null,
@@ -172,19 +172,19 @@ module.exports = {
         {
           modules1: {
             config: {
-              title: 'Scroll banner - 2',
+              title: 'Banner - 2',
               url: null,
               isShow: true,
               effDate: null,
               expDate: null,
               imgPath: null,
-            }
-          }
+            },
+          },
         },
         {
           modules2: {
             config: {
-              title: 'Scroll banner - 3',
+              title: 'Banner - 3',
               url: null,
               isShow: true,
               effDate: null,
@@ -196,7 +196,7 @@ module.exports = {
         {
           modules3: {
             config: {
-              title: 'Scroll banner - 4',
+              title: 'Banner - 4',
               url: null,
               isShow: true,
               effDate: null,
@@ -208,7 +208,7 @@ module.exports = {
         {
           modules4: {
             config: {
-              title: 'Scroll banner - 5',
+              title: 'Banner - 5',
               url: null,
               isShow: true,
               effDate: null,
@@ -220,7 +220,7 @@ module.exports = {
         {
           modules5: {
             config: {
-              title: 'Scroll banner - 6',
+              title: 'Banner - 6',
               url: null,
               isShow: true,
               effDate: null,
@@ -228,7 +228,7 @@ module.exports = {
               imgPath: null,
             },
           },
-        }
+        },
       ],
       modulesOrder: [
         'modules0',
@@ -237,8 +237,8 @@ module.exports = {
         'modules3',
         'modules4',
         'modules5',
-      ]
-    }
+      ],
+    },
   },
   video: {
     type: 'video',
@@ -256,7 +256,7 @@ module.exports = {
         {
           modules0: {
             config: {
-              title: 'Style - 1',
+              title: 'Picture - 1',
               url: null,
               isShow: true,
               effDate: null,

@@ -11,72 +11,72 @@ export default class TemplateData {
 
   @observable loading; // loading展示
 
-  @observable dropObj; // 保存着拖拽的数据
-
-  @observable eleWrapper; // 右侧展示滚动对象
-
   componentItems; // 保存已经删除过的部件下标
+
+  @observable dragDropDataObj; // 拖拽操作数据对象
 
   constructor() {
     this.section = null;
     this.loading = false;
     this.sortArr = null;
     this.componentItems = {};
-    this.dropObj = {};
     this.themeId = null; // 保存 id
-    this.eleWrapper = null;
+    this.dragDropDataObj = {
+      eleWrapper: null,
+      controllerVal: null,
+    };
     this.type = 'DeskTop'; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
   }
 
   // 请求模板默认数据
-  @action getData(id) {
-    get('/business/store_themes/customize', {
-      themeId: id,
-    })
-      .then((resp) => {
-        this.loading = true;
-        this.themeId = id;
-        this.type = resp.type;
-        console.log(resp);
-        // 此 id 无效
-        if (resp.error) {
-          window.location.href = resp.error;
-          return;
-        }
-        // ok
-        if (resp.draftData && resp.draftData !== '') {
-          // 当前id 已有数据
-          const obj = JSON.parse(resp.draftData);
-          this.section = obj;
-          this.sortArr = obj.sectionsOrder.slice();
-        } else {
-          // 当前id 是新用户
-          this.section = templateData;
-          this.sortArr = templateData.sectionsOrder.slice();
-          console.log('第一次进', resp);
-        }
-      })
-      .catch((err) => {
-        this.loading = true;
-        window.location.href = err.error;
-        console.log(err, '错误...')
-      });
-  }
-
-  // 本地数据
   // @action getData(id) {
-  //   get('/api/theme/index')
+  //   get('/business/store_themes/customize', {
+  //     themeId: id,
+  //   })
   //     .then((resp) => {
   //       this.loading = true;
-  //       this.section = resp;
   //       this.themeId = id;
-  //       this.sortArr = resp.sectionsOrder.slice();
+  //       this.type = resp.type;
+  //       console.log(resp);
+  //       // 此 id 无效
+  //       if (resp.error) {
+  //         window.location.href = resp.error;
+  //         return;
+  //       }
+  //       // ok
+  //       if (resp.draftData && resp.draftData !== '') {
+  //         // 当前id 已有数据
+  //         const obj = JSON.parse(resp.draftData);
+  //         this.section = obj;
+  //         this.sortArr = obj.sectionsOrder.slice();
+  //       } else {
+  //         // 当前id 是新用户
+  //         this.section = templateData;
+  //         this.sortArr = templateData.sectionsOrder.slice();
+  //         console.log('第一次进', resp);
+  //       }
   //     })
   //     .catch((err) => {
   //       this.loading = true;
+  //       window.location.href = err.error;
   //       console.log(err, '错误...')
   //     });
   // }
+
+  // 本地数据
+  @action getData(id) {
+    get('/api/theme/index')
+      .then((resp) => {
+        this.loading = true;
+        this.section = resp;
+        this.themeId = id;
+        this.sortArr = resp.sectionsOrder.slice();
+      })
+      .catch((err) => {
+        this.loading = true;
+        console.log(err, '错误...')
+      });
+  }
 
   // 添加新的章节
   @action saveTemplateData(data, name) {
@@ -111,20 +111,19 @@ export default class TemplateData {
    */
   @action handleDropScroll(current, num, index, newIndex) {
     num *= this.type === 'DeskTop' ? 280 : 200;
-    if (this.eleWrapper) {
-      // console.log(this.eleWrapper.scrollTop, ' --- -- --- ', index);
+    if (this.dragDropDataObj.eleWrapper) {
       if (current === 'start' || current === 'int') {
         if (current === 'int') {
           const mod = this.sortArr.splice(index, 1);
           this.sortArr.splice(newIndex, 0, ...mod);
         }
-        if (this.type === 'DeskTop') this.dropObj.value = 'start';
-        this.eleWrapper.scrollTo(0, num);
+        if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = 'start';
+        this.dragDropDataObj.eleWrapper.scrollTo(0, num);
       } else if (this.type === 'DeskTop') {
-        this.dropObj.value = 'end';
+        this.dragDropDataObj.controllerVal = 'end';
         this.section.sectionsOrder = this.sortArr.slice();
         setTimeout(() => {
-          this.eleWrapper.scrollTo(0, num)
+          this.dragDropDataObj.eleWrapper.scrollTo(0, num)
         }, 300)
       }
     }

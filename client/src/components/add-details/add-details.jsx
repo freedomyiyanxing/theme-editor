@@ -49,11 +49,6 @@ import classes from './add-details.less';
     })
   }
 
-  // 保存
-  // handleSubmit = () => {
-  //   console.log('发送给 后台...')
-  // };
-
   // 添加
   handleAddSection = () => {
     const { templateData, name } = this.props;
@@ -79,13 +74,12 @@ import classes from './add-details.less';
   // 修改名称
   handleSetName = (value) => {
     const { templateData, name } = this.props;
-    console.log(templateData, name);
     templateData.setChaptersName(name, value)
   };
 
   // 添加 section
   addSection(name, _name, index) {
-    const text = name.includes('scrollBanner') ? 'Scroll banner - ' : 'Style - ';
+    const text = name.includes('scrollBanner') ? 'Banner - ' : 'Picture - ';
     return {
       [_name]: {
         config: {
@@ -106,10 +100,18 @@ import classes from './add-details.less';
     } = this.props;
     const { section } = templateData;
     const { config } = section[name];
-    const text = isTypeOf(name) ? 'Scroll banner' : 'Display picture';
+    let text1;
+    let text2;
+    if (isTypeOf(name)) {
+      text1 = 'Scroll banner';
+      text2 = 'Banner';
+    } else {
+      text1 = 'Display picture';
+      text2 = 'Picture';
+    }
     return [
       <SidebarHeader key="add-details-top" click={() => { backClick('home') }}>
-        {text}
+        {text1}
       </SidebarHeader>,
       <section key="add-details-bottom" className={classes.container}>
         <div className={classes.content}>
@@ -122,7 +124,7 @@ import classes from './add-details.less';
           <div className={classes.handle}>
             <ListView click={this.handleAddSection}>
               <span className={`icon-add ${classes.icon}`} />
-              <span className={classes.text}>Add {text}</span>
+              <span className={classes.text}>Add {text2}</span>
             </ListView>
           </div>
         </div>

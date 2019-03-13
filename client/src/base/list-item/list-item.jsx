@@ -13,7 +13,12 @@ class ListItem extends React.Component {
     } = this.props;
     return (
       <div className={classes.container}>
-        <div className={classes.left}>
+        <div
+          className={classes.left}
+          tabIndex={index}
+          role="button"
+          onClick={() => { handleEdit(value, index) }}
+        >
           <span className={`${classes.icon} icon-${iconName(value)}`} />
           <span className={classes.text}>{title}</span>
         </div>
@@ -29,7 +34,7 @@ class ListItem extends React.Component {
               ? (
                 <span
                   className="icon-edit"
-                  tabIndex={0}
+                  tabIndex={index}
                   role="button"
                   onClick={() => { handleEdit(value, index) }}
                 />

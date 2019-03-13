@@ -31,12 +31,13 @@ export default class PreviewHeader extends React.Component {
     this.setState({
       loading: true,
     });
-    post(url, {
-      themeId: templateData.themeId,
-      draftData: JSON.stringify(templateData.toJson()),
-    })
-      .then((resp) => {
-        setTimeout(() => {
+    setTimeout(() => {
+      console.log(templateData.toJson())
+      post(url, {
+        themeId: templateData.themeId,
+        draftData: JSON.stringify(templateData.toJson()),
+      })
+        .then((resp) => {
           this.setState({
             loading: false,
           });
@@ -44,13 +45,13 @@ export default class PreviewHeader extends React.Component {
           this.openNotificationWithIcon('success', 'Success', '保存 成功 解绑 \'删除,刷新\' 了');
           // 保存完成移除监听刷新删除的事件
           window.__clearRefreshClick__();
-        }, 500)
-      }).catch((err) => {
-        this.setState({
-          loading: false,
+        }).catch((err) => {
+          this.setState({
+            loading: false,
+          });
+          this.openNotificationWithIcon('error', 'Error', `id 错误... 请刷新 ${err.message}`)
         });
-        this.openNotificationWithIcon('error', 'Error', `id 错误... 请刷新 ${err.message}`)
-      });
+    }, 500)
   };
 
   // 消息提示框
@@ -88,7 +89,6 @@ export default class PreviewHeader extends React.Component {
           </div>
           <div className={classes.center}>
             <span>Home Page</span>
-            <span className={`icon-drop-down ${classes.iconDropDown}`} />
           </div>
           <div className={classes.right}>
             {

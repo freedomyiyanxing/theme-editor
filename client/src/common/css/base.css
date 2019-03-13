@@ -40,28 +40,22 @@ body {
   cursor: pointer;
 }
 
-
-.icon-hidden{
-  font-size: 13px;
-}
-.icon-block{
-  font-size: 15px;
-}
-
-.icon-scrollBanner{
-  font-size: 17px;
-}
-.icon-video{
-  font-size: 15px;
-}
+.icon-hidden,
 .icon-displayPicture{
   font-size: 13px;
 }
-.con-categoryList{
-  font-size: 15px;
-}
+.con-categoryList,
+.icon-block,
+.icon-video,
 .icon-tagList{
   font-size: 15px;
+}
+.icon-scrollBanner-single,
+.icon-displayPicture-single{
+  font-size: 14px;
+}
+.icon-scrollBanner{
+  font-size: 17px;
 }
 
 .clearfix:after {

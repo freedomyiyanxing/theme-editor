@@ -34,6 +34,7 @@ export default class AddImages extends React.Component {
       templateData.setImgInvalidDate(obj, this.stateDate, eff);
       templateData.setImgInvalidDate(obj, this.endDate, exp);
     } else { // 已有时间数据
+      console.log('已经')
       this.stateDate = config[eff];
       this.endDate = config[exp];
     }
@@ -94,11 +95,10 @@ export default class AddImages extends React.Component {
     const { backClick, obj, templateData } = this.props;
     const { section } = templateData;
     const { config } = section[obj.name].config.modules[obj.index][obj.val];
-    console.log(config.title, 'add-img');
-    const text = isTypeOf(obj.name) ? 'Scroll banner' : 'Display picture';
+    const text = isTypeOf(obj.name) ? 'Banner' : 'Picture';
     return [
       <SidebarHeader click={() => { backClick('details') }} key={uuid()}>
-        Add / Edit {text}
+        Edit {text}
       </SidebarHeader>,
       <section className={classes.container} key={uuid()}>
         <div className={classes.content}>

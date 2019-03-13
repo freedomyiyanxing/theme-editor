@@ -80,12 +80,16 @@ const html = (obj, isMobile) => (
 })
 
 @observer class Banner extends React.Component {
+  componentDidMount() {
+    // console.log('render 完成...')
+  }
+
   render() {
     const { name, templateData } = this.props;
     const { section } = templateData;
     const { config } = section[name];
     const isMobile = templateData.type === 'Phone';
-    // console.log(' 图片 轮播 卡卡卡卡 呀 ----- ');
+    // console.log(' 图片 轮播 卡卡卡卡 呀 ----- ', name);
     return (
       <div className={isMobile ? classes.phone : classes.container}>
         <Carousel autoplay effect="fade">
