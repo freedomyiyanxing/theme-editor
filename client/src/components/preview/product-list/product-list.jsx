@@ -16,12 +16,20 @@ const arr = [1, 2, 3, 4];
 })
 
 class ProductList extends React.Component {
+  componentDidMount() {
+    const { templateData } = this.props;
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+  }
+
   render() {
     const { templateData } = this.props;
     const isMobile = templateData.type === 'Phone';
     return (
       <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
-        <div className={classes.wrapper}>
+        <div
+          ref={n => this.wrapper = n}
+          className={classes.wrapper}
+        >
           {
             isMobile
               ? null

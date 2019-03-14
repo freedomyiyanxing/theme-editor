@@ -7,17 +7,8 @@ import {
 } from 'mobx-react';
 
 import { TemplateData } from '../../../store/index';
+import { _bg, IMAGE_MAX_LENGTH } from '../../../common/js/util';
 import classes from './banner.less'
-
-const MAX_LENGTH = 5; // 最多展示5张
-const IMGUrl = process.env.IMG_BASE || '';
-
-// 导出背景图片
-const _bg = (v) => {
-  return v ? {
-    backgroundImage: `url('${IMGUrl + v}')`,
-  } : {}
-};
 
 const filterData = (config) => {
   const img = config.modules;
@@ -33,7 +24,7 @@ const filterData = (config) => {
     if (effDate && expDate) {
       // 设置 -> 开始时间得 < 当前渲染时间 且 结束时间得 > 当前渲染时间
       const isOverdue = effDate < dataTime && expDate > dataTime;
-      if (isShow && isOverdue && j < MAX_LENGTH) {
+      if (isShow && isOverdue && j < IMAGE_MAX_LENGTH) {
         j += 1;
         arr.push({
           title,
@@ -41,7 +32,7 @@ const filterData = (config) => {
         })
       }
     } else {
-      if (isShow && j < MAX_LENGTH) { // eslint-disable-line
+      if (isShow && j < IMAGE_MAX_LENGTH) { // eslint-disable-line
         j += 1;
         arr.push({
           title,
@@ -81,7 +72,9 @@ const html = (obj, isMobile) => (
 
 @observer class Banner extends React.Component {
   componentDidMount() {
-    // console.log('render 完成...')
+    const { templateData } = this.props;
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+    console.log(templateData.dragDropDataObj.eleHeight)
   }
 
   render() {
@@ -91,7 +84,10 @@ const html = (obj, isMobile) => (
     const isMobile = templateData.type === 'Phone';
     // console.log(' 图片 轮播 卡卡卡卡 呀 ----- ', name);
     return (
-      <div className={isMobile ? classes.phone : classes.container}>
+      <div
+        ref={n => this.wrapper = n}
+        className={isMobile ? classes.phone : classes.container}
+      >
         <Carousel autoplay effect="fade">
           {
             html(filterData(config), isMobile)

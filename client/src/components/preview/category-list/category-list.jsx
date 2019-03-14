@@ -15,12 +15,20 @@ import classes from './category-list.less';
 })
 
 class CategoryList extends React.Component {
+  componentDidMount() {
+    const { templateData } = this.props;
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+  }
+
   render() {
     const { templateData } = this.props;
     const isMobile = templateData.type === 'Phone';
     const arr = isMobile ? [1, 2, 3] : [1, 2, 3, 4, 5];
     return (
-      <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
+      <div
+        ref={n => this.wrapper = n}
+        className={`${classes.container} ${isMobile ? classes.phone : ''}`}
+      >
         <h1 className={classes.title}>MORE OPTIONS</h1>
         <div className={classes.wrapper}>
           {

@@ -7,19 +7,9 @@ import {
 } from 'mobx-react';
 
 import { TemplateData } from '../../../store/index';
+import { _bg, IMAGE_MAX_LENGTH } from '../../../common/js/util';
 
 import classes from './display-picture.less';
-
-const IMGUrl = process.env.IMG_BASE || '';
-// const IMAGE_1_MAX_LENGTH = 3;
-// 最多展示的数目
-const IMAGE_MAX_LENGTH = 5;
-// 导出背景图片
-const _bg = (v) => {
-  return v ? {
-    backgroundImage: `url('${IMGUrl + v}')`,
-  } : {}
-};
 
 // 先遍历所有数据, 踢掉(隐藏 , 过期)的数据
 const createSuccessData = (config) => {
@@ -296,6 +286,11 @@ const htmlImg5 = (obj, type, isMobile) => (
 })
 
 @observer class Picture extends React.Component {
+  componentDidMount() {
+    const { templateData } = this.props;
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+  }
+
   render() {
     const { templateData, name } = this.props;
     const { section } = templateData;
@@ -305,7 +300,10 @@ const htmlImg5 = (obj, type, isMobile) => (
     const isMobile = templateData.type === 'Phone';
     return (
       <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
-        <div className={classes.wrapper}>
+        <div
+          ref={n => this.wrapper = n}
+          className={classes.wrapper}
+        >
           {
             type === 'images-1' && modulesOrder.length
               ? publicCreateHtml(createSuccessData(config), type, isMobile)

@@ -4,7 +4,6 @@ import uuid from 'uuid';
 import {
   inject,
 } from 'mobx-react';
-import Sortable from 'sortablejs';
 import { TemplateData } from '../../store/index';
 import ListView from '../../base/list/list.jsx';
 import List from './list.jsx';
@@ -22,40 +21,40 @@ import classes from './sidebar-list.less';
 
 class ListBar extends React.Component {
   componentDidMount() {
-    const { templateData } = this.props;
-    let index;
-    let layer_y;
-    let is;
-    new Sortable(this.wrapper, {
-      handle: '.icon-drag',
-      onStart: (evt) => {
-        this.isRefresh();
-        index = evt.oldIndex;
-        layer_y = 0;
-        templateData.handleDropScroll('start', evt.oldIndex);
-        is = true;
-      },
-      onChange: (evt) => {
-        const { oldIndex, newIndex, originalEvent } = evt;
-        // console.log(index, newIndex, oldIndex);
-        templateData.handleDropScroll('int', index, index, newIndex);
-        console.log('index :', index, '   oldIndex :', oldIndex, '    newIndex :', newIndex)
-        // 判断向上 或者向下拖动...
-        // 判断条件： 如果 上一次y 大于 当前y 则是向上拖动 或 第一次拖动时 当前下标 大于 目标下标 则也是向上拖动
-        if (layer_y > originalEvent.layerY || (is && oldIndex > newIndex)) {
-          index -= 1;
-          // console.log('向上', originalEvent.y, is)
-        } else {
-          index += 1;
-          // console.log('向下', originalEvent.y)
-        }
-        layer_y = originalEvent.layerY;
-        is = false;
-      },
-      onEnd: (evt) => {
-        templateData.handleDropScroll('end', evt.newIndex)
-      },
-    });
+    // const { templateData } = this.props;
+    // let index;
+    // let layer_y;
+    // let is;
+    // new Sortable(this.wrapper, {
+    //   handle: '.icon-drag',
+    //   onStart: (evt) => {
+    //     this.isRefresh();
+    //     index = evt.oldIndex;
+    //     layer_y = 0;
+    //     templateData.handleDropScroll('start', evt.oldIndex);
+    //     is = true;
+    //   },
+    //   onChange: (evt) => {
+    //     const { oldIndex, newIndex, originalEvent } = evt;
+    //     // console.log(index, newIndex, oldIndex);
+    //     templateData.handleDropScroll('int', index, index, newIndex);
+    //     console.log('index :', index, '   oldIndex :', oldIndex, '    newIndex :', newIndex)
+    //     // 判断向上 或者向下拖动...
+    //     // 判断条件： 如果 上一次y 大于 当前y 则是向上拖动 或 第一次拖动时 当前下标 大于 目标下标 则也是向上拖动
+    //     if (layer_y > originalEvent.layerY || (is && oldIndex > newIndex)) {
+    //       index -= 1;
+    //       // console.log('向上', originalEvent.y, is)
+    //     } else {
+    //       index += 1;
+    //       // console.log('向下', originalEvent.y)
+    //     }
+    //     layer_y = originalEvent.layerY;
+    //     is = false;
+    //   },
+    //   onEnd: (evt) => {
+    //     templateData.handleDropScroll('end', evt.newIndex)
+    //   },
+    // });
   }
 
   handleClick = (i) => {
@@ -101,7 +100,7 @@ class ListBar extends React.Component {
               <span className={classes.text}>Header</span>
             </ListView>
           </div>
-          <div className={classes.wrapper} ref={n => this.wrapper = n}>
+          <div className={classes.wrapper}>
             <List handleEdit={handleEdit} isRefresh={this.isRefresh} />
           </div>
           <div className={classes.addHandle}>

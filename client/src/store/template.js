@@ -24,6 +24,7 @@ export default class TemplateData {
     this.dragDropDataObj = {
       eleWrapper: null,
       controllerVal: null,
+      eleHeight: [],
     };
     this.type = 'DeskTop'; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
   }
@@ -102,31 +103,39 @@ export default class TemplateData {
     this.section[name].config.title = val;
   }
 
+  // 拖动开始
+  @action handleDropStart(type, index) {
+    if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = type;
+    this.utilScroll(this.utilScrollVal(index), false);
+  }
+
+  // 拖动中
+  @action handleDropUpScroll(index, newIndex, num) {
+    const [mod] = this.sortArr.splice(index, 1);
+    this.sortArr.splice(newIndex, 0, mod);
+    this.__index__ = num;
+    this.utilScroll(this.utilScrollVal(this.__index__), false);
+  }
+
+  // 拖动完成
+  @action handleDropScroll(index, newIndex) {
+    if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = 'end';
+    const [mod] = this.section.sectionsOrder.splice(index, 1);
+    this.section.sectionsOrder.splice(newIndex, 0, mod);
+    const __index = this.__index__ !== 'undefined' ? this.__index__ : index;
+    this.utilScroll(
+      this.utilScrollVal(__index),
+      true,
+    );
+  }
+
   /**
-   * 排序滚动值
-   * @param current
-   * @param index
-   * @param num
-   * @param newIndex
+   *  拖动越界时 处理
    */
-  @action handleDropScroll(current, num, index, newIndex) {
-    num *= this.type === 'DeskTop' ? 280 : 200;
-    if (this.dragDropDataObj.eleWrapper) {
-      if (current === 'start' || current === 'int') {
-        if (current === 'int') {
-          const mod = this.sortArr.splice(index, 1);
-          this.sortArr.splice(newIndex, 0, ...mod);
-        }
-        if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = 'start';
-        this.dragDropDataObj.eleWrapper.scrollTo(0, num);
-      } else if (this.type === 'DeskTop') {
-        this.dragDropDataObj.controllerVal = 'end';
-        this.section.sectionsOrder = this.sortArr.slice();
-        setTimeout(() => {
-          this.dragDropDataObj.eleWrapper.scrollTo(0, num)
-        }, 300)
-      }
-    }
+  @action handleDropErrOr(index) {
+    if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = 'end';
+    this.sortArr = this.section.sectionsOrder.slice();
+    this.utilScroll(this.utilScrollVal(index), true);
   }
 
   // 点击隐藏 或 显示 (部件)
@@ -200,6 +209,35 @@ export default class TemplateData {
   // 设置图片过期时间
   @action setImgInvalidDate(obj, date, name) {
     this.section[obj.name].config.modules[obj.index][obj.val].config[name] = date
+  }
+
+  // 公共方法
+  // 计算滚动值
+  utilScrollVal(index) {
+    console.log(this.dragDropDataObj.eleHeight)
+    let scrollVal = 0;
+    // 如果index 等于 0 则不拖动
+    if (!index) return scrollVal;
+    // 如果index 小于等于 1 则表示滚动 0元素 的高度
+    if (index <= 1) {
+      scrollVal = this.dragDropDataObj.eleHeight[0]; // eslint-disable-line
+    } else {
+      Array.from({ length: index }).forEach((v, i) => {
+        scrollVal += this.dragDropDataObj.eleHeight[i] + 30;
+      })
+    }
+    return scrollVal;
+  }
+
+  // 滚动
+  utilScroll(number, isDelay) {
+    if (isDelay) {
+      setTimeout(() => {
+        this.dragDropDataObj.eleWrapper.scrollTo(0, number);
+      }, 300)
+    } else {
+      this.dragDropDataObj.eleWrapper.scrollTo(0, number);
+    }
   }
 
   toJson() {

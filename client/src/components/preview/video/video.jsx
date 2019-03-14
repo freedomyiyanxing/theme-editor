@@ -16,11 +16,19 @@ const item = [1, 2, 3, 4, 5];
 })
 
 class Video extends React.Component {
+  componentDidMount() {
+    const { templateData } = this.props;
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+  }
+
   render() {
     const { templateData } = this.props;
     const isMobile = templateData.type === 'Phone';
     return (
-      <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
+      <div
+        ref={n => this.wrapper = n}
+        className={`${classes.container} ${isMobile ? classes.phone : ''}`}
+      >
         <div className={classes.left}>
           <span className={`icon-video ${classes.icon}`} />
         </div>

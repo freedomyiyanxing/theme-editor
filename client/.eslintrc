@@ -19,6 +19,7 @@
     "camelcase": 0,
     "no-console": 0,
     "func-names": 0,
+    "import/named": 0,
     "no-return-assign": 0,
     "arrow-body-style": 0,
     "no-nested-ternary": 0,

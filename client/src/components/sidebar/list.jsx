@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   inject,
-  observer,
 } from 'mobx-react';
-import { Modal } from 'antd';
 
-import ListView from '../../base/list/list.jsx';
-import ListItem from '../../base/list-item/list-item.jsx';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import classes from './sidebar-list.less';
+import ListItem from './list-item.jsx';
 import { TemplateData } from '../../store/index';
-import { deleteUploadImg } from '../../api/http'; // eslint-disable-line
 
 @inject((stores) => {
   return {
@@ -17,118 +16,85 @@ import { deleteUploadImg } from '../../api/http'; // eslint-disable-line
   }
 })
 
-@observer class List extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      visible: false,
-      arr: null,
-      img: null,
-      name: '',
-      index: null,
-    }
-  }
-
-  // 区块 隐藏 显示 点击事件
-  handleIsHidden = (value) => {
-    const { templateData, isRefresh } = this.props;
-    isRefresh();
-    templateData.setIsHidden(value);
-  };
-
-  // 区块 删除功能 点击事件
-  handleDelete = (name, index) => {
-    const { templateData, isRefresh } = this.props;
-    isRefresh();
-    const { modules, modulesOrder } = templateData.section[name].config;
-    const arr = []; // 保存着 已有图片 的名称
-    const img = []; // 保存着 图片路径 方便删除
-    for (let i = 0; i < modulesOrder.length; i += 1) {
-      const { config } = modules[i][modulesOrder[i]];
-      if (config.imgPath) {
-        arr.push(config.title);
-        img.push(config.imgPath);
-      }
-    }
-    if (arr.length && img.length) {
-      this.toggle(arr, img, name, index)
-    } else {
-      templateData.deleteChapters(name, index);
-    }
-  };
-
-  // 区块 修改功能 点击事件
-  handleEdit = (value, index) => {
-    // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
-    if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
-    const { handleEdit, isRefresh, templateData } = this.props; // eslint-disable-line
-    isRefresh();
-    templateData.handleDropScroll('loading', index);
-    handleEdit(value);
-  };
-
-  // 确定删除
-  handleOk = () => {
+class List extends React.Component {
+  onDragStart = (result) => {
     const { templateData } = this.props;
-    const { img, name, index } = this.state;
-    console.log(img);
-    deleteUploadImg(img)
-      .then((resp) => {
-        if (resp.data.message === 'Success!') {
-          templateData.deleteChapters(name, index)
-        }
-      }).catch((err) => {
-        console.log(err)
-      });
-    this.toggle();
+    this.index = result.source.index;
+    templateData.handleDropStart('start', this.index)
   };
 
-  // 取消删除
-  handleCancel = () => {
-    this.toggle();
+  onDragUpdate = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    const { templateData } = this.props;
+    // // console.log('当前位置 : ', this.index, '目的地位置 : ',result.destination.index);
+    templateData.handleDropUpScroll(this.index, result.destination.index, result.destination.index);
+    this.index = result.destination.index;
   };
 
-  // 控制弹出框
-  toggle = (arr, img, name, index) => {
-    const { visible } = this.state;
-    this.setState({
-      visible: !visible,
-      arr,
-      img,
-      name,
-      index,
-    })
+  onDragEnd = (result) => {
+    const { templateData } = this.props;
+    // 当拖动元素 越界时, 重置回上一次的位置
+    if (!result.destination) {
+      templateData.handleDropErrOr(result.source.index);
+      return;
+    }
+
+    templateData.handleDropScroll(result.source.index, result.destination.index);
   };
 
   render() {
-    const { templateData } = this.props;
-    const { visible, arr } = this.state;
+    const { templateData, handleEdit, isRefresh } = this.props;
     const { section } = templateData;
-    // console.log(' ---------》》》》》》 刷新了');
-    return [
-      section.sectionsOrder.map((v, i) => (
-        <ListView key={v} index={i} isFlex>
-          <ListItem
-            value={v}
-            index={i}
-            title={section[v].config.title}
-            isHidden={section[v].isHidden}
-            handleEdit={this.handleEdit}
-            handleDelete={this.handleDelete}
-            handleIsHidden={this.handleIsHidden}
-          />
-        </ListView>
-      )),
-      <Modal
-        key="sdgdfgdgfdgf"
-        title="Basic Modal"
-        visible={visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
+    console.log(' ---------》》》》》》 刷新了');
+    return (
+      <DragDropContext
+        onDragEnd={this.onDragEnd}
+        onDragStart={this.onDragStart}
+        onDragUpdate={this.onDragUpdate}
       >
-        <div>你确定要删除 “{arr && arr.join(', ')}” 吗？ 如果确定删除了 则不能返回了</div>
-      </Modal>,
-    ]
+        <Droppable droppableId="droppable">
+          {
+            provideds => (
+              <div
+                {...provideds.droppableProps}
+                ref={provideds.innerRef}
+              >
+                {
+                  section.sectionsOrder.map((item, index) => (
+                    <Draggable key={item} draggableId={item} index={index}>
+                      {
+                        provided => (
+                          <div
+                            className={classes.listItems}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <ListItem
+                              value={item}
+                              index={index}
+                              handleEdit={handleEdit}
+                              isRefresh={isRefresh}
+                              // title={section[item].config.title}
+                              // isHidden={section[item].isHidden}
+                              // handleDelete={this.handleDelete}
+                              // handleIsHidden={this.handleIsHidden}
+                            />
+                          </div>
+                        )
+                      }
+                    </Draggable>
+                  ))
+                }
+                {provideds.placeholder}
+              </div>
+            )
+          }
+        </Droppable>
+      </DragDropContext>
+    )
   }
 }
 
