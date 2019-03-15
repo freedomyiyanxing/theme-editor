@@ -36,9 +36,9 @@ export const isTypeOf = (str) => {
 };
 
 // 数组去重
-export const resultArr = (arr) => {
-  return Array.from(new Set(arr))
-};
+// export const resultArr = (arr) => {
+//   return Array.from(new Set(arr))
+// };
 
 // 数组排序
 // export const sortArr = (arr) => {

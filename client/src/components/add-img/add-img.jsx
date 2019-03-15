@@ -34,7 +34,6 @@ export default class AddImages extends React.Component {
       templateData.setImgInvalidDate(obj, this.stateDate, eff);
       templateData.setImgInvalidDate(obj, this.endDate, exp);
     } else { // 已有时间数据
-      console.log('已经')
       this.stateDate = config[eff];
       this.endDate = config[exp];
     }
@@ -84,12 +83,6 @@ export default class AddImages extends React.Component {
     templateData.setImgInvalidDate(obj, date, 'expDate');
   };
   /*  开始时间 调用 */
-
-  // handleSubmit = () => {
-  //   const { obj, templateData } = this.props;
-  //   const { config } = templateData.section[obj.name].config.modules[obj.index][obj.val];
-  //   console.log(config)
-  // };
 
   render() {
     const { backClick, obj, templateData } = this.props;

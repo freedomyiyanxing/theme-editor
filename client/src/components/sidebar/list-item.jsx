@@ -32,10 +32,10 @@ import classes from '../../base/list-item/list-item.less';
   }
 
   // 区块 隐藏 显示 点击事件
-  handleIsHidden = (value) => {
+  handleIsHidden = (value, index) => {
     const { templateData, isRefresh } = this.props;
     isRefresh();
-    templateData.setIsHidden(value);
+    templateData.setIsHidden(value, index);
   };
 
   // 区块 删除功能 点击事件
@@ -62,7 +62,6 @@ import classes from '../../base/list-item/list-item.less';
 
   // 区块 修改功能 点击事件
   handleEdit = (value, index) => {
-    console.log(value, index)
     // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
     if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
     const { handleEdit, isRefresh, templateData } = this.props;
@@ -76,7 +75,6 @@ import classes from '../../base/list-item/list-item.less';
   handleOk = () => {
     const { templateData } = this.props;
     const { img, name, index } = this.state;
-    console.log(img);
     deleteUploadImg(img)
       .then((resp) => {
         if (resp.data.message === 'Success!') {
@@ -124,7 +122,7 @@ import classes from '../../base/list-item/list-item.less';
           <span
             tabIndex={0}
             role="button"
-            onClick={() => { this.handleIsHidden(value) }}
+            onClick={() => { this.handleIsHidden(value, index) }}
             className={section[value].isHidden ? 'icon-hidden' : 'icon-block'}
           />
           {

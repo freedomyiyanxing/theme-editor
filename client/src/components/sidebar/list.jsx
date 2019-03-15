@@ -34,20 +34,20 @@ class List extends React.Component {
   };
 
   onDragEnd = (result) => {
-    const { templateData } = this.props;
+    const { templateData, isRefresh } = this.props;
     // 当拖动元素 越界时, 重置回上一次的位置
     if (!result.destination) {
       templateData.handleDropErrOr(result.source.index);
       return;
     }
 
+    isRefresh();
     templateData.handleDropScroll(result.source.index, result.destination.index);
   };
 
   render() {
     const { templateData, handleEdit, isRefresh } = this.props;
     const { section } = templateData;
-    console.log(' ---------》》》》》》 刷新了');
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -77,10 +77,6 @@ class List extends React.Component {
                               index={index}
                               handleEdit={handleEdit}
                               isRefresh={isRefresh}
-                              // title={section[item].config.title}
-                              // isHidden={section[item].isHidden}
-                              // handleDelete={this.handleDelete}
-                              // handleIsHidden={this.handleIsHidden}
                             />
                           </div>
                         )

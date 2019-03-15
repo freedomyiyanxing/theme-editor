@@ -74,7 +74,6 @@ const html = (obj, isMobile) => (
   componentDidMount() {
     const { templateData } = this.props;
     templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
-    console.log(templateData.dragDropDataObj.eleHeight)
   }
 
   render() {

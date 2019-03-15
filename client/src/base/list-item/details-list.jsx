@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid';
 import {
   inject,
   observer,
@@ -8,9 +9,10 @@ import { Modal } from 'antd';
 
 import ListView from '../list/list.jsx';
 import { TemplateData } from '../../store/index';
-import classes from './list-item.less';
 import { isTypeOf, getNumber } from '../../common/js/util';
 import { deleteUploadImg } from '../../api/http';
+
+import classes from './list-item.less';
 
 @inject((stores) => {
   return {
@@ -100,7 +102,7 @@ import { deleteUploadImg } from '../../api/http';
     const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
     return [
       modulesOrder.map((v, i) => (
-        <ListView key={v} isFlex index={v}>
+        <ListView key={uuid()} isFlex index={v}>
           <div className={classes.container}>
             <div
               tabIndex={i}
@@ -138,7 +140,7 @@ import { deleteUploadImg } from '../../api/http';
         </ListView>
       )),
       <Modal
-        key="sdgdfgdgfdgf"
+        key={uuid()}
         title="Basic Modal"
         visible={visible}
         onOk={this.handleOk}

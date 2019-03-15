@@ -1,7 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
 
-// 简单封装 xhr
 export const Xhr = function (url, data) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();

@@ -29,7 +29,7 @@ import classes from './home.less';
 
   render() {
     const { templateData } = this.props;
-    const { loading, sortArr } = templateData;
+    const { loading, dragDropDataObj } = templateData;
     /**
      * 加上sortArr判断是因为拖动排序需要这个数据,
      * 如果不加 则拿不到这个数据,因为mobx不会观察
@@ -37,7 +37,7 @@ import classes from './home.less';
     return (
       <div className={`clearfix ${classes.container}`}>
         {
-          loading && sortArr
+          loading && dragDropDataObj.sortArr
             ? [
               <div key={uuid()} className={classes.lWrapper}>
                 <LeftOperation />

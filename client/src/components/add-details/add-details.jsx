@@ -4,7 +4,7 @@ import {
   inject,
   observer,
 } from 'mobx-react';
-// import Sortable from 'sortablejs';
+import Sortable from 'sortablejs';
 
 import { TemplateData } from '../../store/index';
 import SidebarHeader from '../../base/sidebar-header/sidebar-header.jsx';
@@ -23,30 +23,24 @@ import classes from './add-details.less';
 
 @observer export default class AddDetails extends React.Component {
   componentDidMount() {
-    // const { templateData, name } = this.props;
-    // new Sortable(this.wrapper, {
-    //   handle: '.icon-drag',
-    //   onStart: (evt) => {
-    //     console.log(evt, ' -> 拖拽 -- 开始')
-    //   },
-    //   onChange: (evt) => {
-    //     console.log(evt.newIndex, ' -> 拖拽  -- 中')
-    //   },
-    //   onEnd: (evt) => {
-    //     const { oldIndex, newIndex } = evt;
-    //     // 如果相等 则表示没有拖动
-    //     if (oldIndex === newIndex) {
-    //       console.log('没有拖动...')
-    //     } else {
-    //       // 更新数据
-    //       templateData.componentItemsSort(
-    //         name,
-    //         oldIndex,
-    //         newIndex,
-    //       )
-    //     }
-    //   },
-    // })
+    const { templateData, name } = this.props;
+    new Sortable(this.wrapper, {
+      handle: '.icon-drag',
+      onEnd: (evt) => {
+        const { oldIndex, newIndex } = evt;
+        // 如果相等 则表示没有拖动
+        if (oldIndex === newIndex) {
+          console.log('没有拖动...')
+        } else {
+          // 更新数据
+          templateData.componentItemsSort(
+            name,
+            oldIndex,
+            newIndex,
+          )
+        }
+      },
+    })
   }
 
   // 添加

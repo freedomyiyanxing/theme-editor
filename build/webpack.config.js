@@ -121,12 +121,12 @@ if (isDev) {
       '/api': {
         target: 'http://192.168.1.22:3333',
       },
-      // '/business': {
-      //   target: 'http://192.168.1.20:8098',
-      // },
       '/business': {
-        target: 'http://192.168.1.26:8081',
-      }
+        target: 'http://192.168.1.20:8098',
+      },
+      // '/business': {
+      //   target: 'http://192.168.1.26:8081',
+      // }
     }
   };
   config.plugins.push(new Webpack.HotModuleReplacementPlugin())

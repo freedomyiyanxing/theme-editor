@@ -1,11 +1,13 @@
 import React from 'react';
-
+import uuid from 'uuid';
 import ListBar from '../sidebar/list-bar.jsx';
 import AddModule from '../add-module/add-module.jsx';
 import AddDetails from '../add-details/add-details.jsx';
 import AddImages from '../add-img/add-img.jsx';
 
-import classes from './left-operation.jsx.less';
+import BottomBtn from '../../base/bottom-btn/bottomBtn.jsx';
+
+import classes from './left-operation.less';
 
 const PAGE_NAME = {
   home: 'home',
@@ -60,8 +62,8 @@ export default class LeftOperation extends React.Component {
 
   render() {
     const { name, addSection, addImgName } = this.state;
-    return (
-      <div className={classes.container}>
+    return [
+      <div key={uuid()} className={classes.container}>
         {
           name === PAGE_NAME.home
             ? <ListBar handleEdit={this.handelHomeEdit} handleAdd={this.handleHomeAdd} />
@@ -79,7 +81,8 @@ export default class LeftOperation extends React.Component {
                   ? <AddImages obj={addImgName} backClick={this.backClick} />
                   : null
         }
-      </div>
-    )
+      </div>,
+      <BottomBtn key={uuid()} />,
+    ]
   }
 }
