@@ -2,11 +2,12 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const Webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // 是否为开发环境
 const isDev = process.env.NODE_ENV === 'development';
 
-config = {
+const config = {
   mode: isDev ? 'development' : 'production', //开发模式 || 生产模式,
   entry: {
     app: path.join(__dirname, '../client/app.js')
@@ -51,12 +52,12 @@ config = {
         exclude: path.join(__dirname, '../node_modules')
       },
       {
-        test:/\.(png|jpg|jpeg|gif)$/,
-        use:[{
-          loader:'url-loader',
-          options:{
-            limit:500,
-            outputPath:'images'
+        test: /\.(png|jpg|jpeg|gif)$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 500,
+            outputPath: 'images'
           }
         }]
       },
@@ -84,6 +85,7 @@ config = {
         : JSON.stringify("https://cdn.influmonsters.com")
       // https://img.influmonsters.com
     }),
+    new OptimizeCssAssetsPlugin(),
   ],
   optimization: {
     splitChunks: {
@@ -124,9 +126,6 @@ if (isDev) {
       '/business': {
         target: 'http://192.168.1.20:8098',
       },
-      // '/business': {
-      //   target: 'http://192.168.1.26:8081',
-      // }
     }
   };
   config.plugins.push(new Webpack.HotModuleReplacementPlugin())
