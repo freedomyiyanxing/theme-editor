@@ -81,7 +81,6 @@ const html = (obj, isMobile) => (
     const { section } = templateData;
     const { config } = section[name];
     const isMobile = templateData.type === 'Phone';
-    // console.log(' 图片 轮播 卡卡卡卡 呀 ----- ', name);
     return (
       <div
         ref={n => this.wrapper = n}
