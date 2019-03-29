@@ -5,7 +5,7 @@ import {
   inject,
   observer,
 } from 'mobx-react';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 
 import ListView from '../list/list.jsx';
 import { TemplateData } from '../../store/index';
@@ -24,6 +24,7 @@ const LimitNumber = {
   slideshow: 1, // scroll-banner 最少一个
 }
 
+// 返回提示文字
 const PromptText = (name, type) => {
   let text;
   if (type === 'img') {
@@ -72,7 +73,7 @@ const PromptText = (name, type) => {
         templateData.deleteComponent(name, index);
       }
     } else {
-      this.toggle(type, index, 'ele')
+      message.error(PromptText(type, 'ele'))
     }
   };
 
