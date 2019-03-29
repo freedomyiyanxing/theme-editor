@@ -117,9 +117,9 @@ const PromptText = (name, type) => {
     const { visible } = this.state;
     const val = PromptText(name, type)
     this.setState({
-      visible: !visible,
       val,
       index,
+      visible: !visible,
     })
   };
 
