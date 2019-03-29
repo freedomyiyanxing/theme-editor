@@ -1,6 +1,6 @@
 module.exports = {
   displayPicturesDf4r4: {
-    type: 'images-4',
+    type: 'images_4',
     isHidden: true,
     config: {
       title: 'Display picture 4',
@@ -76,7 +76,7 @@ module.exports = {
     },
   },
   displayPictureSDFSF2DS: {
-    type: 'images-2',
+    type: 'images_2',
     isHidden: true,
     config: {
       title: 'Display picture 2',
@@ -248,7 +248,7 @@ module.exports = {
     },
   },
   displayPicture: {
-    type: 'images-1',
+    type: 'images_1',
     isHidden: true,
     config: {
       title: 'Display picture',
@@ -272,21 +272,21 @@ module.exports = {
     },
   },
   categoryList: {
-    type: 'categoryList',
+    type: 'category',
     isHidden: true,
     config: {
       title: 'Category list',
     },
   },
   productList: {
-    type: 'productList',
+    type: 'products',
     isHidden: true,
     config: {
       title: 'Product list',
     },
   },
   tagList: {
-    type: 'tagList',
+    type: 'tag',
     isHidden: true,
     config: {
       title: 'Tag list',

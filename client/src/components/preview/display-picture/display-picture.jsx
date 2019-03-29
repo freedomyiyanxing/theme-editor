@@ -296,7 +296,6 @@ const htmlImg5 = (obj, type, isMobile) => (
     const { section } = templateData;
     const { config, type } = section[name];
     const { modulesOrder } = config;
-    // console.log(modulesOrder, ' --- == display-picture.jsx');
     const isMobile = templateData.type === 'Phone';
     return (
       <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
@@ -305,15 +304,15 @@ const htmlImg5 = (obj, type, isMobile) => (
           className={classes.wrapper}
         >
           {
-            type === 'images-1' && modulesOrder.length
+            type === 'images_1' && modulesOrder.length
               ? publicCreateHtml(createSuccessData(config), type, isMobile)
-              : type === 'images-2' && modulesOrder.length
+              : type === 'images_2' && modulesOrder.length
                 ? htmlImg2(_img2(config), type, isMobile)
-                : type === 'images-3' && modulesOrder.length
+                : type === 'images_3' && modulesOrder.length
                   ? htmlImg3(_img3(config), type, isMobile)
-                  : type === 'images-4' && modulesOrder.length
+                  : type === 'images_4' && modulesOrder.length
                     ? htmlImg4(_img4(config), type, isMobile)
-                    : type === 'images-5' && modulesOrder.length
+                    : type === 'images_5' && modulesOrder.length
                       ? htmlImg5(_img5(config), type, isMobile)
                       : null
           }

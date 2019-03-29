@@ -36,7 +36,6 @@ export default class TemplateData {
         this.loading = true;
         this.themeId = id;
         this.type = resp.type;
-        console.log(resp);
         // 此 id 无效
         if (resp.error) {
           window.location.href = resp.error;
@@ -56,9 +55,8 @@ export default class TemplateData {
       })
       .catch((err) => {
         this.loading = true;
+        console.log(err)
         window.location.href = err.error;
-        return false;
-        // console.log(err, '错误...')
       });
   }
 

@@ -51,7 +51,7 @@ export default class AddModule extends React.Component {
     let obj;
     if (index) {
       obj = {
-        type: `images-${index}`,
+        type: `images_${index}`,
         isHidden: true,
         config: slideImagesData[`images${index}`],
       }

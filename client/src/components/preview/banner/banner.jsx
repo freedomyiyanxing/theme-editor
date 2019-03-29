@@ -53,7 +53,11 @@ const html = (obj, isMobile) => (
             className={`${classes.items} ${isMobile ? classes.phoneItem : ''}`}
             style={_bg(v.imgPath)}
           >
-            <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
+            {
+              v.imgPath
+                ? <span style={{ height: 50 }} />
+                : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
+            }
             <span>
               {v.title}
             </span>

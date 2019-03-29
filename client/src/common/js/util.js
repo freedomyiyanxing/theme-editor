@@ -35,19 +35,6 @@ export const isTypeOf = (str) => {
   return str.includes('scrollBanner') || str.includes('slideshow')
 };
 
-// 数组去重
-// export const resultArr = (arr) => {
-//   return Array.from(new Set(arr))
-// };
-
-// 数组排序
-// export const sortArr = (arr) => {
-//   if (!arr.length) return arr;
-//   return resultArr(arr).sort((a, b) => {
-//     return a - b
-//   })
-// };
-
 // 字符串中获取数字
 export const getNumber = str => parseFloat(str.replace(/[^0-9]/ig, ''));
 
