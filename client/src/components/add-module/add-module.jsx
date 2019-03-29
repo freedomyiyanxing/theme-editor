@@ -47,6 +47,7 @@ export default class AddModule extends React.Component {
 
   // 给stare 添加一个章节默认对象
   addObj(name, index) {
+    this.isRefresh();
     const { templateData, click } = this.props;
     let obj;
     if (index) {
@@ -64,6 +65,13 @@ export default class AddModule extends React.Component {
     }
     templateData.saveTemplateData(obj, name); // 添加数据
     click(name) // 跳转页面
+  }
+
+  // 做了操作时 启动禁止刷新 跟 删除
+  isRefresh() {
+    if (window.__IS__START__REFRESH__) {
+      window.__stopRefresh__();
+    }
   }
 
   render() {

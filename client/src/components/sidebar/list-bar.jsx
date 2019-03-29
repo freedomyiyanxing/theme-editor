@@ -33,7 +33,9 @@ class ListBar extends React.Component {
 
   // 做了操作时 启动禁止刷新 跟 删除
   isRefresh() {
-    if (window.__IS__START__REFRESH__) window.__stopRefresh__();
+    if (window.__IS__START__REFRESH__) {
+      window.__stopRefresh__();
+    }
   }
 
   render() {

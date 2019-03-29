@@ -36,6 +36,7 @@ const IMGUrl = process.env.IMG_BASE || '';
 
   // 上传
   handleChange = (e) => {
+    this.isRefresh();
     const { loading } = this.state;
     if (loading !== 'start' && loading !== 'end') return;
     const url = '/business/store_themes/uploadThemeImage';
@@ -64,6 +65,7 @@ const IMGUrl = process.env.IMG_BASE || '';
 
   // 删除
   handleDelete = () => {
+    this.isRefresh();
     const { obj, templateData } = this.props;
     const { config } = templateData.section[obj.name].config.modules[obj.index][obj.val];
     deleteUploadImg(config.imgPath)
@@ -75,6 +77,13 @@ const IMGUrl = process.env.IMG_BASE || '';
         console.log(err)
       })
   };
+
+  // 做了操作时 启动禁止刷新 跟 删除
+  isRefresh() {
+    if (window.__IS__START__REFRESH__) {
+      window.__stopRefresh__();
+    }
+  }
 
   render() {
     const { obj, templateData } = this.props;

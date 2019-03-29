@@ -41,12 +41,14 @@ export default class AddImages extends React.Component {
 
   // 修改名称
   handleSetName = (val) => {
+    this.isRefresh()
     const { obj, templateData } = this.props;
     templateData.setComponentName(obj, val);
   };
 
   // 获取 url
   handleGetUrl = (val) => {
+    this.isRefresh()
     const { obj, templateData } = this.props;
     templateData.setComponentUrl(obj, val);
   };
@@ -54,6 +56,7 @@ export default class AddImages extends React.Component {
   /*  开始时间 调用 */
   // 点击ok时调用
   startOnOk = (val) => {
+    this.isRefresh()
     const { obj, templateData } = this.props;
     const date = new Date(val._d).getTime();
     templateData.setImgInvalidDate(obj, date, 'effDate');
@@ -61,6 +64,7 @@ export default class AddImages extends React.Component {
 
   // 这个选择时调用
   startHandleChange = (val, dateString) => {
+    this.isRefresh()
     const { obj, templateData } = this.props;
     const date = new Date(dateString).getTime();
     templateData.setImgInvalidDate(obj, date, 'effDate');
@@ -71,6 +75,7 @@ export default class AddImages extends React.Component {
   /*  结束时间 调用 */
   // 点击ok时调用
   endOnOk = (val) => {
+    this.isRefresh()
     const { obj, templateData } = this.props;
     const date = new Date(val._d).getTime();
     templateData.setImgInvalidDate(obj, date, 'expDate');
@@ -78,11 +83,19 @@ export default class AddImages extends React.Component {
 
   // 这个选择时调用
   endHandleChange = (val, dateString) => {
+    this.isRefresh()
     const { obj, templateData } = this.props;
     const date = new Date(dateString).getTime();
     templateData.setImgInvalidDate(obj, date, 'expDate');
   };
   /*  开始时间 调用 */
+
+  // 做了操作时 启动禁止刷新 跟 删除
+  isRefresh() {
+    if (window.__IS__START__REFRESH__) {
+      window.__stopRefresh__();
+    }
+  }
 
   render() {
     const { backClick, obj, templateData } = this.props;

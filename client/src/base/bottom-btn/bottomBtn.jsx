@@ -42,6 +42,7 @@ class BottomBtn extends React.Component {
           this.openNotificationWithIcon('success', 'Success', '保存 成功 解绑 \'删除,刷新\' 了');
           // 保存完成移除监听刷新删除的事件
           window.__clearRefreshClick__();
+          window.__IS__START__REFRESH__ = true;
         }).catch((err) => {
           this.setState({
             loading: false,

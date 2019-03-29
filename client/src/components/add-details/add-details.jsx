@@ -28,6 +28,8 @@ import classes from './add-details.less';
       handle: '.icon-drag',
       onEnd: (evt) => {
         const { oldIndex, newIndex } = evt;
+        this.isRefresh();
+        console.log(111)
         // 如果相等 则表示没有拖动
         if (oldIndex === newIndex) {
           console.log('没有拖动...')
@@ -40,11 +42,12 @@ import classes from './add-details.less';
           )
         }
       },
-    })
+    });
   }
 
   // 添加
   handleAddSection = () => {
+    this.isRefresh();
     const { templateData, name } = this.props;
     const { section, componentItems } = templateData;
     const { modulesOrder } = section[name].config;
@@ -67,6 +70,7 @@ import classes from './add-details.less';
 
   // 修改名称
   handleSetName = (value) => {
+    this.isRefresh();
     const { templateData, name } = this.props;
     templateData.setChaptersName(name, value)
   };
@@ -86,6 +90,13 @@ import classes from './add-details.less';
         },
       },
     };
+  }
+
+  // 做了操作时 启动禁止刷新 跟 删除
+  isRefresh() {
+    if (window.__IS__START__REFRESH__) {
+      window.__stopRefresh__();
+    }
   }
 
   render() {

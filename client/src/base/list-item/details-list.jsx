@@ -14,6 +14,26 @@ import { deleteUploadImg } from '../../api/http';
 
 import classes from './list-item.less';
 
+// 限制删除
+const LimitNumber = {
+  images_1: 1, // picture 中的 style-1 最少一个
+  images_2: 5, // picture 中的 style-2 最少五个
+  images_3: 5, // picture 中的 style-3 最少五个
+  images_4: 5, // picture 中的 style-4 最少五个
+  images_5: 2, // picture 中的 style-5 最少四个
+  slideshow: 1, // scroll-banner 最少一个
+}
+
+const PromptText = (name, type) => {
+  let text;
+  if (type === 'img') {
+    text = `你确定要删除 “${name}” 吗? 它里面可有图片哟, 如果确定删除了 则不能返回了`
+  } else {
+    text = `${name} 样式至少得有 " ${LimitNumber[name]} " 张图片来摆设`
+  }
+  return text;
+}
+
 @inject((stores) => {
   return {
     templateData: stores.templateData,
@@ -40,16 +60,19 @@ import classes from './list-item.less';
   handleDelete = (index) => {
     const { templateData, name } = this.props;
     const { modules, modulesOrder } = templateData.section[name].config;
-    if (modulesOrder.length > 1) {
+    const { type } = templateData.section[name];
+    if (modulesOrder.length > LimitNumber[type]) {
       // 判断 如果有 图片 则 弹出提示框;
       if (modules[index][modulesOrder[index]].config.imgPath) {
-        this.toggle(modules[index][modulesOrder[index]].config.title, index);
+        this.toggle(modules[index][modulesOrder[index]].config.title, index, 'img');
       } else {
         // 把删除的掉编号保存在store 中
         templateData.setComponentItems(name, getNumber(modulesOrder[index]));
         // 在修改值
         templateData.deleteComponent(name, index);
       }
+    } else {
+      this.toggle(type, index, 'ele')
     }
   };
 
@@ -83,9 +106,15 @@ import classes from './list-item.less';
     this.toggle();
   };
 
-  // 控制弹出框
-  toggle = (val, index) => {
+  /**
+   * 控制弹出框
+   * @param name  当前名称
+   * @param index 索引
+   * @param type 类型
+   */
+  toggle = (name, index, type) => {
     const { visible } = this.state;
+    const val = PromptText(name, type)
     this.setState({
       visible: !visible,
       val,
@@ -146,7 +175,7 @@ import classes from './list-item.less';
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
-        <div>你确定要删除 “{val}” 吗？ 如果确定删除了 则不能返回了</div>
+        <div>{val}</div>
       </Modal>,
     ]
   }

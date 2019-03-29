@@ -65,6 +65,7 @@
     "react-beautiful-dnd": "^10.1.0",
     "react-dom": "^16.4.1",
     "react-hot-loader": "4.6.3",
+    "react-motion": "^0.5.2",
     "sortablejs": "^1.8.4",
     "uuid": "^3.3.2"
   }
