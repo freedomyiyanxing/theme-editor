@@ -2,7 +2,7 @@ import {
   observable, action, toJS,
 } from 'mobx';
 import { get } from '../api/http';
-import { templateData } from '../static/default-template-data'; // eslint-disable-line
+import { templateData } from '../static/default-template-data';
 
 export default class TemplateData {
   @observable section; // 保存所有数据
@@ -28,52 +28,51 @@ export default class TemplateData {
   }
 
   // 请求模板默认数据
-  // @action getData(id) {
-  //   get('/business/store_themes/customize', {
-  //     themeId: id,
-  //   })
-  //     .then((resp) => {
-  //       this.loading = true;
-  //       this.themeId = id;
-  //       this.type = resp.type;
-  //       // 此 id 无效
-  //       if (resp.error) {
-  //         window.location.href = resp.error;
-  //         return;
-  //       }
-  //       // ok
-  //       if (resp.draftData && resp.draftData !== '') {
-  //         // 当前id 已有数据
-  //         const obj = JSON.parse(resp.draftData);
-  //         this.section = obj;
-  //         this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
-  //       } else {
-  //         // 当前id 是新用户
-  //         this.section = templateData;
-  //         this.dragDropDataObj.sortArr = templateData.sectionsOrder.slice();
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       this.loading = true;
-  //       console.log(err)
-  //       window.location.href = err.error;
-  //     });
-  // }
-
-  // 本地数据
   @action getData(id) {
-    get('/api/theme/index')
+    get('/business/store_themes/customize', {
+      themeId: id,
+    })
       .then((resp) => {
         this.loading = true;
-        this.section = resp;
         this.themeId = id;
-        this.dragDropDataObj.sortArr = resp.sectionsOrder.slice();
+        this.type = resp.type;
+        // 此 id 无效
+        if (resp.error) {
+          window.location.href = resp.error;
+          return;
+        }
+        // ok
+        if (resp.draftData && resp.draftData !== '') {
+          // 当前id 已有数据
+          const obj = JSON.parse(resp.draftData);
+          this.section = obj;
+          this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
+        } else {
+          // 当前id 是新用户
+          this.section = templateData;
+          this.dragDropDataObj.sortArr = templateData.sectionsOrder.slice();
+        }
       })
       .catch((err) => {
         this.loading = true;
-        console.log(err, '错误...')
+        window.location.href = err.error;
       });
   }
+
+  // 本地数据
+  // @action getData(id) {
+  //   get('/api/theme/index')
+  //     .then((resp) => {
+  //       this.loading = true;
+  //       this.section = resp;
+  //       this.themeId = id;
+  //       this.dragDropDataObj.sortArr = resp.sectionsOrder.slice();
+  //     })
+  //     .catch((err) => {
+  //       this.loading = true;
+  //       console.log(err, '错误...')
+  //     });
+  // }
 
   // 添加新的章节
   @action saveTemplateData(data, name) {
