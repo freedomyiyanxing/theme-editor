@@ -123,7 +123,7 @@ import classes from '../../base/list-item/list-item.less';
             tabIndex={0}
             role="button"
             onClick={() => { this.handleIsHidden(value, index) }}
-            className={section[value].isHidden ? 'icon-hidden' : 'icon-block'}
+            className={section[value].isHidden ? 'icon-block' : 'icon-hidden'}
           />
           {
             chapterType(value)

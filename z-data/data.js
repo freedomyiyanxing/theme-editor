@@ -1,7 +1,7 @@
 module.exports = {
   displayPicturesDf4r4: {
     type: 'images_4',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Display picture 4',
       modules: [
@@ -77,7 +77,7 @@ module.exports = {
   },
   displayPictureSDFSF2DS: {
     type: 'images_2',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Display picture 2',
       modules: [
@@ -153,7 +153,7 @@ module.exports = {
   },
   scrollBanner: {
     type: 'slideshow',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Scroll banner',
       modules: [
@@ -242,14 +242,14 @@ module.exports = {
   },
   video: {
     type: 'video',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Video',
     },
   },
   displayPicture: {
     type: 'images_1',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Display picture',
       modules: [
@@ -273,21 +273,21 @@ module.exports = {
   },
   categoryList: {
     type: 'category',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Category list',
     },
   },
   productList: {
     type: 'products',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Product list',
     },
   },
   tagList: {
     type: 'tag',
-    isHidden: true,
+    isHidden: false,
     config: {
       title: 'Tag list',
     },

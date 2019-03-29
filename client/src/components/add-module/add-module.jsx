@@ -52,13 +52,13 @@ export default class AddModule extends React.Component {
     if (index) {
       obj = {
         type: `images_${index}`,
-        isHidden: true,
+        isHidden: false,
         config: slideImagesData[`images${index}`],
       }
     } else {
       obj = {
         type: 'slideshow',
-        isHidden: true,
+        isHidden: false,
         config: slideImagesData.slideshow,
       };
     }

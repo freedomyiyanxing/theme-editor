@@ -34,17 +34,17 @@ import classes from './preview-content.less';
     const { section } = templateData;
     const config = section[v];
     let component = null;
-    if (v.includes('scrollBanner') && config.isHidden) {
+    if (v.includes('scrollBanner') && !config.isHidden) {
       component = <Banner key={v} name={v} />;
-    } else if (v.includes('video') && config.isHidden) {
+    } else if (v.includes('video') && !config.isHidden) {
       component = <Video key={v} obj={config} />;
-    } else if (v.includes('displayPicture') && config.isHidden) {
+    } else if (v.includes('displayPicture') && !config.isHidden) {
       component = <Picture key={v} name={v} />;
-    } else if (v.includes('categoryList') && config.isHidden) {
+    } else if (v.includes('categoryList') && !config.isHidden) {
       component = <CategoryList key={v} obj={config} />;
-    } else if (v.includes('productList') && config.isHidden) {
+    } else if (v.includes('productList') && !config.isHidden) {
       component = <ProductList key={v} obj={config} />;
-    } else if (v.includes('tagList') && config.isHidden) {
+    } else if (v.includes('tagList') && !config.isHidden) {
       component = <TagList key={v} obj={config} />;
     }
     return component;
