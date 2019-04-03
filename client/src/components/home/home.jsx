@@ -25,6 +25,12 @@ import classes from './home.less';
     // 获取id
     const storeId = window.location.search.split('=')[1];
     templateData.getData(storeId);
+
+    // 删除骨架屏
+    console.log('渲染了吗...')
+    const loadingEle = document.getElementById('loading_loading');
+    const { body } = document;
+    body.removeChild(loadingEle)
   }
 
   render() {
@@ -47,7 +53,7 @@ import classes from './home.less';
                 <Preview />
               </div>,
             ]
-            : <div>loading --- </div>
+            : null
         }
       </div>
     )
