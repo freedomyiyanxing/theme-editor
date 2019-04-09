@@ -5,9 +5,9 @@ import AddModule from '../add-module/add-module.jsx';
 import AddDetails from '../add-details/add-details.jsx';
 import AddImages from '../add-img/add-img.jsx';
 
-import BottomBtn from '../../base/bottom-btn/bottomBtn.jsx';
+import BottomBtn from '../operation-btn/index.jsx';
 
-import classes from './left-operation.less';
+import classes from './left-container.less';
 
 const PAGE_NAME = {
   home: 'home',

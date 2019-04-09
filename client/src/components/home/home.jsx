@@ -7,7 +7,7 @@ import {
 } from 'mobx-react';
 
 import { TemplateData } from '../../store/index';
-import LeftOperation from '../left-operation/left-operation.jsx';
+import LeftOperation from '../left-container/left-container.jsx';
 import Preview from '../preview/content.jsx';
 import PreviewHeader from '../preview-header/preview-header.jsx';
 

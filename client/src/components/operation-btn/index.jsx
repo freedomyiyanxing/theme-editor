@@ -1,28 +1,24 @@
 import React from 'react';
-import { Dropdown, Spin, notification } from 'antd';
 import PropTypes from 'prop-types';
-import {
-  inject,
-} from 'mobx-react';
-
+import { Dropdown, Spin, notification } from 'antd';
+import { inject } from 'mobx-react';
 import { TemplateData } from '../../store/index';
 import { post } from '../../api/http';
+import ListBtn from './list-btn.jsx';
 
-import { viewHeaderData } from '../../static/default-template-data';
-
-import classes from './bottom-btn.less'
+import classes from './index.less'
 
 @inject((stores) => {
   return {
     templateData: stores.templateData,
   }
 })
-
 class BottomBtn extends React.Component {
   state = {
     loading: false,
   };
 
+  // 提交数据
   handleSave = () => {
     const { templateData } = this.props;
     const url = '/business/store_themes/addCustomize';
@@ -52,10 +48,6 @@ class BottomBtn extends React.Component {
     }, 500)
   }
 
-  handleClick = (v) => {
-    console.log(v)
-  }
-
   // 消息提示框
   openNotificationWithIcon = (type, title, val) => {
     notification[type]({
@@ -66,7 +58,6 @@ class BottomBtn extends React.Component {
     });
   };
 
-
   render() {
     const { loading } = this.state;
     return (
@@ -74,20 +65,7 @@ class BottomBtn extends React.Component {
         <Dropdown
           overlay={(
             <div className={classes.content}>
-              {
-                viewHeaderData.map((v, i) => (
-                  <span
-                    key={v.icon}
-                    role="button"
-                    tabIndex={i}
-                    className={classes.btnItems}
-                    onClick={() => { this.handleClick(v.text) }}
-                  >
-                    <span className={`${v.icon} ${classes.icon}`} />
-                    <span className={classes.text}>{v.text}</span>
-                  </span>
-                ))
-              }
+              <ListBtn />
             </div>
           )}
           trigger={['click']}

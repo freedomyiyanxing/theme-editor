@@ -2,7 +2,7 @@ import {
   observable, action, toJS,
 } from 'mobx';
 import { get } from '../api/http';
-import { templateData } from '../static/default-template-data';
+import { templateData } from '../static/default-template-data'; // eslint-disable-line
 
 export default class TemplateData {
   @observable section; // 保存所有数据
@@ -38,6 +38,7 @@ export default class TemplateData {
         this.type = resp.type;
         // 此 id 无效
         if (resp.error) {
+          console.log(resp.error)
           window.location.href = resp.error;
           return;
         }
@@ -55,7 +56,11 @@ export default class TemplateData {
       })
       .catch((err) => {
         this.loading = true;
-        window.location.href = err.error;
+        if (err.error) {
+          window.location.href = err.error;
+        }
+        console.log(err)
+        return false;
       });
   }
 
