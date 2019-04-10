@@ -192,3 +192,10 @@ body {
 .ant-spin{
   line-height: 1;
 }
+
+@media (max-width: 767px){
+  .ant-modal {
+    max-width: inherit;
+    margin: 0;
+  }
+}

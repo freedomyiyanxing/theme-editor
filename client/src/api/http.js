@@ -1,6 +1,8 @@
 import axios from 'axios';
 import qs from 'qs';
 
+export const CancelToken = axios.CancelToken; // eslint-disable-line
+
 export const Xhr = function (url, data) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -15,6 +17,7 @@ export const Xhr = function (url, data) {
   })
 };
 
+// 拼接get请求的url
 const parseUrl = (url, params) => {
   const str = (params != null) ? Object.keys(params).reduce((result, key) => {
     result += `${key}=${params[key]}&`; // eslint-disable-line
@@ -23,18 +26,28 @@ const parseUrl = (url, params) => {
   return `${url}?${str.substr(0, str.length - 1)}`
 };
 
-export const get = (url, params) => new Promise((resolve, reject) => {
-  axios.get(parseUrl(url, params))
+/**
+ * get请求
+ * @param url 地址
+ * @param params 拼接的参数
+ * @param token 取消当前请求token
+ */
+export const get = (url, params, token) => new Promise((resolve, reject) => {
+  axios.get(parseUrl(url, params), token)
     .then((resp) => {
       resolve(resp.data)
-    }).catch(reject)
+    })
+    .catch((err) => {
+      reject(err)
+    })
 });
 
-export const post = (url, data) => new Promise((resolve, reject) => {
-  axios.post(url, qs.stringify(data))
+export const post = (url, data, token) => new Promise((resolve, reject) => {
+  axios.post(url, qs.stringify(data), token)
     .then((resp) => {
       resolve(resp)
-    }).catch((err) => {
+    })
+    .catch((err) => {
       reject(err)
     })
 });

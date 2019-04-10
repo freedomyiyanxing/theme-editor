@@ -56,11 +56,7 @@ export default class TemplateData {
       })
       .catch((err) => {
         this.loading = true;
-        if (err.error) {
-          window.location.href = err.error;
-        }
-        console.log(err)
-        return false;
+        window.location.href = err.error || 'https://influmonster.com/';
       });
   }
 
