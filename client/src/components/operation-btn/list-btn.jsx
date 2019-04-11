@@ -51,12 +51,13 @@ class ListBtn extends React.Component {
   preview = () => {
     const { templateData, tooltipToggle } = this.props;
     const { isNewUser, themeId } = templateData
-    console.log('预览吧...', templateData.isNewUser)
     // 如果是isNewUser为false 或者 没做操作 就不进
+    console.log(isNewUser, !window.__IS__START__REFRESH__)
+
     if (isNewUser || !window.__IS__START__REFRESH__) {
       tooltipToggle()
     } else {
-      window.open(`business/store_themes/preview/${themeId}`, '_blank')
+      window.open(`/preview/${themeId}`, '_blank')
     }
   }
 
@@ -70,7 +71,6 @@ class ListBtn extends React.Component {
     const { templateData } = this.props;
     const { isWho } = this.state;
     const { themeId } = templateData;
-    console.log('shuaxinl,a ')
     return (
       <div>
         {

@@ -24,6 +24,10 @@ class BottomBtn extends React.Component {
   // 提交数据
   handleSave = () => {
     if (window.__IS__START__REFRESH__) { // 没有做如何操作时 不保存
+      this.setState({
+        tooltipVisible: false,
+      });
+      this.openNotificationWithIcon('warning', 'Warning', '没有做如何操作时 不予保存');
       return;
     }
     const { templateData } = this.props;
@@ -42,6 +46,7 @@ class BottomBtn extends React.Component {
             loading: false,
           });
           console.log('保存... 完成, 移除监听,', resp);
+          templateData.isNewUser = false;
           this.openNotificationWithIcon('success', 'Success', '保存 成功 解绑 \'删除,刷新\' 了');
           // 保存完成移除监听刷新删除的事件
           window.__clearRefreshClick__();
