@@ -190,6 +190,7 @@ body {
 }
 
 .ant-spin{
+  width: 100%;
   line-height: 1;
 }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Spin, notification } from 'antd';
+import {
+  Dropdown, Spin, notification, Tooltip,
+} from 'antd';
 import { inject } from 'mobx-react';
 import { TemplateData } from '../../store/index';
 import { post } from '../../api/http';
@@ -16,14 +18,19 @@ import classes from './index.less'
 class BottomBtn extends React.Component {
   state = {
     loading: false,
+    tooltipVisible: false,
   };
 
   // 提交数据
   handleSave = () => {
+    if (window.__IS__START__REFRESH__) { // 没有做如何操作时 不保存
+      return;
+    }
     const { templateData } = this.props;
     const url = '/business/store_themes/addCustomize';
     this.setState({
       loading: true,
+      tooltipVisible: false,
     });
     setTimeout(() => {
       post(url, {
@@ -58,14 +65,21 @@ class BottomBtn extends React.Component {
     });
   };
 
+  // 控制tooltip显示隐藏
+  tooltipToggle = () => {
+    this.setState({
+      tooltipVisible: true,
+    })
+  }
+
   render() {
-    const { loading } = this.state;
+    const { loading, tooltipVisible } = this.state;
     return (
       <div className={classes.container}>
         <Dropdown
           overlay={(
             <div className={classes.content}>
-              <ListBtn />
+              <ListBtn tooltipToggle={this.tooltipToggle} />
             </div>
           )}
           trigger={['click']}
@@ -74,26 +88,33 @@ class BottomBtn extends React.Component {
             Click me
           </span>
         </Dropdown>
-        <span
-          role="button"
-          tabIndex={0}
-          className={classes.item}
+        <Tooltip
+          visible={tooltipVisible}
+          placement="top"
+          title="请点击保存"
+          trigger="contextMenu"
         >
-          {
-            loading
-              ? <Spin />
-              : (
-                <span
-                  tabIndex={0}
-                  role="button"
-                  className={classes.btn}
-                  onClick={this.handleSave}
-                >
-                  Save
-                </span>
-              )
-          }
-        </span>
+          <span
+            role="button"
+            tabIndex={0}
+            className={classes.item}
+          >
+            {
+              loading
+                ? <Spin />
+                : (
+                  <span
+                    tabIndex={0}
+                    role="button"
+                    className={classes.btn}
+                    onClick={this.handleSave}
+                  >
+                    Save
+                  </span>
+                )
+            }
+          </span>
+        </Tooltip>
       </div>
     )
   }

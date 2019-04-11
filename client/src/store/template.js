@@ -13,10 +13,13 @@ export default class TemplateData {
 
   componentItems; // 保存已经删除过的部件下标
 
+  isNewUser; // 保存bool 是否是第一次装修店铺
+
   constructor() {
     this.section = null;
     this.loading = false;
     this.componentItems = {};
+    this.isNewUser = false;
     this.themeId = null; // 保存 id
     this.dragDropDataObj = {
       eleWrapper: null,
@@ -50,6 +53,7 @@ export default class TemplateData {
           this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
         } else {
           // 当前id 是新用户
+          this.isNewUser = true;
           this.section = templateData;
           this.dragDropDataObj.sortArr = templateData.sectionsOrder.slice();
         }
@@ -74,6 +78,12 @@ export default class TemplateData {
   //       console.log(err, '错误...')
   //     });
   // }
+
+  // 回退版本
+  @action setRevert(obj) {
+    this.section = obj;
+    this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
+  }
 
   // 添加新的章节
   @action saveTemplateData(data, name) {
