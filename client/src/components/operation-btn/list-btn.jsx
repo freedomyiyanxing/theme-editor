@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { viewHeaderData } from '../../static/default-template-data';
 import { TemplateData } from '../../store/index';
+import { get } from '../../api/http';
 import PublishContainer from './publish.jsx';
 import RevertContainer from './revert.jsx';
 
@@ -57,7 +58,14 @@ class ListBtn extends React.Component {
     if (isNewUser || !window.__IS__START__REFRESH__) {
       tooltipToggle()
     } else {
-      window.open(`/preview/${themeId}`, '_blank')
+      get('/business/store_themes/getPreviewUrl', { themeId })
+        .then((resp) => {
+          window.open(resp.url || 'https://influmonster.com/', '_blank')
+        })
+        .catch((err) => {
+          console.log(err);
+          window.open(err.error || 'https://influmonster.com/', '_blank')
+        });
     }
   }
 

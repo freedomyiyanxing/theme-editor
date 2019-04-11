@@ -42,7 +42,7 @@ export default class TemplateData {
         // 此 id 无效
         if (resp.error) {
           console.log(resp.error)
-          window.location.href = resp.error;
+          window.location.href = resp.error || 'https://influmonster.com/';
           return;
         }
         // ok
