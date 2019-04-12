@@ -30,7 +30,7 @@ class RevertContainer extends React.Component {
       get(
         '/business/store_themes/getThemeHistorys',
         { themeId },
-        { cancelToken: this.revert_1_source.token },
+        this.revert_1_source.token,
       )
         .then((resp) => {
           this.revert_1_source = null;

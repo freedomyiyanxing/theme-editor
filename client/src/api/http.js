@@ -26,6 +26,29 @@ const parseUrl = (url, params) => {
   return `${url}?${str.substr(0, str.length - 1)}`
 };
 
+// $(document).ajaxSend(function(event, xhr, settings) {
+//   if (!settings.crossDomain && !/^(GET|HEAD|TRACE|OPTIONS)$/i.test(settings.type)) {
+//     var csrfToken = getCookie("csrfToken");
+//     if (csrfToken != null) {
+//       xhr.setRequestHeader("X-Csrf-Token", csrfToken);
+//     }
+//   }
+// });
+// // 获取Cookie
+// function getCookie(name) {
+//   if (name != null) {
+//     var value = new RegExp("(?:^|; )" + encodeURIComponent(String(name)) + "=([^;]*)")
+// .exec(document.cookie);
+//     return value ? decodeURIComponent(value[1]) : null;
+//   }
+// }
+
+// 获取cookie
+const getCookie = (name) => {
+  const value = new RegExp(`(?:^|; )${encodeURIComponent(name)}=([^;]*)`).exec(document.cookie)
+  return value ? decodeURIComponent(value[1]) : null
+}
+
 /**
  * get请求
  * @param url 地址
@@ -33,7 +56,10 @@ const parseUrl = (url, params) => {
  * @param token 取消当前请求token
  */
 export const get = (url, params, token) => new Promise((resolve, reject) => {
-  axios.get(parseUrl(url, params), token)
+  axios.get(parseUrl(url, params), {
+    cancelToken: token,
+    headers: { 'X-Csrf-Token': getCookie('csrfToken') },
+  })
     .then((resp) => {
       resolve(resp.data)
     })

@@ -29,7 +29,7 @@ class PublishContainer extends React.Component {
       get(
         '/business/store_themes/publishModal',
         { themeId },
-        { cancelToken: this.publish_1_source.token },
+        this.publish_1_source.token,
       )
         .then((resp) => {
           if (this._isMounted) {
