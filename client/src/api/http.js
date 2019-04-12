@@ -3,10 +3,19 @@ import qs from 'qs';
 
 export const CancelToken = axios.CancelToken; // eslint-disable-line
 
+// 获取cookie
+const getCookie = (name) => {
+  const value = new RegExp(`(?:^|; )${encodeURIComponent(name)}=([^;]*)`).exec(document.cookie)
+  return value ? decodeURIComponent(value[1]) : null
+}
+
+const csrfToken = getCookie('csrfToken')
+
 export const Xhr = function (url, data) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('post', url, true);
+    xhr.setRequestHeader('X-Csrf-Token', csrfToken)
     xhr.onload = function () {
       if (xhr.status < 200 || xhr.status >= 300) {
         reject(xhr)
@@ -43,12 +52,6 @@ const parseUrl = (url, params) => {
 //   }
 // }
 
-// 获取cookie
-const getCookie = (name) => {
-  const value = new RegExp(`(?:^|; )${encodeURIComponent(name)}=([^;]*)`).exec(document.cookie)
-  return value ? decodeURIComponent(value[1]) : null
-}
-
 /**
  * get请求
  * @param url 地址
@@ -58,7 +61,7 @@ const getCookie = (name) => {
 export const get = (url, params, token) => new Promise((resolve, reject) => {
   axios.get(parseUrl(url, params), {
     cancelToken: token,
-    headers: { 'X-Csrf-Token': getCookie('csrfToken') },
+    headers: { 'X-Csrf-Token': csrfToken },
   })
     .then((resp) => {
       resolve(resp.data)
@@ -68,8 +71,10 @@ export const get = (url, params, token) => new Promise((resolve, reject) => {
     })
 });
 
-export const post = (url, data, token) => new Promise((resolve, reject) => {
-  axios.post(url, qs.stringify(data), token)
+export const post = (url, data) => new Promise((resolve, reject) => {
+  axios.post(url, qs.stringify(data), {
+    headers: { 'X-Csrf-Token': csrfToken },
+  })
     .then((resp) => {
       resolve(resp)
     })
