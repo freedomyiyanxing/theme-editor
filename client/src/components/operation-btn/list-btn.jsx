@@ -53,8 +53,6 @@ class ListBtn extends React.Component {
     const { templateData, tooltipToggle } = this.props;
     const { isNewUser, themeId } = templateData
     // 如果是isNewUser为false 或者 没做操作 就不进
-    console.log(isNewUser, !window.__IS__START__REFRESH__)
-
     if (isNewUser || !window.__IS__START__REFRESH__) {
       tooltipToggle()
     } else {

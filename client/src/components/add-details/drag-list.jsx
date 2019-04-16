@@ -19,7 +19,6 @@ class DragList extends React.Component {
   onDragEnd = (result) => {
     const { templateData, name, refresh } = this.props;
     const { source, destination } = result;
-    console.log(source, destination == null)
     // 排除异常情况
     if (destination == null) {
       return;

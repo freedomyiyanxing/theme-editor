@@ -92,7 +92,6 @@ class RevertContainer extends React.Component {
               })
             }
             cancel()
-            console.log(resp.data.message === 'Success!')
             template.setRevert(JSON.parse(data[value].configData))
             this.openNotificationWithIcon('success', 'Success', `成功返回到${data[value].verNO} 版本`);
           }

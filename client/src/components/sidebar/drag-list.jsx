@@ -30,7 +30,6 @@ class DragList extends React.Component {
     if (destination == null) {
       return;
     }
-    // // console.log('当前位置 : ', this.index, '目的地位置 : ',result.destination.index);
     templateData.handleDropUpScroll(this.index, destination.index, destination.index);
     this.index = destination.index;
   };

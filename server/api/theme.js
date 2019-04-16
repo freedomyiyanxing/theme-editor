@@ -1,7 +1,6 @@
 // const path = require('path');
 // const fs = require('fs');
 const data = require('../../z-data/data');
-console.log(data.toString());
 class Theme {
   constructor(req, res) {
     this.req = req;

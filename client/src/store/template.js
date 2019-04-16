@@ -233,7 +233,6 @@ export default class TemplateData {
     // 如果index 等于 0 则不拖动
     if (!index) return scrollVal;
     // 如果index 小于等于 1 则表示滚动 0元素 的高度
-    console.log(this.dragDropDataObj.eleHeight)
     if (index <= 1) {
       scrollVal = this.dragDropDataObj.eleHeight[0]; // eslint-disable-line
     } else {
