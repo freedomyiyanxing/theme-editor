@@ -4,13 +4,12 @@ import {
   inject,
   observer,
 } from 'mobx-react';
-import Sortable from 'sortablejs';
 
 import { TemplateData } from '../../store/index';
 import SidebarHeader from '../../base/sidebar-header/sidebar-header.jsx';
 import NameInput from '../../base/input/name-input.jsx';
 import ListView from '../../base/list/list.jsx';
-import DetailsListItem from '../../base/list-item/details-list.jsx';
+import DragList from './drag-list.jsx';
 import { isTypeOf } from '../../common/js/util';
 
 import classes from './add-details.less';
@@ -22,29 +21,6 @@ import classes from './add-details.less';
 })
 
 @observer export default class AddDetails extends React.Component {
-  componentDidMount() {
-    const { templateData, name } = this.props;
-    new Sortable(this.wrapper, {
-      handle: '.icon-drag',
-      onEnd: (evt) => {
-        const { oldIndex, newIndex } = evt;
-        this.isRefresh();
-        console.log(111)
-        // 如果相等 则表示没有拖动
-        if (oldIndex === newIndex) {
-          console.log('没有拖动...')
-        } else {
-          // 更新数据
-          templateData.componentItemsSort(
-            name,
-            oldIndex,
-            newIndex,
-          )
-        }
-      },
-    });
-  }
-
   // 添加
   handleAddSection = () => {
     this.isRefresh();
@@ -124,7 +100,7 @@ import classes from './add-details.less';
             <NameInput click={this.handleSetName} defaultVal={config.title} />
           </div>
           <div ref={n => this.wrapper = n}>
-            <DetailsListItem name={name} click={click} />
+            <DragList name={name} click={click} refresh={this.isRefresh} />
           </div>
           <div className={classes.handle}>
             <ListView click={this.handleAddSection}>

@@ -27,7 +27,6 @@ import classes from './home.less';
     templateData.getData(storeId);
 
     // 删除骨架屏
-    console.log('渲染了吗...')
     const loadingEle = document.getElementById('loading_loading');
     const { body } = document;
     body.removeChild(loadingEle)

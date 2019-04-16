@@ -11,7 +11,7 @@ import { TemplateData } from '../../store/index';
 import { chapterType, iconName } from '../../common/js/util';
 import { deleteUploadImg } from '../../api/http';
 
-import classes from '../../base/list-item/list-item.less';
+import classes from '../../common/less/list-item.less';
 
 @inject((stores) => {
   return {
@@ -64,8 +64,7 @@ import classes from '../../base/list-item/list-item.less';
   handleEdit = (value, index) => {
     // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
     if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
-    const { handleEdit, isRefresh, templateData } = this.props;
-    isRefresh();
+    const { handleEdit, templateData } = this.props;
     // 回到滚动位置
     templateData.utilScroll(templateData.utilScrollVal(index))
     handleEdit(value);

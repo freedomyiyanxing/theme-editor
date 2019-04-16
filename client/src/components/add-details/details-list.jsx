@@ -5,14 +5,14 @@ import {
   inject,
   observer,
 } from 'mobx-react';
-import { message, Modal } from 'antd';
-
-import ListView from '../list/list.jsx';
+import { notification, Modal } from 'antd';
+import { Draggable } from 'react-beautiful-dnd'
+import ListView from '../../base/list/list.jsx';
 import { TemplateData } from '../../store/index';
 import { isTypeOf, getNumber } from '../../common/js/util';
 import { deleteUploadImg } from '../../api/http';
 
-import classes from './list-item.less';
+import classes from '../../common/less/list-item.less';
 
 // 限制删除
 const LimitNumber = {
@@ -51,15 +51,25 @@ const PromptText = (name, type) => {
     }
   }
 
+  // 提示组件
+  openNotificationWithIcon = (type, title, val) => {
+    notification[type]({
+      message: title,
+      description: val,
+      duration: 3,
+      placement: 'topLeft',
+    });
+  };
+
   // 进入添加图片页面
   handleEdit = (val, index) => {
-    const { click, name } = this.props; // eslint-disable-line
+    const { click, name } = this.props;
     click(index, val, name);
   };
 
   // 删除
   handleDelete = (index) => {
-    const { templateData, name } = this.props;
+    const { templateData, name, refresh } = this.props;
     const { modules, modulesOrder } = templateData.section[name].config;
     const { type } = templateData.section[name];
     if (modulesOrder.length > LimitNumber[type]) {
@@ -67,30 +77,33 @@ const PromptText = (name, type) => {
       if (modules[index][modulesOrder[index]].config.imgPath) {
         this.toggle(modules[index][modulesOrder[index]].config.title, index, 'img');
       } else {
+        refresh();
         // 把删除的掉编号保存在store 中
         templateData.setComponentItems(name, getNumber(modulesOrder[index]));
         // 在修改值
         templateData.deleteComponent(name, index);
       }
     } else {
-      message.error(PromptText(type, 'ele'))
+      this.openNotificationWithIcon('error', 'Error', PromptText(type, 'ele'))
     }
   };
 
   // 隐藏
   handleIsHidden = (val, index) => {
-    const { templateData, name } = this.props;
+    const { templateData, name, refresh } = this.props;
+    refresh();
     templateData.setComponentIsHidden(name, val, index)
   };
 
   // 确定删除
   handleOk = () => {
-    const { templateData, name } = this.props;
+    const { templateData, name, refresh } = this.props;
     const { modules, modulesOrder } = templateData.section[name].config;
     const { index } = this.state;
     deleteUploadImg(modules[index][modulesOrder[index]].config.imgPath)
       .then((resp) => {
         if (resp.data.message === 'Success!') {
+          refresh();
           // 把删除的掉编号保存在store 中
           templateData.setComponentItems(name, getNumber(modulesOrder[index]));
           // 清除数据
@@ -132,42 +145,54 @@ const PromptText = (name, type) => {
     const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
     return [
       modulesOrder.map((v, i) => (
-        <ListView key={uuid()} isFlex index={v}>
-          <div className={classes.container}>
-            <div
-              tabIndex={i}
-              role="button"
-              onClick={() => { this.handleEdit(v, i) }}
-              className={classes.left}
-            >
-              <span className={`${classes.icon} icon-${icon}`} />
-              <span className={classes.text}>
-                {modules[i][v].config.title}
-              </span>
-            </div>
-            <div className={classes.right}>
-              <span
-                tabIndex={i}
-                role="button"
-                className={modules[i][v].config.isShow ? 'icon-hidden' : 'icon-block'}
-                onClick={() => { this.handleIsHidden(v, i) }}
-              />
-              <span
-                className="icon-edit"
-                tabIndex={i}
-                role="button"
-                onClick={() => { this.handleEdit(v, i) }}
-              />
-              <span
-                className="icon-delete"
-                tabIndex={i}
-                role="button"
-                onClick={() => { this.handleDelete(i) }}
-              />
-              <span className="icon-drag" />
-            </div>
-          </div>
-        </ListView>
+        <Draggable key={v} draggableId={v} index={i}>
+          {
+            provided => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+              >
+                <ListView key={uuid()} isFlex index={v}>
+                  <div className={classes.container}>
+                    <div
+                      tabIndex={i}
+                      role="button"
+                      onClick={() => { this.handleEdit(v, i) }}
+                      className={classes.left}
+                    >
+                      <span className={`${classes.icon} icon-${icon}`} />
+                      <span className={classes.text}>
+                        {modules[i][v].config.title}
+                      </span>
+                    </div>
+                    <div className={classes.right}>
+                      <span
+                        tabIndex={i}
+                        role="button"
+                        className={modules[i][v].config.isShow ? 'icon-hidden' : 'icon-block'}
+                        onClick={() => { this.handleIsHidden(v, i) }}
+                      />
+                      <span
+                        className="icon-edit"
+                        tabIndex={i}
+                        role="button"
+                        onClick={() => { this.handleEdit(v, i) }}
+                      />
+                      <span
+                        className="icon-delete"
+                        tabIndex={i}
+                        role="button"
+                        onClick={() => { this.handleDelete(i) }}
+                      />
+                      <span className="icon-drag" />
+                    </div>
+                  </div>
+                </ListView>
+              </div>
+            )
+          }
+        </Draggable>
       )),
       <Modal
         key={uuid()}
@@ -185,6 +210,7 @@ const PromptText = (name, type) => {
 DetailsListItem.wrappedComponent.propTypes = {
   name: PropTypes.string.isRequired,
   click: PropTypes.func.isRequired,
+  refresh: PropTypes.func.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

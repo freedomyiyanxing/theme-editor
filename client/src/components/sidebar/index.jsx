@@ -6,7 +6,7 @@ import {
 } from 'mobx-react';
 import { TemplateData } from '../../store/index';
 import ListView from '../../base/list/list.jsx';
-import List from './list.jsx';
+import DragList from './drag-list.jsx';
 import SidebarHeader from '../../base/sidebar-header/sidebar-header.jsx';
 
 import { tabText } from '../../static/default-template-data';
@@ -20,13 +20,12 @@ import classes from './sidebar-list.less';
 })
 
 class ListBar extends React.Component {
-  handleClick = (i) => {
-    this.lineClamp.style.transform = `translate3d(${i === 0 ? 0 : 175}px, 0px, 0px)`
-  };
+  // handleClick = (i) => {
+  //   this.lineClamp.style.transform = `translate3d(${i === 0 ? 0 : 175}px, 0px, 0px)`
+  // };
 
   // 添加板块功能
   handleAddSection = () => {
-    this.isRefresh();
     const { handleAdd } = this.props;
     handleAdd();
   };
@@ -65,7 +64,7 @@ class ListBar extends React.Component {
             </ListView>
           </div>
           <div className={classes.wrapper}>
-            <List handleEdit={handleEdit} isRefresh={this.isRefresh} />
+            <DragList handleEdit={handleEdit} isRefresh={this.isRefresh} />
           </div>
           <div className={classes.addHandle}>
             <ListView click={this.handleAddSection}>

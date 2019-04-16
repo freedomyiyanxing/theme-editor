@@ -4,6 +4,8 @@ import {
 import { get } from '../api/http';
 import { templateData } from '../static/default-template-data'; // eslint-disable-line
 
+const DESK_TOP = 'DeskTop'; // 表示pc端;
+
 export default class TemplateData {
   @observable section; // 保存所有数据
 
@@ -27,7 +29,7 @@ export default class TemplateData {
       eleHeight: [],
       sortArr: null,
     };
-    this.type = 'DeskTop'; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
+    this.type = DESK_TOP; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
   }
 
   // 请求模板默认数据
@@ -113,8 +115,8 @@ export default class TemplateData {
   }
 
   // 拖动开始
-  @action handleDropStart(type, index) {
-    if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = type;
+  @action handleDropStart(index) {
+    this.handleDropClass('start');
     this.utilScroll(this.utilScrollVal(index), false);
   }
 
@@ -128,7 +130,7 @@ export default class TemplateData {
 
   // 拖动完成
   @action handleDropScroll(index, newIndex) {
-    if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = 'end';
+    this.handleDropClass('end');
     const [mod] = this.section.sectionsOrder.splice(index, 1);
     this.section.sectionsOrder.splice(newIndex, 0, mod);
     const __index = this.__index__ !== 'undefined' ? this.__index__ : index;
@@ -140,9 +142,16 @@ export default class TemplateData {
 
   // 拖动越界时 处理
   @action handleDropErrOr(index) {
-    if (this.type === 'DeskTop') this.dragDropDataObj.controllerVal = 'end';
+    this.handleDropClass('end');
     this.dragDropDataObj.sortArr = this.section.sectionsOrder.slice();
     this.utilScroll(this.utilScrollVal(index), true);
+  }
+
+  // 拖动时 右侧展示区块的样式控制
+  @action handleDropClass(type) {
+    if (this.type === DESK_TOP) {
+      this.dragDropDataObj.controllerVal = type;
+    }
   }
 
   // 点击隐藏 或 显示 (部件)

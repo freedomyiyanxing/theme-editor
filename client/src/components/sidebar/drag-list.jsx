@@ -16,33 +16,40 @@ import { TemplateData } from '../../store/index';
   }
 })
 
-class List extends React.Component {
+class DragList extends React.Component {
   onDragStart = (result) => {
     const { templateData } = this.props;
-    this.index = result.source.index;
-    templateData.handleDropStart('start', this.index)
+    const { source } = result;
+    this.index = source.index;
+    templateData.handleDropStart(this.index)
   };
 
   onDragUpdate = (result) => {
-    if (!result.destination) {
+    const { templateData } = this.props;
+    const { destination } = result;
+    if (destination == null) {
       return;
     }
-    const { templateData } = this.props;
     // // console.log('当前位置 : ', this.index, '目的地位置 : ',result.destination.index);
-    templateData.handleDropUpScroll(this.index, result.destination.index, result.destination.index);
-    this.index = result.destination.index;
+    templateData.handleDropUpScroll(this.index, destination.index, destination.index);
+    this.index = destination.index;
   };
 
   onDragEnd = (result) => {
     const { templateData, isRefresh } = this.props;
+    const { source, destination } = result;
     // 当拖动元素 越界时, 重置回上一次的位置
-    if (!result.destination) {
-      templateData.handleDropErrOr(result.source.index);
+    if (destination == null) {
+      templateData.handleDropErrOr(source.index);
       return;
     }
-
+    // 如果相等则表示没有拖动
+    if (source.index === destination.index) {
+      templateData.handleDropClass('end');
+      return;
+    }
     isRefresh();
-    templateData.handleDropScroll(result.source.index, result.destination.index);
+    templateData.handleDropScroll(source.index, destination.index);
   };
 
   render() {
@@ -94,10 +101,10 @@ class List extends React.Component {
   }
 }
 
-List.wrappedComponent.propTypes = {
+DragList.wrappedComponent.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   isRefresh: PropTypes.func.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 
-export default List
+export default DragList

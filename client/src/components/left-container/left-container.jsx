@@ -1,6 +1,6 @@
 import React from 'react';
 import uuid from 'uuid';
-import ListBar from '../sidebar/list-bar.jsx';
+import ListBar from '../sidebar/index.jsx';
 import AddModule from '../add-module/add-module.jsx';
 import AddDetails from '../add-details/add-details.jsx';
 import AddImages from '../add-img/add-img.jsx';
