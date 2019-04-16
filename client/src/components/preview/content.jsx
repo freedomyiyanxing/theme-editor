@@ -56,7 +56,6 @@ import classes from './preview-content.less';
     // 必须是以 pc 端打开的
     const dropCls = dragDropDataObj.controllerVal === 'start' ? classes.isStart : '';
     const terminalCls = templateData.type === 'Phone' ? classes.phone : '';
-    console.log('刷新了 就告诉下我....')
     return (
       <section className={classes.container}>
         <div
