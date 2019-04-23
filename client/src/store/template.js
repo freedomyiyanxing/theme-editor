@@ -1,15 +1,11 @@
 import {
   observable, action, toJS,
 } from 'mobx';
-import { get } from '../api/http';
-import { templateData } from '../static/default-template-data'; // eslint-disable-line
 
 const DESK_TOP = 'DeskTop'; // 表示pc端;
 
 export default class TemplateData {
   @observable section; // 保存所有数据
-
-  @observable loading; // loading展示
 
   @observable dragDropDataObj; // 拖拽操作数据对象
 
@@ -19,7 +15,6 @@ export default class TemplateData {
 
   constructor() {
     this.section = null;
-    this.loading = false;
     this.componentItems = {};
     this.isNewUser = false;
     this.themeId = null; // 保存 id
@@ -33,53 +28,58 @@ export default class TemplateData {
   }
 
   // 请求模板默认数据
-  @action getData(id) {
-    get('/business/store_themes/customize', {
-      themeId: id,
-    })
-      .then((resp) => {
-        this.loading = true;
-        this.themeId = id;
-        this.type = resp.type;
-        // 此 id 无效
-        if (resp.error) {
-          console.log(resp.error)
-          window.location.href = resp.error || 'https://influmonster.com/';
-          return;
-        }
-        // ok
-        if (resp.draftData && resp.draftData !== '') {
-          // 当前id 已有数据
-          const obj = JSON.parse(resp.draftData);
-          this.section = obj;
-          this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
-        } else {
-          // 当前id 是新用户
-          this.isNewUser = true;
-          this.section = templateData;
-          this.dragDropDataObj.sortArr = templateData.sectionsOrder.slice();
-        }
-      })
-      .catch((err) => {
-        this.loading = true;
-        window.location.href = err.error || 'https://influmonster.com/';
-      });
-  }
+  // @action getData(id) {
+  //   get('/business/store_themes/customize', {
+  //     themeId: id,
+  //   })
+  //     .then((resp) => {
+  //       this.themeId = id;
+  //       this.type = resp.type;
+  //       // 此 id 无效
+  //       if (resp.error) {
+  //         console.log(resp.error)
+  //         window.location.href = resp.error || 'https://influmonster.com/';
+  //         return;
+  //       }
+  //       // ok
+  //       if (resp.draftData && resp.draftData !== '') {
+  //         // 当前id 已有数据
+  //         const obj = JSON.parse(resp.draftData);
+  //         this.section = obj;
+  //         this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
+  //       } else {
+  //         // 当前id 是新用户
+  //         this.isNewUser = true;
+  //         this.section = templateData;
+  //         this.dragDropDataObj.sortArr = templateData.sectionsOrder.slice();
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       window.location.href = err.error || 'https://influmonster.com/';
+  //     });
+  // }
 
   // 本地数据
   // @action getData(id) {
   //   get('/api/theme/index')
   //     .then((resp) => {
-  //       this.loading = true;
   //       this.section = resp;
   //       this.themeId = id;
   //       this.dragDropDataObj.sortArr = resp.sectionsOrder.slice();
   //     })
   //     .catch((err) => {
-  //       this.loading = true;
   //       console.log(err, '错误...')
   //     });
   // }
+
+  // 传递默认数据
+  @action setDefaultData(obj) {
+    this.themeId = obj.id;
+    this.type = obj.type;
+    this.section = obj.data;
+    this.isNewUser = obj.bool; // 是否是新用户
+    this.dragDropDataObj.sortArr = obj.data.sectionsOrder.slice();
+  }
 
   // 回退版本
   @action setRevert(obj) {
@@ -92,7 +92,7 @@ export default class TemplateData {
     this.section[name] = data;
     this.section.sectionsOrder.push(name);
     this.dragDropDataObj.sortArr = this.section.sectionsOrder.slice();
-    this.dragDropDataObj.eleHeight.length = 0;
+    // this.dragDropDataObj.eleHeight.length = 0;
   }
 
   // 点击隐藏 或 显示 ( 章节 )
@@ -106,7 +106,6 @@ export default class TemplateData {
     delete this.section[name];
     this.section.sectionsOrder.splice(index, 1);
     this.dragDropDataObj.sortArr = this.section.sectionsOrder.slice();
-    this.dragDropDataObj.eleHeight.length = 0;
   }
 
   // 修改章节名称

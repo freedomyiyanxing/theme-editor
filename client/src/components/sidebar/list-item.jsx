@@ -2,14 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import { Modal } from 'antd';
+import { Draggable } from 'react-beautiful-dnd';
 import {
   inject,
   observer,
 } from 'mobx-react';
 
+import ListView from '../../base/list/list.jsx';
 import { TemplateData } from '../../store/index';
 import { chapterType, iconName } from '../../common/js/util';
 import { deleteUploadImg } from '../../api/http';
+import { promptMsg } from '../../common/js/prompt-message';
 
 import classes from '../../common/less/list-item.less';
 
@@ -24,7 +27,6 @@ import classes from '../../common/less/list-item.less';
     super();
     this.state = {
       visible: false,
-      arr: null,
       img: null,
       name: '',
       index: null,
@@ -43,31 +45,19 @@ import classes from '../../common/less/list-item.less';
     const { templateData, isRefresh } = this.props;
     isRefresh();
     const { modules, modulesOrder } = templateData.section[name].config;
-    const arr = []; // 保存着 已有图片 的名称
     const img = []; // 保存着 图片路径 方便删除
     for (let i = 0; i < modulesOrder.length; i += 1) {
       const { config } = modules[i][modulesOrder[i]];
       if (config.imgPath) {
-        arr.push(config.title);
         img.push(config.imgPath);
       }
     }
     // 判断时候 当前数据下面 是否有图片
-    if (arr.length && img.length) {
-      this.toggle(arr, img, name, index)
+    if (img.length) {
+      this.toggle(img, name, index)
     } else {
       templateData.deleteChapters(name, index);
     }
-  };
-
-  // 区块 修改功能 点击事件
-  handleEdit = (value, index) => {
-    // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
-    if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
-    const { handleEdit, templateData } = this.props;
-    // 回到滚动位置
-    templateData.utilScroll(templateData.utilScrollVal(index))
-    handleEdit(value);
   };
 
   // 确定删除
@@ -80,7 +70,7 @@ import classes from '../../common/less/list-item.less';
           templateData.deleteChapters(name, index)
         }
       }).catch((err) => {
-        console.log(err)
+        console.error(err)
       });
     this.toggle();
   };
@@ -91,11 +81,10 @@ import classes from '../../common/less/list-item.less';
   };
 
   // 控制弹出框
-  toggle = (arr, img, name, index) => {
+  toggle = (img, name, index) => {
     const { visible } = this.state;
     this.setState({
       visible: !visible,
-      arr,
       img,
       name,
       index,
@@ -103,54 +92,71 @@ import classes from '../../common/less/list-item.less';
   };
 
   render() {
-    const { value, index, templateData } = this.props;
+    const { templateData, handleEdit } = this.props;
     const { section } = templateData;
-    const { visible, arr } = this.state;
+    const { visible } = this.state;
     return [
-      <div key={uuid()} className={classes.container}>
-        <div
-          className={classes.left}
-          tabIndex={index}
-          role="button"
-          onClick={() => { this.handleEdit(value, index) }}
-        >
-          <span className={`${classes.icon} icon-${iconName(value)}`} />
-          <span className={classes.text}>{section[value].config.title}</span>
-        </div>
-        <div className={classes.right}>
-          <span
-            tabIndex={0}
-            role="button"
-            onClick={() => { this.handleIsHidden(value, index) }}
-            className={section[value].isHidden ? 'icon-block' : 'icon-hidden'}
-          />
-          {
-            chapterType(value)
-              ? (
-                <span
-                  className="icon-edit"
-                  tabIndex={index}
-                  role="button"
-                  onClick={() => { this.handleEdit(value, index) }}
-                />
+      section.sectionsOrder.map((value, index) => {
+        const { config, isHidden } = section[value]
+        return (
+          <Draggable key={value} draggableId={value} index={index}>
+            {
+              provided => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  <ListView styles={{ borderTop: 0 }}>
+                    <div
+                      className={classes.left}
+                      tabIndex={index}
+                      role="button"
+                      onClick={() => { handleEdit(value, index) }}
+                    >
+                      <span className={`${classes.icon} icon-${iconName(value)}`} />
+                      <span className={classes.text}>{config.title}</span>
+                    </div>
+                    <div className={classes.right}>
+                      <span
+                        tabIndex={0}
+                        role="button"
+                        onClick={() => { this.handleIsHidden(value, index) }}
+                        className={isHidden ? 'icon-block' : 'icon-hidden'}
+                      />
+                      {
+                        chapterType(value)
+                          ? (
+                            <span
+                              className="icon-edit"
+                              tabIndex={index}
+                              role="button"
+                              onClick={() => { handleEdit(value, index) }}
+                            />
+                          )
+                          : null
+                      }
+                      {
+                        chapterType(value)
+                          ? (
+                            <span
+                              className="icon-delete"
+                              tabIndex={0}
+                              role="button"
+                              onClick={() => { this.handleDelete(value, index) }}
+                            />
+                          )
+                          : null
+                      }
+                      <span className="icon-drag" />
+                    </div>
+                  </ListView>
+                </div>
               )
-              : null
-          }
-          {
-            chapterType(value)
-              ? (
-                <span
-                  className="icon-delete"
-                  tabIndex={0}
-                  role="button"
-                  onClick={() => { this.handleDelete(value, index) }}
-                />
-              )
-              : null
-          }
-          <span className="icon-drag" />
-        </div>
-      </div>,
+            }
+          </Draggable>
+        )
+      }),
       <Modal
         key={uuid()}
         title="Basic Modal"
@@ -158,17 +164,15 @@ import classes from '../../common/less/list-item.less';
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
-        <div>你确定要删除 “{arr && arr.join(', ')}” 吗？ 如果确定删除了 则不能返回了</div>
+        <div>{promptMsg._delete}</div>
       </Modal>,
     ]
   }
 }
 
 ListItem.wrappedComponent.propTypes = {
-  index: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired,
-  handleEdit: PropTypes.func.isRequired,
   isRefresh: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

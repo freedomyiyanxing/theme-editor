@@ -34,7 +34,7 @@ class CategoryList extends React.Component {
           {
             arr.map(v => (
               <div key={v} className={`${classes.item} ${isMobile ? classes.phoneItem : ''}`}>
-                <h2 className={classes.itemTitle}>name</h2>
+                <h2 className={classes.itemTitle}>Category Name</h2>
                 <span
                   className={`icon-default-logo ${classes.itemImg} ${isMobile ? classes.phoneImg : ''}`}
                 />

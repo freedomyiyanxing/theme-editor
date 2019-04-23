@@ -47,52 +47,70 @@ const createSuccessData = (config) => {
   return arr;
 };
 
+// 判断是否添加class
+const _cls = (index, bool, len, i) => {
+  return index && !bool && len - 1 !== i ? `picture-items-children-${index}` : '';
+}
 /**
  * 生成 一个 span 套多个子元素的 html
  * @param obj
  * @param type
  * @param isMobile
+ * @param index  当前style的标识
  */
-const publicCreateHtml = (obj, type, isMobile) => (
-  obj.length
-    ? (
-      <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-        {
-          obj.map(v => (
-            <span className={classes.item} key={uuid()} style={_bg(v.imgPath)}>
-              {
-                v.imgPath
-                  ? <span style={{ height: 50 }} />
-                  : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
-              }
-              <span>{v.title}</span>
-            </span>
-          ))
-        }
-      </span>
-    )
-    : null
-);
+const publicCreateHtml = (obj, type, isMobile, index) => {
+  // 判断数组中的每一项是否都有图片
+  const isArrImg = obj.every(v => v.imgPath);
+  // 只有是style2 || style4 才会进此判断
+  const cls24 = (index === 2 && !isArrImg) ? `picture-list-${index}` : '';
+  return (
+    obj.length
+      ? (
+        <span className={`${classes[type]} ${cls24} ${isMobile ? classes.phoneWrapper : ''}`}>
+          {
+            obj.map((v, i) => {
+              const arg = (index === 1 || index === 5) ? v.imgPath : isArrImg
+              return (
+                <span className={`${classes.item} ${_cls(index, arg, obj.length, i)}`} key={uuid()} style={_bg(v.imgPath)}>
+                  {
+                    v.imgPath
+                      ? <span style={{ height: 50 }} />
+                      : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
+                  }
+                  <span>{v.title}</span>
+                </span>
+              )
+            })
+          }
+        </span>
+      )
+      : null
+  );
+}
 
 /**
  * 生成 一个span 套 一个子元素的 html
  * @param obj 数据
  * @param isMobile
+ * @param index 当前是那个style
  */
-const single = (obj, isMobile) => (
-  <span key={uuid()} className={classes.item} style={_bg(obj.imgPath)}>
-    {
-      obj !== ''
-        ? [
-          obj.imgPath
+const single = (obj, isMobile, index) => {
+  const cls = index && !obj.imgPath ? `picture-items-${index}` : '';
+  return (
+    <span key={uuid()} className={`${classes.item} ${cls}`} style={_bg(obj.imgPath)}>
+      {
+        obj !== ''
+          ? obj.imgPath
             ? <span key={uuid()} />
-            : <span key={uuid()} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
-          <span key={uuid()}>{obj.title}</span>,
-        ]
-        : null
-    }
-  </span>
-);
+            : [
+              <span key={uuid()} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
+              <span key={uuid()}>{obj.title}</span>,
+            ]
+          : null
+      }
+    </span>
+  )
+};
 
 // 生成img-2 数据结构
 const _img2 = (config, resp = {}) => {
@@ -232,9 +250,9 @@ const _img5 = (config, resp = {}) => {
  */
 const htmlImg2 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {single(obj.config.max, isMobile)}
-    {publicCreateHtml(obj.config.center, 'style2', isMobile)}
-    {publicCreateHtml(obj.config.min, 'style2', isMobile)}
+    {single(obj.config.max, isMobile, 2)}
+    {publicCreateHtml(obj.config.center, 'style2', isMobile, 2)}
+    {publicCreateHtml(obj.config.min, 'style2', isMobile, 2)}
   </span>
 );
 
@@ -246,9 +264,9 @@ const htmlImg2 = (obj, type, isMobile) => (
  */
 const htmlImg3 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {publicCreateHtml(obj.config.left, 'style3', isMobile)}
-    {single(obj.config.center, isMobile)}
-    {publicCreateHtml(obj.config.right, 'style3', isMobile)}
+    {publicCreateHtml(obj.config.left, 'style3', isMobile, 3)}
+    {single(obj.config.center, isMobile, 3)}
+    {publicCreateHtml(obj.config.right, 'style3', isMobile, 3)}
   </span>
 );
 
@@ -260,8 +278,8 @@ const htmlImg3 = (obj, type, isMobile) => (
  */
 const htmlImg4 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {publicCreateHtml(obj.config.max, 'style2', isMobile)}
-    {publicCreateHtml(obj.config.center, 'style2', isMobile)}
+    {publicCreateHtml(obj.config.max, 'style2', isMobile, 2)}
+    {publicCreateHtml(obj.config.center, 'style2', isMobile, 2)}
     {single(obj.config.min, isMobile)}
   </span>
 );
@@ -274,8 +292,8 @@ const htmlImg4 = (obj, type, isMobile) => (
  */
 const htmlImg5 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {single(obj.config.max, isMobile)}
-    {publicCreateHtml(obj.config.min, 'style5', isMobile)}
+    {single(obj.config.max, isMobile, 5)}
+    {publicCreateHtml(obj.config.min, 'style5', isMobile, 5)}
   </span>
 );
 
@@ -305,7 +323,7 @@ const htmlImg5 = (obj, type, isMobile) => (
         >
           {
             type === 'images_1' && modulesOrder.length
-              ? publicCreateHtml(createSuccessData(config), type, isMobile)
+              ? publicCreateHtml(createSuccessData(config), type, isMobile, 1)
               : type === 'images_2' && modulesOrder.length
                 ? htmlImg2(_img2(config), type, isMobile)
                 : type === 'images_3' && modulesOrder.length

@@ -1,12 +1,15 @@
 body {
   --color-text : #fff;
   --color-text-lg: #333;
+  --color-text-B4BCC8: #B4BCC8;
+  --color-text-b2bac6: #b2bac6;
   --font-size-xs: 14px;
   --font-size-sm: 16px;
   --font-size-md: 18px;
   --color-background-lg: #f5f5f5;
   --color-background-md: #333;
   --color-background-style: #E4E4E4;
+  --color-background-364150: #364150;
   --color-border-xs: #f1f1f1;
 }
 /*.footer-button {*/
@@ -27,25 +30,56 @@ body {
   /*justify-content: center;*/
 /*}*/
 
-.button-black{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-background-md);
-  color: var(--color-text);
-  font-weight: bold;
-  font-size: var(--font-size-md);
-  cursor: pointer;
+/*.button-black{*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  /*background: var(--color-background-md);*/
+  /*color: var(--color-text);*/
+  /*font-weight: bold;*/
+  /*font-size: var(--font-size-md);*/
+  /*cursor: pointer;*/
+/*}*/
+
+/* -- 区分开 每个单个的picture边距 -- */
+.picture-items-2{
+  margin-right: 6px;
+}
+.picture-items-3{
+  margin: 0 6px;
+}
+.picture-items-4{
+  margin-left: 6px;
+}
+.picture-items-5{
+  margin-bottom: 6px;
+}
+.picture-list-2{
+  margin-right: 6px;
+}
+.picture-list-2:last-child{
+  margin-right: 0;
+}
+.picture-items-children-1,
+.picture-items-children-5{
+  margin-right: 6px;
 }
 
-.icon-hidden,
+.picture-items-children-2,
+.picture-items-children-3,
+.picture-items-children-4{
+  margin-bottom: 6px;
+}
+/* -- 区分开 每个单个的picture边距 -- */
+
+.icon-hidden{font-size: 13px}
+/*.icon-block{font-size: 13px}*/
 .icon-displayPicture{
   font-size: 13px;
 }
 .con-categoryList,
-.icon-block,
 .icon-video,
 .icon-tagList{
   font-size: 15px;
@@ -101,9 +135,32 @@ body {
   height: 38px;
   border-radius: 0;
   font-size: var(--font-size-sm);
-  color: var(--color-text-lg);
+  color: var(--color-text-B4BCC8);
+  background: var(--color-background-364150);
+  border: 0;
+  outline: 0;
 }
-
+.ant-input-group-addon{
+  border: 0;
+  border-radius: 0;
+  background: var(--color-background-364150);
+  padding-top: 2px;
+  color: var(--color-text-B4BCC8);
+  font-size: var(--font-size-sm);
+}
+.ant-input:focus, .ant-input:hover{
+  border: 0;
+  border-right-width: 0;
+}
+.ant-input:focus{
+  box-shadow: none;
+}
+.ant-calendar-picker-clear{
+  background: var(--color-background-364150);
+}
+.ant-calendar-picker-icon{
+  color: var(--color-text-b2bac6);
+}
 .ant-calendar-time .ant-calendar-footer{
   padding: 4px 0 0;
   border-top: none;
@@ -131,9 +188,10 @@ body {
 
 .ant-collapse-borderless{
   border-radius: 0;
-  border-bottom: 2px solid var(--color-border-xs);
-  border-top: 2px solid var(--color-border-xs);
+  /*border-bottom: 2px solid var(--color-border-xs);*/
+  /*border-top: 2px solid var(--color-border-xs);*/
   font-size: var(--font-size-sm);
+  background: var(--color-background-364150);
 }
 
 .ant-collapse-borderless .ant-collapse-item{

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Input } from 'antd';
 import classes from './input.less'
 
-const MAX_VALUE_LENGTH = 20;
+const MAX_VALUE_LENGTH = 14;
 
 export default class NameInput extends React.Component {
   constructor(props) {

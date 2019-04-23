@@ -57,7 +57,7 @@ class ProductList extends React.Component {
                       {
                         arr.map(v => (
                           <div key={v} className={classes.item}>
-                            <span>name</span>
+                            <span>Category Name</span>
                             <span className={classes.box} />
                           </div>
                         ))

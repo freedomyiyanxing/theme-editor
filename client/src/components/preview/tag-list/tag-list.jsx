@@ -29,7 +29,7 @@ class TagList extends React.Component {
         className={`${classes.container} ${isMobile ? classes.phone : ''}`}
       >
         <div className={classes.header}>
-          <h2>MORE OPTIONS</h2>
+          <h2>Tag Name</h2>
         </div>
         <div className={classes.wrapper}>
           {
@@ -37,7 +37,7 @@ class TagList extends React.Component {
               <div key={v} className={classes.items}>
                 <div className={`icon-default-logo ${classes.icon}`} />
                 <div className={classes.info}>
-                  <span>Name</span>
+                  <span>Product Name</span>
                   <span>$ 0.00</span>
                 </div>
               </div>

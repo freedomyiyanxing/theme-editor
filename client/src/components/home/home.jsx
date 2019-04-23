@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid';
 import {
   inject,
-  observer,
 } from 'mobx-react';
 
+import { Route } from 'react-router-dom';
 import { TemplateData } from '../../store/index';
-import LeftOperation from '../left-container/left-container.jsx';
+import Index from '../../router/router.jsx';
+import BottomBtn from '../operation-btn/index.jsx';
 import Preview from '../preview/content.jsx';
 import PreviewHeader from '../preview-header/preview-header.jsx';
 
+import { get } from '../../api/http';
+import { getUrlId } from '../../common/js/util';
+import { template } from '../../common/js/default-template-data';
 import classes from './home.less';
 
 @inject((stores) => {
@@ -19,42 +22,82 @@ import classes from './home.less';
   }
 })
 
-@observer export default class Home extends React.Component {
+export default class Home extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      data: null,
+    }
+  }
+
   componentDidMount() {
     const { templateData } = this.props;
-    // 获取id
-    const storeId = window.location.search.split('=')[1];
-    templateData.getData(storeId);
+    // 获取浏览地址栏中的ID
+    window.__get__url__id = getUrlId();
+    this._isMounted = true;
+    get('/business/store_themes/customize', {
+      themeId: window.__get__url__id,
+    })
+      .then((resp) => {
+        // id 错误的情况
+        if (resp.error) {
+          window.location.href = resp.error || 'https://influmonster.com/';
+          return;
+        }
+        // 动态的修改页面标签标题
+        const title = document.getElementById('title');
+        title.innerHTML = resp.name;
+        //
+        const obj = {
+          id: window.__get__url__id,
+          type: resp.type,
+        };
+        // 判断当前用户是否是新用户
+        if (resp.draftData && resp.draftData !== '') {
+          obj.bool = false;
+          obj.data = JSON.parse(resp.draftData);
+        } else {
+          obj.bool = true;
+          obj.data = template;
+        }
+        // 数据传递给mobx
+        templateData.setDefaultData(obj)
+        if (this._isMounted) {
+          this.setState({
+            data: obj.data,
+          })
+        }
+        // 删除骨架屏
+        const loadingEle = document.getElementById('loading_loading');
+        const { body } = document;
+        body.removeChild(loadingEle);
+      })
+      .catch((err) => {
+        window.location.href = err.error || 'https://influmonster.com/';
+      });
+  }
 
-    // 删除骨架屏
-    const loadingEle = document.getElementById('loading_loading');
-    const { body } = document;
-    body.removeChild(loadingEle)
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
-    const { templateData } = this.props;
-    const { loading, dragDropDataObj } = templateData;
-    /**
-     * 加上sortArr判断是因为拖动排序需要这个数据,
-     * 如果不加 则拿不到这个数据,因为mobx不会观察
-     */
+    const { data } = this.state;
     return (
-      <div className={`clearfix ${classes.container}`}>
-        {
-          loading && dragDropDataObj.sortArr
-            ? [
-              <div key={uuid()} className={classes.lWrapper}>
-                <LeftOperation />
-              </div>,
-              <div key={uuid()} className={classes.rWrapper}>
-                <PreviewHeader />
-                <Preview />
-              </div>,
-            ]
-            : null
-        }
-      </div>
+      data
+        ? (
+          <div className={classes.container}>
+            <div className={classes.lWrapper}>
+              <Index />
+              <Route path="/" component={BottomBtn} />
+            </div>
+            <div className={classes.rWrapper}>
+              <PreviewHeader />
+              <Preview />
+            </div>
+          </div>
+        )
+        : null
     )
   }
 }

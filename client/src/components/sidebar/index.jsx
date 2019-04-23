@@ -1,34 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
-import {
-  inject,
-} from 'mobx-react';
-import { TemplateData } from '../../store/index';
+import Section from '../../base/slidebar-section/section.jsx';
 import ListView from '../../base/list/list.jsx';
 import DragList from './drag-list.jsx';
 import SidebarHeader from '../../base/sidebar-header/sidebar-header.jsx';
-
-import { tabText } from '../../static/default-template-data';
-
+import { tabText } from '../../common/js/default-template-data';
 import classes from './sidebar-list.less';
 
-@inject((stores) => {
-  return {
-    templateData: stores.templateData,
-  }
-})
+const styles = {
+  marginBottom: 20,
+  cursor: 'pointer',
+  borderTop: 0,
+}
 
 class ListBar extends React.Component {
+  state = {
+    currentIndex: 0,
+  }
+
   // handleClick = (i) => {
   //   this.lineClamp.style.transform = `translate3d(${i === 0 ? 0 : 175}px, 0px, 0px)`
   // };
 
-  // 添加板块功能
-  handleAddSection = () => {
-    const { handleAdd } = this.props;
-    handleAdd();
-  };
+  // 进入添加板块页面
+  handleAdd = () => {
+    const { history } = this.props;
+    window.sessionStorage.setItem('module', 'module');
+    history.push({ pathname: `/addModule/${window.__get__url__id}` })
+  }
 
   // 做了操作时 启动禁止刷新 跟 删除
   isRefresh() {
@@ -38,8 +38,8 @@ class ListBar extends React.Component {
   }
 
   render() {
-    const { templateData, handleEdit } = this.props;
-    const { section } = templateData;
+    const { history } = this.props;
+    const { currentIndex } = this.state;
     return [
       <SidebarHeader key={uuid()} isReturn>
         {tabText.map((v, i) => (
@@ -47,7 +47,7 @@ class ListBar extends React.Component {
             tabIndex={i}
             role="button"
             key={v}
-            className={classes.link}
+            className={`${classes.link} ${currentIndex === i ? classes.active : ''}`}
             // onClick={() => { this.handleClick(i) }}
           >
             {v}
@@ -55,39 +55,29 @@ class ListBar extends React.Component {
         ))}
         <span className={classes.lineClamp} ref={n => this.lineClamp = n} />
       </SidebarHeader>,
-      <section key={uuid()} className={classes.container}>
-        <div className={classes.content}>
-          <div>
-            <ListView>
-              <span className={`icon-header ${classes.icon}`} />
-              <span className={classes.text}>Header</span>
-            </ListView>
-          </div>
-          <div className={classes.wrapper}>
-            <DragList handleEdit={handleEdit} isRefresh={this.isRefresh} />
-          </div>
-          <div className={classes.addHandle}>
-            <ListView click={this.handleAddSection}>
-              <span className={`icon-add ${classes.icon}`} />
-              <span className={classes.text}>Add Section</span>
-            </ListView>
-          </div>
-          <div className={classes.footer}>
-            <ListView>
-              <span className={`icon-footer ${classes.icon}`} />
-              <span className={classes.text}>Footer</span>
-            </ListView>
-          </div>
+      <Section key={uuid()}>
+        <ListView>
+          <span className={`icon-header ${classes.icon}`} />
+          <span className={classes.text}>Header</span>
+        </ListView>
+        <div className={classes.wrapper}>
+          <DragList isRefresh={this.isRefresh} history={history} />
         </div>
-      </section>,
+        <ListView click={this.handleAdd} styles={styles}>
+          <span className={`icon-add ${classes.icon}`} />
+          <span className={classes.text}>Add Section</span>
+        </ListView>
+        <ListView>
+          <span className={`icon-footer ${classes.icon}`} />
+          <span className={classes.text}>Footer</span>
+        </ListView>
+      </Section>,
     ]
   }
 }
 
-ListBar.wrappedComponent.propTypes = {
-  handleEdit: PropTypes.func.isRequired,
-  handleAdd: PropTypes.func.isRequired,
-  templateData: PropTypes.instanceOf(TemplateData).isRequired,
+ListBar.propTypes = {
+  history: PropTypes.object.isRequired,
 };
 
 export default ListBar

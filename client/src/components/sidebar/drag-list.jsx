@@ -4,9 +4,8 @@ import {
   inject,
 } from 'mobx-react';
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
-import classes from './sidebar-list.less';
 import ListItem from './list-item.jsx';
 import { TemplateData } from '../../store/index';
 
@@ -51,9 +50,20 @@ class DragList extends React.Component {
     templateData.handleDropScroll(source.index, destination.index);
   };
 
+  // 区块 修改功能 点击事件
+  handleEdit = (value, index) => {
+    // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
+    if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
+    const { templateData, history } = this.props;
+    // 回到滚动位置
+    templateData.utilScroll(templateData.utilScrollVal(index));
+
+    window.sessionStorage.setItem('details', value);
+    history.push({ pathname: `/addDetails/${window.__get__url__id}` })
+  };
+
   render() {
-    const { templateData, handleEdit, isRefresh } = this.props;
-    const { section } = templateData;
+    const { isRefresh } = this.props;
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -67,29 +77,7 @@ class DragList extends React.Component {
                 {...provideds.droppableProps}
                 ref={provideds.innerRef}
               >
-                {
-                  section.sectionsOrder.map((item, index) => (
-                    <Draggable key={item} draggableId={item} index={index}>
-                      {
-                        provided => (
-                          <div
-                            className={classes.listItems}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <ListItem
-                              value={item}
-                              index={index}
-                              handleEdit={handleEdit}
-                              isRefresh={isRefresh}
-                            />
-                          </div>
-                        )
-                      }
-                    </Draggable>
-                  ))
-                }
+                <ListItem isRefresh={isRefresh} handleEdit={this.handleEdit} />
                 {provideds.placeholder}
               </div>
             )
@@ -101,7 +89,7 @@ class DragList extends React.Component {
 }
 
 DragList.wrappedComponent.propTypes = {
-  handleEdit: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   isRefresh: PropTypes.func.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };

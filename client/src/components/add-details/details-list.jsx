@@ -11,6 +11,7 @@ import ListView from '../../base/list/list.jsx';
 import { TemplateData } from '../../store/index';
 import { isTypeOf, getNumber } from '../../common/js/util';
 import { deleteUploadImg } from '../../api/http';
+import { promptImgFormat, promptMsg } from '../../common/js/prompt-message'
 
 import classes from '../../common/less/list-item.less';
 
@@ -22,18 +23,7 @@ const LimitNumber = {
   images_4: 5, // picture 中的 style-4 最少五个
   images_5: 2, // picture 中的 style-5 最少四个
   slideshow: 1, // scroll-banner 最少一个
-}
-
-// 返回提示文字
-const PromptText = (name, type) => {
-  let text;
-  if (type === 'img') {
-    text = `你确定要删除 “${name}” 吗? 它里面可有图片哟, 如果确定删除了 则不能返回了`
-  } else {
-    text = `${name} 样式至少得有 " ${LimitNumber[name]} " 张图片来摆设`
-  }
-  return text;
-}
+};
 
 @inject((stores) => {
   return {
@@ -47,7 +37,6 @@ const PromptText = (name, type) => {
     this.state = {
       visible: false,
       index: null,
-      val: '',
     }
   }
 
@@ -56,15 +45,9 @@ const PromptText = (name, type) => {
     notification[type]({
       message: title,
       description: val,
-      duration: 3,
+      duration: 5,
       placement: 'topLeft',
     });
-  };
-
-  // 进入添加图片页面
-  handleEdit = (val, index) => {
-    const { click, name } = this.props;
-    click(index, val, name);
   };
 
   // 删除
@@ -75,7 +58,7 @@ const PromptText = (name, type) => {
     if (modulesOrder.length > LimitNumber[type]) {
       // 判断 如果有 图片 则 弹出提示框;
       if (modules[index][modulesOrder[index]].config.imgPath) {
-        this.toggle(modules[index][modulesOrder[index]].config.title, index, 'img');
+        this.toggle(index);
       } else {
         refresh();
         // 把删除的掉编号保存在store 中
@@ -84,7 +67,7 @@ const PromptText = (name, type) => {
         templateData.deleteComponent(name, index);
       }
     } else {
-      this.openNotificationWithIcon('error', 'Error', PromptText(type, 'ele'))
+      this.openNotificationWithIcon('error', 'Error', promptImgFormat(LimitNumber[type]))
     }
   };
 
@@ -110,7 +93,7 @@ const PromptText = (name, type) => {
           templateData.deleteComponent(name, index);
         }
       }).catch((err) => {
-        console.log(err)
+        console.error(err)
       });
     this.toggle();
   };
@@ -122,62 +105,59 @@ const PromptText = (name, type) => {
 
   /**
    * 控制弹出框
-   * @param name  当前名称
    * @param index 索引
-   * @param type 类型
    */
-  toggle = (name, index, type) => {
+  toggle = (index) => {
     const { visible } = this.state;
-    const val = PromptText(name, type)
     this.setState({
-      val,
       index,
       visible: !visible,
     })
   };
 
   render() {
-    const { name, templateData } = this.props;
-    const { visible, val } = this.state;
+    const { name, templateData, handleEdit } = this.props;
+    const { visible } = this.state;
     const { section } = templateData;
     const { config } = section[name];
     const { modules, modulesOrder } = config;
     const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
     return [
-      modulesOrder.map((v, i) => (
-        <Draggable key={v} draggableId={v} index={i}>
-          {
-            provided => (
-              <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <ListView key={uuid()} isFlex index={v}>
-                  <div className={classes.container}>
+      modulesOrder.map((v, i) => {
+        const { isShow, title } = modules[i][v].config;
+        return (
+          <Draggable key={v} draggableId={v} index={i}>
+            {
+              provided => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  <ListView key={uuid()} index={v} styles={{ borderTop: 0 }}>
                     <div
+                      className={classes.left}
                       tabIndex={i}
                       role="button"
-                      onClick={() => { this.handleEdit(v, i) }}
-                      className={classes.left}
+                      onClick={() => { handleEdit(v, i) }}
                     >
                       <span className={`${classes.icon} icon-${icon}`} />
                       <span className={classes.text}>
-                        {modules[i][v].config.title}
+                        {title}
                       </span>
                     </div>
                     <div className={classes.right}>
                       <span
                         tabIndex={i}
                         role="button"
-                        className={modules[i][v].config.isShow ? 'icon-hidden' : 'icon-block'}
+                        className={isShow ? 'icon-hidden' : 'icon-block'}
                         onClick={() => { this.handleIsHidden(v, i) }}
                       />
                       <span
                         className="icon-edit"
                         tabIndex={i}
                         role="button"
-                        onClick={() => { this.handleEdit(v, i) }}
+                        onClick={() => { handleEdit(v, i) }}
                       />
                       <span
                         className="icon-delete"
@@ -187,13 +167,13 @@ const PromptText = (name, type) => {
                       />
                       <span className="icon-drag" />
                     </div>
-                  </div>
-                </ListView>
-              </div>
-            )
-          }
-        </Draggable>
-      )),
+                  </ListView>
+                </div>
+              )
+            }
+          </Draggable>
+        )
+      }),
       <Modal
         key={uuid()}
         title="Basic Modal"
@@ -201,7 +181,7 @@ const PromptText = (name, type) => {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
-        <div>{val}</div>
+        <div>{promptMsg._delete}</div>
       </Modal>,
     ]
   }
@@ -209,7 +189,7 @@ const PromptText = (name, type) => {
 
 DetailsListItem.wrappedComponent.propTypes = {
   name: PropTypes.string.isRequired,
-  click: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };

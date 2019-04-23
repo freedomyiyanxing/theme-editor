@@ -1,36 +1,16 @@
 @import "variable.less";
 @import "mixin.less";
 
-.listItems{
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  background: @color-background;
-  color: @color-text-lg;
-  font-size: @font-size-sm;
-  border-top: 2px solid @color-border-xs;
-  //&:last-child{
-  //  border-bottom: 2px solid @color-border-xs;
-  //}
-}
-
-.container{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-content: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
 .left{
+  height: 100%;
   width: 0;
   flex: 1;
   display: flex;
   align-items: center;
 }
+
 .right{
+  height: 100%;
   flex: 0 0 112px;
   display: flex;
   justify-content: space-between;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import { viewHeaderData } from '../../static/default-template-data';
+import { viewHeaderData } from '../../common/js/default-template-data';
 import { TemplateData } from '../../store/index';
 import { get } from '../../api/http';
 import PublishContainer from './publish.jsx';
@@ -41,7 +41,7 @@ class ListBtn extends React.Component {
         isWho = 'revert'
         break;
       default:
-        // this.preview();
+        this.preview();
     }
     this.setState({
       isWho,
@@ -61,7 +61,7 @@ class ListBtn extends React.Component {
           window.open(resp.url || 'https://influmonster.com/', '_blank')
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           window.open(err.error || 'https://influmonster.com/', '_blank')
         });
     }
@@ -74,7 +74,7 @@ class ListBtn extends React.Component {
   }
 
   render() {
-    const { templateData } = this.props;
+    const { templateData, history } = this.props;
     const { isWho } = this.state;
     const { themeId } = templateData;
     return (
@@ -97,7 +97,13 @@ class ListBtn extends React.Component {
           isWho === 'publish'
             ? <PublishContainer themeId={themeId} cancel={this.cancelModal} />
             : isWho === 'revert'
-              ? <RevertContainer template={templateData} cancel={this.cancelModal} />
+              ? (
+                <RevertContainer
+                  history={history}
+                  template={templateData}
+                  cancel={this.cancelModal}
+                />
+              )
               : null
         }
       </div>
@@ -106,8 +112,9 @@ class ListBtn extends React.Component {
 }
 
 ListBtn.wrappedComponent.propTypes = {
-  templateData: PropTypes.instanceOf(TemplateData).isRequired,
+  history: PropTypes.object.isRequired,
   tooltipToggle: PropTypes.func.isRequired,
+  templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 
 export default ListBtn

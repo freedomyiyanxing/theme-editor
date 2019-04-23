@@ -1,18 +1,24 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
   inject,
-  observer,
 } from 'mobx-react';
 
-import { TemplateData } from '../../store/index';
+import Section from '../../base/slidebar-section/section.jsx';
 import SidebarHeader from '../../base/sidebar-header/sidebar-header.jsx';
 import NameInput from '../../base/input/name-input.jsx';
 import ListView from '../../base/list/list.jsx';
 import DragList from './drag-list.jsx';
 import { isTypeOf } from '../../common/js/util';
+import { TemplateData } from '../../store/index';
 
 import classes from './add-details.less';
+
+const styles = {
+  marginTop: 20,
+  cursor: 'pointer',
+}
 
 @inject((stores) => {
   return {
@@ -20,40 +26,40 @@ import classes from './add-details.less';
   }
 })
 
-@observer export default class AddDetails extends React.Component {
+export default class AddDetails extends React.Component {
   // 添加
   handleAddSection = () => {
     this.isRefresh();
-    const { templateData, name } = this.props;
+    const { templateData } = this.props;
     const { section, componentItems } = templateData;
-    const { modulesOrder } = section[name].config;
+    const { modulesOrder } = section[this.name].config;
     const len = modulesOrder.length;
     /*
     * 如果有 componentItems[name]这个数组 且 数组它不等于空
     * 则说明已经操作过删除,  否则根据下标累加数据
     */
-    if (componentItems[name] && componentItems[name].length) {
-      const comArr = componentItems[name];
+    if (componentItems[this.name] && componentItems[this.name].length) {
+      const comArr = componentItems[this.name];
       const index = comArr[comArr.length - 1];
       const _name = `modules${index}`;
-      templateData.addComponentItems(name, _name, this.addSection(name, _name, index));
+      templateData.addComponentItems(this.name, _name, this.addSection(_name, index));
       comArr.length -= 1;
     } else {
       const _name = `modules${len}`;
-      templateData.addComponentItems(name, _name, this.addSection(name, _name, len));
+      templateData.addComponentItems(this.name, _name, this.addSection(_name, len));
     }
   };
 
   // 修改名称
   handleSetName = (value) => {
     this.isRefresh();
-    const { templateData, name } = this.props;
-    templateData.setChaptersName(name, value)
+    const { templateData} = this.props;
+    templateData.setChaptersName(this.name, value)
   };
 
   // 添加 section
-  addSection(name, _name, index) {
-    const text = name.includes('scrollBanner') ? 'Banner - ' : 'Picture - ';
+  addSection(_name, index) {
+    const text = this.name.includes('scrollBanner') ? 'Banner - ' : 'Picture - ';
     return {
       [_name]: {
         config: {
@@ -75,15 +81,20 @@ import classes from './add-details.less';
     }
   }
 
+  getSessionName() {
+    if (window.sessionStorage) {
+      return window.sessionStorage.getItem('details')
+    }
+  }
+
   render() {
-    const {
-      templateData, backClick, name, click,
-    } = this.props;
+    const { templateData, history } = this.props;
     const { section } = templateData;
-    const { config } = section[name];
+    this.name = this.getSessionName();
+    const { config } = section[this.name];
     let text1;
     let text2;
-    if (isTypeOf(name)) {
+    if (isTypeOf(this.name)) {
       text1 = 'Scroll banner';
       text2 = 'Banner';
     } else {
@@ -91,32 +102,24 @@ import classes from './add-details.less';
       text2 = 'Picture';
     }
     return [
-      <SidebarHeader key="add-details-top" click={() => { backClick('home') }}>
+      <SidebarHeader key="add-details-top" history={history}>
         {text1}
       </SidebarHeader>,
-      <section key="add-details-bottom" className={classes.container}>
-        <div className={classes.content}>
-          <div className={classes.title}>
-            <NameInput click={this.handleSetName} defaultVal={config.title} />
-          </div>
-          <div ref={n => this.wrapper = n}>
-            <DragList name={name} click={click} refresh={this.isRefresh} />
-          </div>
-          <div className={classes.handle}>
-            <ListView click={this.handleAddSection}>
-              <span className={`icon-add ${classes.icon}`} />
-              <span className={classes.text}>Add {text2}</span>
-            </ListView>
-          </div>
+      <Section key="add-details-bottom">
+        <div className={classes.title}>
+          <NameInput click={this.handleSetName} defaultVal={config.title} />
         </div>
-      </section>,
+        <DragList history={history} name={this.name} refresh={this.isRefresh} />
+        <ListView click={this.handleAddSection} styles={styles}>
+          <span className={`icon-add ${classes.icon}`} />
+          <span className={classes.text}>Add {text2}</span>
+        </ListView>
+      </Section>,
     ]
   }
 }
 
 AddDetails.wrappedComponent.propTypes = {
-  name: PropTypes.string.isRequired,
-  click: PropTypes.func.isRequired,
-  backClick: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };

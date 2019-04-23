@@ -31,9 +31,7 @@ export const iconName = (data) => {
 };
 
 // 判断类型
-export const isTypeOf = (str) => {
-  return str.includes('scrollBanner') || str.includes('slideshow')
-};
+export const isTypeOf = str => str.includes('scrollBanner') || str.includes('slideshow');
 
 // 字符串中获取数字
 export const getNumber = str => parseFloat(str.replace(/[^0-9]/ig, ''));
@@ -48,3 +46,8 @@ export const _bg = (v) => {
 };
 
 export const IMAGE_MAX_LENGTH = 5; // 最多展示5张
+
+// 获取路径上的ID 192.168.1.22:8080/index/****
+export const getUrlId = () => {
+  return window.location.pathname.replace(/^\/([^]+)?\//, '');
+}

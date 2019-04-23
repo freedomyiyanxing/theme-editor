@@ -4,8 +4,13 @@ import PropTypes from 'prop-types';
 import classes from './sidebar-header.less';
 
 export default class SidebarHeader extends React.Component {
+  handleClick = () => {
+    const { history } = this.props;
+    history.goBack();
+  }
+
   render() {
-    const { children, isReturn, click } = this.props;
+    const { children, isReturn } = this.props;
     return (
       <header className={classes.container}>
         <div className={classes.wrapper}>
@@ -18,7 +23,7 @@ export default class SidebarHeader extends React.Component {
                   tabIndex={0}
                   role="button"
                   className={classes.sidebar}
-                  onClick={click}
+                  onClick={this.handleClick}
                 >
                   <span className={`icon-drop-down ${classes.iconDropDown}`} />
                 </span>,
@@ -32,12 +37,12 @@ export default class SidebarHeader extends React.Component {
 }
 
 SidebarHeader.propTypes = {
-  children: PropTypes.node.isRequired,
-  click: PropTypes.func,
+  history: PropTypes.object,
   isReturn: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
 SidebarHeader.defaultProps = {
+  history: null,
   isReturn: false,
-  click: null,
 };

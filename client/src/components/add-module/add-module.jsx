@@ -6,12 +6,31 @@ import {
   inject,
 } from 'mobx-react';
 
-import { TemplateData } from '../../store/index';
+import Section from '../../base/slidebar-section/section.jsx';
 import SidebarHeader from '../../base/sidebar-header/sidebar-header.jsx';
 import ListView from '../../base/list/list.jsx';
-import { displayPicture, slideImagesData } from '../../static/default-template-data.js';
+import { TemplateData } from '../../store/index';
+import { displayPicture, slideImagesData } from '../../common/js/default-template-data.js';
 
 import classes from './add-module.less';
+
+const Btn = (props) => {
+  const { click } = props;
+  return (
+    <span
+      role="button"
+      tabIndex={0}
+      className={classes.btn}
+      onClick={click}
+    >
+      Add
+    </span>
+  )
+}
+Btn.propTypes = {
+  click: PropTypes.func.isRequired,
+}
+
 
 @inject((stores) => {
   return {
@@ -48,7 +67,7 @@ export default class AddModule extends React.Component {
   // 给stare 添加一个章节默认对象
   addObj(name, index) {
     this.isRefresh();
-    const { templateData, click } = this.props;
+    const { templateData, history } = this.props;
     let obj;
     if (index) {
       obj = {
@@ -64,7 +83,7 @@ export default class AddModule extends React.Component {
       };
     }
     templateData.saveTemplateData(obj, name); // 添加数据
-    click(name) // 跳转页面
+    history.goBack();
   }
 
   // 做了操作时 启动禁止刷新 跟 删除
@@ -75,31 +94,20 @@ export default class AddModule extends React.Component {
   }
 
   render() {
-    const { backClick } = this.props;
+    const { history } = this.props;
     const { Panel } = Collapse;
     return [
-      <SidebarHeader key={uuid()} click={() => { backClick('home') }}>
-        Add / section
+      <SidebarHeader key={uuid()} history={history}>
+        Add Section
       </SidebarHeader>,
-      <section key={uuid()} className={classes.container}>
-        <div className={classes.scroll}>
-          <ListView>
-            <div className={classes.left}>
-              <span className={`icon-scrollBanner ${classes.icon}`} />
-              <span className={classes.text}>Scroll banner</span>
-            </div>
-            <div className={classes.right}>
-              <span
-                role="button"
-                tabIndex={0}
-                className="button-black"
-                onClick={this.handleAddScrollBanner}
-              >
-                Add
-              </span>
-            </div>
-          </ListView>
-        </div>
+      <Section key={uuid()}>
+        <ListView>
+          <div className={classes.left}>
+            <span className={`icon-scrollBanner ${classes.icon}`} />
+            <span className={classes.text}>Scroll banner</span>
+          </div>
+          <Btn click={this.handleAddScrollBanner} />
+        </ListView>
         <Collapse
           onChange={this.callback}
           bordered={false}
@@ -129,27 +137,19 @@ export default class AddModule extends React.Component {
                       </div>
                       <span>Style {i + 1}</span>
                     </span>
-                    <span
-                      role="button"
-                      tabIndex={i}
-                      className={classes.displayR}
-                      onClick={() => { this.handleAddPicture(i) }}
-                    >
-                      <span className="button-black">Add</span>
-                    </span>
+                    <Btn click={() => { this.handleAddPicture(i) }} />
                   </li>
                 ))
               }
             </ul>
           </Panel>
         </Collapse>
-      </section>,
+      </Section>,
     ]
   }
 }
 
 AddModule.wrappedComponent.propTypes = {
-  click: PropTypes.func.isRequired,
-  backClick: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };

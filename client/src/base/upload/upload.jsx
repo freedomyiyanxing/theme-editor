@@ -56,7 +56,7 @@ const IMGUrl = process.env.IMG_BASE || '';
           loading: 'end',
         })
       }).catch((err) => {
-        console.log(err);
+        console.error(err);
         this.setState({
           loading: 'end',
         })
@@ -74,7 +74,7 @@ const IMGUrl = process.env.IMG_BASE || '';
           templateData.deleteUploadImg(obj);
         }
       }).catch((err) => {
-        console.log(err)
+        console.error(err)
       })
   };
 
@@ -86,38 +86,36 @@ const IMGUrl = process.env.IMG_BASE || '';
   }
 
   render() {
-    const { obj, templateData } = this.props;
+    const { obj, isTypeOf, templateData } = this.props;
     const { config } = templateData.section[obj.name].config.modules[obj.index][obj.val];
     const { loading } = this.state;
+    const icon = isTypeOf ? 'icon-scrollBanner-single' : 'icon-displayPicture-single'
     return (
       <div className="clearfix">
         <p className={classes.title}>image :</p>
         <div className={classes.box}>
           {
-            config.imgPath
-              ? [
-                <span key="img-1" className={classes.wrapper}>
-                  <span><img src={IMGUrl + config.imgPath} alt="avart" /></span>
-                </span>,
-                <span
-                  key="img-2"
-                  tabIndex={0}
-                  role="button"
-                  onClick={this.handleDelete}
-                  className={`icon-delete ${classes.icon}`}
-                />,
-              ]
-              : null
-          }
-          {
             loading === 'loading'
               ? <div className={classes.loading}><Spin number={200} /></div>
-              : null
+              : config.imgPath
+                ? [
+                  <span key="img-1" className={classes.wrapper}>
+                    <span><img src={IMGUrl + config.imgPath} alt="avart" /></span>
+                  </span>,
+                  <span
+                    key="img-2"
+                    tabIndex={0}
+                    role="button"
+                    onClick={this.handleDelete}
+                    className={`icon-delete ${classes.icon}`}
+                  />,
+                ]
+                : <span className={`${icon} ${classes.iconText}`} />
           }
         </div>
         <div className={classes.btnWrapper}>
           <div className={classes.left}>
-            <span className="icon-files" />
+            <span className={`icon-files ${classes.iconFiles}`} />
             <span className={classes.text}>1 File selected</span>
           </div>
           {
@@ -139,6 +137,7 @@ const IMGUrl = process.env.IMG_BASE || '';
 
 UploadIndex.wrappedComponent.propTypes = {
   obj: PropTypes.object.isRequired,
+  isTypeOf: PropTypes.bool.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

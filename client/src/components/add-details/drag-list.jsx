@@ -35,8 +35,15 @@ class DragList extends React.Component {
     )
   };
 
+  // 进入添加图片页面
+  handleEdit = (val, index) => {
+    const { history, name } = this.props;
+    window.sessionStorage.setItem('images', JSON.stringify({ name, val, index }));
+    history.push({ pathname: `/addImages/${window.__get__url__id}` })
+  }
+
   render() {
-    const { name, click, refresh } = this.props;
+    const { name, refresh } = this.props;
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -50,7 +57,7 @@ class DragList extends React.Component {
               >
                 <DetailsListItem
                   name={name}
-                  click={click}
+                  handleEdit={this.handleEdit}
                   refresh={refresh}
                 />
                 {provideds.placeholder}
@@ -65,8 +72,8 @@ class DragList extends React.Component {
 
 DragList.wrappedComponent.propTypes = {
   name: PropTypes.string.isRequired,
-  click: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

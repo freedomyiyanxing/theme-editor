@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import { post, get, CancelToken } from '../../api/http';
+import { promptRecover } from '../../common/js/prompt-message';
 
 import classes from './revert.less';
 
@@ -40,9 +41,8 @@ class RevertContainer extends React.Component {
             })
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.revert_1_source = null;
-          console.log(err);
         });
     }, 500)
   }
@@ -70,9 +70,9 @@ class RevertContainer extends React.Component {
     cancel()
   }
 
-  // // 提交publish版本信息
+  // 提交publish版本信息
   handlePublishSave = () => {
-    const { template, cancel } = this.props;
+    const { template, cancel, history } = this.props;
     const { themeId } = template
     const { data, value } = this.state;
     this._isMounted = true;
@@ -92,8 +92,9 @@ class RevertContainer extends React.Component {
               })
             }
             cancel()
+            history.push({ pathname: `/index/${themeId}` })
             template.setRevert(JSON.parse(data[value].configData))
-            this.openNotificationWithIcon('success', 'Success', `成功返回到${data[value].verNO} 版本`);
+            this.openNotificationWithIcon('success', 'Success', promptRecover(data[value].verNO));
           }
         })
         .catch((err) => {
@@ -102,9 +103,8 @@ class RevertContainer extends React.Component {
               confirmLoading: false,
             })
           }
-          console.log(err)
           cancel()
-          this.openNotificationWithIcon('error', 'Error', '返回版本失败...')
+          this.openNotificationWithIcon('error', 'Error', err.toString())
         })
     }, 500)
   }
@@ -192,6 +192,7 @@ class RevertContainer extends React.Component {
 
 RevertContainer.propTypes = {
   template: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   cancel: PropTypes.func.isRequired,
 };
 

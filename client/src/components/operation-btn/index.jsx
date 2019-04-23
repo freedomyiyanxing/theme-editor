@@ -6,6 +6,7 @@ import {
 import { inject } from 'mobx-react';
 import { TemplateData } from '../../store/index';
 import { post } from '../../api/http';
+import { promptMsg } from '../../common/js/prompt-message';
 import ListBtn from './list-btn.jsx';
 
 import classes from './index.less'
@@ -27,7 +28,7 @@ class BottomBtn extends React.Component {
       this.setState({
         tooltipVisible: false,
       });
-      this.openNotificationWithIcon('warning', 'Warning', '没有做如何操作时 不予保存');
+      this.openNotificationWithIcon('warning', 'Warning', promptMsg._noEdit);
       return;
     }
     const { templateData } = this.props;
@@ -45,9 +46,9 @@ class BottomBtn extends React.Component {
           this.setState({
             loading: false,
           });
-          console.log('保存... 完成, 移除监听,', resp);
           templateData.isNewUser = false;
-          this.openNotificationWithIcon('success', 'Success', '保存 成功 解绑 \'删除,刷新\' 了');
+          console.info(resp.data.message)
+          this.openNotificationWithIcon('success', 'Success', promptMsg._save);
           // 保存完成移除监听刷新删除的事件
           window.__clearRefreshClick__();
           window.__IS__START__REFRESH__ = true;
@@ -65,7 +66,7 @@ class BottomBtn extends React.Component {
     notification[type]({
       message: title,
       description: val,
-      duration: 3,
+      duration: 5,
       placement: 'topLeft',
     });
   };
@@ -78,25 +79,27 @@ class BottomBtn extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
     const { loading, tooltipVisible } = this.state;
     return (
       <div className={classes.container}>
         <Dropdown
           overlay={(
             <div className={classes.content}>
-              <ListBtn tooltipToggle={this.tooltipToggle} />
+              <ListBtn tooltipToggle={this.tooltipToggle} history={history} />
             </div>
           )}
           trigger={['click']}
         >
           <span className={classes.item}>
-            Click me
+            <span>Click me</span>
+            <span className={classes.triangle} />
           </span>
         </Dropdown>
         <Tooltip
           visible={tooltipVisible}
           placement="top"
-          title="请点击保存"
+          title="please click save"
           trigger="contextMenu"
         >
           <span
@@ -126,6 +129,7 @@ class BottomBtn extends React.Component {
 }
 
 BottomBtn.wrappedComponent.propTypes = {
+  history: PropTypes.object.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

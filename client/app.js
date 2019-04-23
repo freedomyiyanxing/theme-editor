@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './src/App.jsx';
 
@@ -11,7 +12,9 @@ const root = document.getElementById('root');
 
 ReactDOM.render(
   <Provider templateData={Store.templateData}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   root,
 );

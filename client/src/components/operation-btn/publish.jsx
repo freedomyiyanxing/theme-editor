@@ -5,10 +5,17 @@ import {
 } from 'antd';
 import moment from 'moment';
 import { post, get, CancelToken } from '../../api/http';
+import { promptMsg } from '../../common/js/prompt-message'
 
 import classes from './publish.less';
 
 const MSGTEXT = 'Are you sure you want to publish this theme？This will replace yourcurrent live theme.';
+
+const styles = {
+  backgroundColor: '#fff',
+  border: '1px solid #d9d9d9',
+  color: 'rgba(0,0,0,.25)',
+}
 
 class PublishContainer extends React.Component {
   constructor() {
@@ -41,9 +48,8 @@ class PublishContainer extends React.Component {
             this.publish_1_source = null;
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.publish_1_source = null;
-          console.log(err);
         });
     }, 500)
   }
@@ -57,7 +63,7 @@ class PublishContainer extends React.Component {
     notification[type]({
       message: title,
       description: val,
-      duration: 3,
+      duration: 5,
       placement: 'topLeft',
     });
   };
@@ -92,12 +98,13 @@ class PublishContainer extends React.Component {
       })
         .then(() => {
           cancel()
-          this.openNotificationWithIcon('success', 'Success', '发布版本成功 可回到上个窗口查看');
+          this.openNotificationWithIcon('success', 'Success', promptMsg._releaseSuccess);
+          // 调用打开当前页面的父页面的方法
           // window.opener.__refresh__page__()
         })
-        .catch(() => {
+        .catch((err) => {
           cancel()
-          this.openNotificationWithIcon('error', 'Error', '发布版本失败...')
+          this.openNotificationWithIcon('error', 'Error', err.toString())
         })
     }, 500)
   }
@@ -134,7 +141,7 @@ class PublishContainer extends React.Component {
                 </div>
                 <div className={classes.formContainer}>
                   <span className={classes.formText}>Remarks:</span>
-                  <Input onChange={this.publishChange} value={val} />
+                  <Input style={styles} onChange={this.publishChange} value={val} />
                 </div>
               </div>
             )
