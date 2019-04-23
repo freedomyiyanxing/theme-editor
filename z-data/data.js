@@ -8,7 +8,7 @@ module.exports = {
         {
           modules0: {
             config: {
-              title: 'Picture – 1',
+              title: 'Picture – 1222',
               url: 'www.baidu.com',
               isShow: true,
               effDate: null,
