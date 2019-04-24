@@ -52,7 +52,7 @@ import classes from './preview-content.less';
 
   render() {
     const { templateData } = this.props;
-    const { section, dragDropDataObj } = templateData;
+    const { section, dragDropDataObj, sortArr } = templateData;
     // 必须是以 pc 端打开的
     const dropCls = dragDropDataObj.controllerVal === 'start' ? classes.isStart : '';
     const terminalCls = templateData.type === 'Phone' ? classes.phone : '';
@@ -65,7 +65,7 @@ import classes from './preview-content.less';
           <Header />
           <div>
             {
-              dragDropDataObj.sortArr.map(v => (
+              sortArr.map(v => (
                 this.viewComponent(v)
               ))
             }

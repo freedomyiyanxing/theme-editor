@@ -10,7 +10,6 @@ import Index from '../../router/router.jsx';
 import BottomBtn from '../operation-btn/index.jsx';
 import Preview from '../preview/content.jsx';
 import PreviewHeader from '../preview-header/preview-header.jsx';
-
 import { get } from '../../api/http';
 import { getUrlId } from '../../common/js/util';
 import { template } from '../../common/js/default-template-data';
@@ -60,6 +59,7 @@ export default class Home extends React.Component {
           obj.bool = true;
           obj.data = template;
         }
+        window.sessionStorage.setItem('section', JSON.stringify(obj.data))
         // 数据传递给mobx
         templateData.setDefaultData(obj)
         if (this._isMounted) {

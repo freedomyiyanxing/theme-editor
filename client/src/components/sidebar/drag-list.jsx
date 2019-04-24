@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -20,6 +21,7 @@ class DragList extends React.Component {
     const { templateData } = this.props;
     const { source } = result;
     this.index = source.index;
+    // console.log(this.getIndex(this.index));
     templateData.handleDropStart(this.index)
   };
 
@@ -29,6 +31,8 @@ class DragList extends React.Component {
     if (destination == null) {
       return;
     }
+    console.log(this.getIndex(destination.index), '我是过滤了的数字', destination.index);
+    // const __index = this.getIndex(destination.index)
     templateData.handleDropUpScroll(this.index, destination.index, destination.index);
     this.index = destination.index;
   };
@@ -50,14 +54,29 @@ class DragList extends React.Component {
     templateData.handleDropScroll(source.index, destination.index);
   };
 
-  // 区块 修改功能 点击事件
+  getIndex(index) {
+    const { templateData } = this.props;
+    const { section } = templateData;
+    console.log(index, 'index- 2')
+    const arr1 = Array.from({ length: index });
+    for (let i = 0; i < arr1.length; i += 1) {
+      const name = section.sectionsOrder[i];
+      console.log(section[name].isHidden)
+      if (section[name].isHidden) {
+        index -= 1;
+      }
+    }
+    console.log(index, 'index-')
+    return index;
+  }
+
+  // 点击进入详情事件(add-details)
   handleEdit = (value, index) => {
     // 只有 picture 和 banner 才允许 修改, 其他暂时屏蔽掉
     if (!(value.startsWith('displayPicture') || value.startsWith('scrollBanner'))) return;
     const { templateData, history } = this.props;
     // 回到滚动位置
     templateData.utilScroll(templateData.utilScrollVal(index));
-
     window.sessionStorage.setItem('details', value);
     history.push({ pathname: `/addDetails/${window.__get__url__id}` })
   };

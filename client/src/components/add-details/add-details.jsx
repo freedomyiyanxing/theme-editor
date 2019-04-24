@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -27,7 +26,11 @@ const styles = {
 })
 
 export default class AddDetails extends React.Component {
-  // 添加
+  getSessionName() {
+    return window.sessionStorage && window.sessionStorage.getItem('details')
+  }
+
+  // 添加逻辑处理
   handleAddSection = () => {
     this.isRefresh();
     const { templateData } = this.props;
@@ -48,16 +51,17 @@ export default class AddDetails extends React.Component {
       const _name = `modules${len}`;
       templateData.addComponentItems(this.name, _name, this.addSection(_name, len));
     }
+    window.sessionStorage.setItem('section', JSON.stringify(section))
   };
 
   // 修改名称
   handleSetName = (value) => {
     this.isRefresh();
-    const { templateData} = this.props;
+    const { templateData } = this.props;
     templateData.setChaptersName(this.name, value)
   };
 
-  // 添加 section
+  // 返回添加的新数据格式
   addSection(_name, index) {
     const text = this.name.includes('scrollBanner') ? 'Banner - ' : 'Picture - ';
     return {
@@ -78,12 +82,6 @@ export default class AddDetails extends React.Component {
   isRefresh() {
     if (window.__IS__START__REFRESH__) {
       window.__stopRefresh__();
-    }
-  }
-
-  getSessionName() {
-    if (window.sessionStorage) {
-      return window.sessionStorage.getItem('details')
     }
   }
 

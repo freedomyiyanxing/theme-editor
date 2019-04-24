@@ -1,6 +1,8 @@
 import {
-  observable, action, toJS,
+  observable, action, toJS, configure,
 } from 'mobx';
+
+configure({ enforceActions: 'observed' });
 
 const DESK_TOP = 'DeskTop'; // 表示pc端;
 
@@ -9,12 +11,15 @@ export default class TemplateData {
 
   @observable dragDropDataObj; // 拖拽操作数据对象
 
+  @observable sortArr;
+
   componentItems; // 保存已经删除过的部件下标
 
   isNewUser; // 保存bool 是否是第一次装修店铺
 
   constructor() {
     this.section = null;
+    this.sortArr = null;
     this.componentItems = {};
     this.isNewUser = false;
     this.themeId = null; // 保存 id
@@ -22,55 +27,9 @@ export default class TemplateData {
       eleWrapper: null,
       controllerVal: null,
       eleHeight: [],
-      sortArr: null,
     };
     this.type = DESK_TOP; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
   }
-
-  // 请求模板默认数据
-  // @action getData(id) {
-  //   get('/business/store_themes/customize', {
-  //     themeId: id,
-  //   })
-  //     .then((resp) => {
-  //       this.themeId = id;
-  //       this.type = resp.type;
-  //       // 此 id 无效
-  //       if (resp.error) {
-  //         console.log(resp.error)
-  //         window.location.href = resp.error || 'https://influmonster.com/';
-  //         return;
-  //       }
-  //       // ok
-  //       if (resp.draftData && resp.draftData !== '') {
-  //         // 当前id 已有数据
-  //         const obj = JSON.parse(resp.draftData);
-  //         this.section = obj;
-  //         this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
-  //       } else {
-  //         // 当前id 是新用户
-  //         this.isNewUser = true;
-  //         this.section = templateData;
-  //         this.dragDropDataObj.sortArr = templateData.sectionsOrder.slice();
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       window.location.href = err.error || 'https://influmonster.com/';
-  //     });
-  // }
-
-  // 本地数据
-  // @action getData(id) {
-  //   get('/api/theme/index')
-  //     .then((resp) => {
-  //       this.section = resp;
-  //       this.themeId = id;
-  //       this.dragDropDataObj.sortArr = resp.sectionsOrder.slice();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err, '错误...')
-  //     });
-  // }
 
   // 传递默认数据
   @action setDefaultData(obj) {
@@ -78,20 +37,22 @@ export default class TemplateData {
     this.type = obj.type;
     this.section = obj.data;
     this.isNewUser = obj.bool; // 是否是新用户
-    this.dragDropDataObj.sortArr = obj.data.sectionsOrder.slice();
+    this.sortArr = obj.data.sectionsOrder.slice();
   }
 
   // 回退版本
   @action setRevert(obj) {
     this.section = obj;
-    this.dragDropDataObj.sortArr = obj.sectionsOrder.slice();
+    this.sortArr = obj.sectionsOrder.slice();
   }
 
   // 添加新的章节
   @action saveTemplateData(data, name) {
     this.section[name] = data;
     this.section.sectionsOrder.push(name);
-    this.dragDropDataObj.sortArr = this.section.sectionsOrder.slice();
+    this.sortArr = this.section.sectionsOrder.slice();
+    console.log(this.sortArr.join('000 '), '00000')
+    console.log(this.section.sectionsOrder.join('000 '), '00000')
     // this.dragDropDataObj.eleHeight.length = 0;
   }
 
@@ -105,7 +66,7 @@ export default class TemplateData {
   @action deleteChapters(name, index) {
     delete this.section[name];
     this.section.sectionsOrder.splice(index, 1);
-    this.dragDropDataObj.sortArr = this.section.sectionsOrder.slice();
+    this.sortArr = this.section.sectionsOrder.slice();
   }
 
   // 修改章节名称
@@ -121,8 +82,8 @@ export default class TemplateData {
 
   // 拖动中
   @action handleDropUpScroll(index, newIndex, num) {
-    const [mod] = this.dragDropDataObj.sortArr.splice(index, 1);
-    this.dragDropDataObj.sortArr.splice(newIndex, 0, mod);
+    const [mod] = this.sortArr.splice(index, 1);
+    this.sortArr.splice(newIndex, 0, mod);
     this.__index__ = num;
     this.utilScroll(this.utilScrollVal(this.__index__), false);
   }
@@ -142,7 +103,7 @@ export default class TemplateData {
   // 拖动越界时 处理
   @action handleDropErrOr(index) {
     this.handleDropClass('end');
-    this.dragDropDataObj.sortArr = this.section.sectionsOrder.slice();
+    this.sortArr = this.section.sectionsOrder.slice();
     this.utilScroll(this.utilScrollVal(index), true);
   }
 
@@ -228,16 +189,20 @@ export default class TemplateData {
   // 公共方法
   // 计算滚动值
   utilScrollVal(index) {
+    const { eleHeight } = this.dragDropDataObj
     let scrollVal = 0;
     // 如果index 等于 0 则不拖动
     if (!index) return scrollVal;
     // 如果index 小于等于 1 则表示滚动 0元素 的高度
     if (index <= 1) {
-      scrollVal = this.dragDropDataObj.eleHeight[0]; // eslint-disable-line
+      scrollVal = eleHeight[0]; // eslint-disable-line
     } else {
-      Array.from({ length: index }).forEach((v, i) => {
-        scrollVal += this.dragDropDataObj.eleHeight[i] + 30;
+      const _arr = index < eleHeight.length ? Array.from({ length: index - 1 }) : eleHeight;
+      // Array.from({ length: index }).forEach((v, i) => {
+      _arr.forEach((v, i) => {
+        scrollVal += eleHeight[i] + 30;
       })
+      console.log(_arr.join(' -- '), index, scrollVal)
     }
     return scrollVal;
   }

@@ -44,29 +44,31 @@ const filterData = (config) => {
   return arr;
 };
 
-const html = (obj, isMobile) => (
-  obj.length
-    ? (
-      obj.map(v => (
-        <div key={`__id${v.imgPath}`}>
-          <span
-            className={`${classes.items} ${isMobile ? classes.phoneItem : ''}`}
-            style={_bg(v.imgPath)}
-          >
-            {
-              v.imgPath
-                ? <span style={{ height: 50 }} />
-                : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
-            }
-            <span>
-              {v.title}
+const html = (obj, isMobile) => {
+  return (
+    obj.length
+      ? (
+        obj.map(v => (
+          <div key={`__id${v.imgPath}`}>
+            <span
+              className={`${classes.items} ${isMobile ? classes.phoneItem : ''}`}
+              style={_bg(v.imgPath)}
+            >
+              {
+                v.imgPath
+                  ? <span style={{ height: 50 }} />
+                  : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
+              }
+              <span>
+                {v.title}
+              </span>
             </span>
-          </span>
-        </div>
-      ))
-    )
-    : null
-);
+          </div>
+        ))
+      )
+      : null
+  )
+}
 
 @inject((stores) => {
   return {

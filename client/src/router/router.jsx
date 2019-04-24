@@ -9,8 +9,17 @@ import AddDetails from '../components/add-details/add-details.jsx';
 import AddImages from '../components/add-img/add-img.jsx';
 
 const getSessionId = (name) => {
+  const type = window.sessionStorage.getItem(name);
   if (window.sessionStorage) {
-    return window.sessionStorage.getItem(name);
+    const s = JSON.parse(window.sessionStorage.getItem('section'));
+    if (name === 'details') {
+      return s[type]
+    } else if (name === 'images') { // eslint-disable-line
+      const imgType = JSON.parse(type);
+      return s[imgType.name] && s[imgType.name].config.modulesOrder[imgType.index];
+    } else {
+      return window.sessionStorage.getItem(name);
+    }
   }
   return false;
 }

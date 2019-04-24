@@ -68,6 +68,7 @@ export default class AddModule extends React.Component {
   addObj(name, index) {
     this.isRefresh();
     const { templateData, history } = this.props;
+    const { section, sortArr } = templateData;
     let obj;
     if (index) {
       obj = {
@@ -83,7 +84,16 @@ export default class AddModule extends React.Component {
       };
     }
     templateData.saveTemplateData(obj, name); // 添加数据
-    history.goBack();
+
+    // 进入详情页面
+    // console.log(sortArr.join(' -- '))
+    // console.log(section.sectionsOrder.join(' -- '))
+    window.sessionStorage.setItem('section', JSON.stringify(section))
+    window.sessionStorage.setItem('details', name);
+    console.log('写入 session ', name)
+    console.log(sortArr.length, section.sectionsOrder.length)
+    templateData.utilScroll(templateData.utilScrollVal(sortArr.length));
+    history.push({ pathname: `/addDetails/${window.__get__url__id}` })
   }
 
   // 做了操作时 启动禁止刷新 跟 删除

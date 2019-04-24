@@ -62,12 +62,21 @@ const config = {
         }]
       },
       {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            attrs: ['img:src', 'img:data-src', 'audio:src']
+          }
+        }
+      },
+      {
         test: /\.(ttf|eot|woff|woff2|svg)$/,
         loader: 'url-loader',
         options: {
           name: '[name].[ext]?[hash]',
         }
-      }
+      },
     ]
   },
   plugins: [

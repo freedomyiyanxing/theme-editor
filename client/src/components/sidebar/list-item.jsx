@@ -99,7 +99,7 @@ import classes from '../../common/less/list-item.less';
       section.sectionsOrder.map((value, index) => {
         const { config, isHidden } = section[value]
         return (
-          <Draggable key={value} draggableId={value} index={index}>
+          <Draggable key={value} isDragDisabled={isHidden} draggableId={value} index={index}>
             {
               provided => (
                 <div
