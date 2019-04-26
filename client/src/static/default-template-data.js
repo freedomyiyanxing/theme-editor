@@ -467,3 +467,6 @@ export const tabText = [
   'Sections',
   'Theme settings',
 ];
+
+// 保存右侧区块的高度, 及是否隐藏
+// export const rightBox = []

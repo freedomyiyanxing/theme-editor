@@ -68,7 +68,7 @@ export default class AddModule extends React.Component {
   addObj(name, index) {
     this.isRefresh();
     const { templateData, history } = this.props;
-    const { section, sortArr } = templateData;
+    const { section } = templateData;
     let obj;
     if (index) {
       obj = {
@@ -84,15 +84,15 @@ export default class AddModule extends React.Component {
       };
     }
     templateData.saveTemplateData(obj, name); // 添加数据
+    // console.log(templateData.dragDropDataObj.eleWrapper.clientHeight)
+    // templateData.dragDropDataObj.eleWrapper.scrollTo(0, 2000)
+    // const len = section.sectionsOrder.length - 1;
+    // templateData.utilScroll(templateData.utilScrollVal(len - 1, len), false);
 
     // 进入详情页面
-    // console.log(sortArr.join(' -- '))
-    // console.log(section.sectionsOrder.join(' -- '))
     window.sessionStorage.setItem('section', JSON.stringify(section))
     window.sessionStorage.setItem('details', name);
     console.log('写入 session ', name)
-    console.log(sortArr.length, section.sectionsOrder.length)
-    templateData.utilScroll(templateData.utilScrollVal(sortArr.length));
     history.push({ pathname: `/addDetails/${window.__get__url__id}` })
   }
 

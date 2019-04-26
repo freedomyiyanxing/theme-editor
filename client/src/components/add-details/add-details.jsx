@@ -15,7 +15,7 @@ import { TemplateData } from '../../store/index';
 import classes from './add-details.less';
 
 const styles = {
-  marginTop: 20,
+  borderTop: 0,
   cursor: 'pointer',
 }
 
@@ -109,8 +109,8 @@ export default class AddDetails extends React.Component {
         </div>
         <DragList history={history} name={this.name} refresh={this.isRefresh} />
         <ListView click={this.handleAddSection} styles={styles}>
-          <span className={`icon-add ${classes.icon}`} />
-          <span className={classes.text}>Add {text2}</span>
+          <span className={`icon-add ${classes.icon} ${classes.iconColor}`} />
+          <span className={`${classes.text} ${classes.bold}`}>Add {text2}</span>
         </ListView>
       </Section>,
     ]

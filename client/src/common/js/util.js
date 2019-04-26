@@ -51,3 +51,9 @@ export const IMAGE_MAX_LENGTH = 5; // 最多展示5张
 export const getUrlId = () => {
   return window.location.pathname.replace(/^\/([^]+)?\//, '');
 }
+
+// 数组位置交换
+// export const swapArray = (arr, index1, index2) => {
+//   arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+//   return arr;
+// }

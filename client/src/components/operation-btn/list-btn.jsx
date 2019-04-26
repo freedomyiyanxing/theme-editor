@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
@@ -88,7 +89,6 @@ class ListBtn extends React.Component {
               className={classes.btnItems}
               onClick={() => { this.handleClick(v.text) }}
             >
-              <span className={`${v.icon} ${classes.icon}`} />
               <span className={classes.text}>{v.text}</span>
             </span>
           ))

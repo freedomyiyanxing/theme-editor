@@ -1,14 +1,24 @@
 @import "../../common/less/variable.less";
 
 .btnItems{
-  height: 38px;
+  height: 48px;
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
   cursor: pointer;
   color: @color-text-lg;
+  padding-left: 59px;
+  border-bottom: 1px solid @color-border-343b44;
+  background: @color-background-364150;
   &:hover{
     background: @color-background-3E4B5B;
+  }
+  &:first-child{
+    border-radius: 10px 10px 0 0;
+  }
+  &:last-child{
+    border-bottom: 0;
+    border-radius: 0 0 10px 10px;
   }
 }
 
@@ -20,6 +30,8 @@
 }
 
 .text{
-  flex: 1;
-  font-size: @font-size-xs;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: @font-size-sm;
 }

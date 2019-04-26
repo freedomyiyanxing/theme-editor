@@ -23,6 +23,8 @@ export default class TemplateData {
     this.componentItems = {};
     this.isNewUser = false;
     this.themeId = null; // 保存 id
+    this.dragObj = []; // 保存右侧元素的高度, 及是否隐藏 及唯一的id
+    this.eleHeightLen = 0;
     this.dragDropDataObj = {
       eleWrapper: null,
       controllerVal: null,
@@ -33,11 +35,12 @@ export default class TemplateData {
 
   // 传递默认数据
   @action setDefaultData(obj) {
+    const { sectionsOrder } = obj.data;
     this.themeId = obj.id;
     this.type = obj.type;
     this.section = obj.data;
     this.isNewUser = obj.bool; // 是否是新用户
-    this.sortArr = obj.data.sectionsOrder.slice();
+    this.sortArr = sectionsOrder.slice();
   }
 
   // 回退版本
@@ -50,23 +53,18 @@ export default class TemplateData {
   @action saveTemplateData(data, name) {
     this.section[name] = data;
     this.section.sectionsOrder.push(name);
-    this.sortArr = this.section.sectionsOrder.slice();
-    console.log(this.sortArr.join('000 '), '00000')
-    console.log(this.section.sectionsOrder.join('000 '), '00000')
-    // this.dragDropDataObj.eleHeight.length = 0;
   }
 
   // 点击隐藏 或 显示 ( 章节 )
-  @action setIsHidden(name, index) {
+  @action setIsHidden(name) {
     this.section[name].isHidden = !this.section[name].isHidden;
-    this.dragDropDataObj.eleHeight.splice(index, 1);
   }
 
   // 删除章节
   @action deleteChapters(name, index) {
     delete this.section[name];
     this.section.sectionsOrder.splice(index, 1);
-    this.sortArr = this.section.sectionsOrder.slice();
+    this.dragDropDataObj.eleHeight.splice(index, 1)
   }
 
   // 修改章节名称
@@ -74,37 +72,26 @@ export default class TemplateData {
     this.section[name].config.title = val;
   }
 
-  // 拖动开始
-  @action handleDropStart(index) {
-    this.handleDropClass('start');
-    this.utilScroll(this.utilScrollVal(index), false);
+  // index => 拖住开始
+  @action handleDropStart(type) {
+    this.handleDropClass(type);
+    this.setHidden();
   }
 
-  // 拖动中
-  @action handleDropUpScroll(index, newIndex, num) {
-    const [mod] = this.sortArr.splice(index, 1);
-    this.sortArr.splice(newIndex, 0, mod);
-    this.__index__ = num;
-    this.utilScroll(this.utilScrollVal(this.__index__), false);
+  // index => 拖住中 (每次拖过一个元素时)
+  @action handleDropUpScroll(arr, index, startIndex, isTop) {
+    this.section.sectionsOrder = arr;
+    this.utilScroll(this.utilScrollVal(index, startIndex, isTop), false);
   }
 
-  // 拖动完成
-  @action handleDropScroll(index, newIndex) {
-    this.handleDropClass('end');
-    const [mod] = this.section.sectionsOrder.splice(index, 1);
-    this.section.sectionsOrder.splice(newIndex, 0, mod);
-    const __index = this.__index__ !== 'undefined' ? this.__index__ : index;
+  // index => 拖住完成 (鼠标已经放手时)
+  @action handleDropScroll(type, endIndex, startIndex, isTop) {
+    this.handleDropClass(type);
     this.utilScroll(
-      this.utilScrollVal(__index),
+      this.utilScrollVal(endIndex, startIndex, isTop),
       true,
     );
-  }
-
-  // 拖动越界时 处理
-  @action handleDropErrOr(index) {
-    this.handleDropClass('end');
-    this.sortArr = this.section.sectionsOrder.slice();
-    this.utilScroll(this.utilScrollVal(index), true);
+    this.dragObjSort(startIndex, endIndex)
   }
 
   // 拖动时 右侧展示区块的样式控制
@@ -186,25 +173,26 @@ export default class TemplateData {
     this.section[obj.name].config.modules[obj.index][obj.val].config[name] = date
   }
 
-  // 公共方法
   // 计算滚动值
-  utilScrollVal(index) {
-    const { eleHeight } = this.dragDropDataObj
+  utilScrollVal(index, startIndex, isTop) {
+    // console.log(index, startIndex, '---------------------', ...this.dragObj)
     let scrollVal = 0;
     // 如果index 等于 0 则不拖动
     if (!index) return scrollVal;
-    // 如果index 小于等于 1 则表示滚动 0元素 的高度
-    if (index <= 1) {
-      scrollVal = eleHeight[0]; // eslint-disable-line
-    } else {
-      const _arr = index < eleHeight.length ? Array.from({ length: index - 1 }) : eleHeight;
-      // Array.from({ length: index }).forEach((v, i) => {
-      _arr.forEach((v, i) => {
-        scrollVal += eleHeight[i] + 30;
-      })
-      console.log(_arr.join(' -- '), index, scrollVal)
-    }
-    return scrollVal;
+    // 下标要加 + 1 因为需要排除自身的高度
+    Array.from({ length: index + 1 }).forEach((v, i) => {
+      console.log(i, '---')
+      if (!this.dragObj[i].isHidden) {
+        scrollVal += this.dragObj[i].height
+      }
+    })
+    console.log(
+      scrollVal + 168 - this.dragObj[isTop ? index : startIndex].height,
+      '需要滚动的距离',
+      this.dragObj[startIndex].height,
+    )
+    // 加上头部的高度 // 还需要减去自身的高度 => 得到正确的滚动高度
+    return scrollVal + 168 - this.dragObj[isTop ? index : startIndex].height
   }
 
   // 滚动
@@ -216,6 +204,43 @@ export default class TemplateData {
     } else {
       this.dragDropDataObj.eleWrapper.scrollTo(0, number);
     }
+  }
+
+  // 把右侧元素高度 和 是否是隐藏 存入dragObj 对象中,
+  // 这样操作是保证在有隐藏元素的情况下而不会出现存入错误的情况,
+  // (如果有元素隐藏了 会导致dragDropDataObj.eleHeight 获取不到高度)
+  setHidden() {
+    const { sectionsOrder } = this.section;
+    const { eleHeight } = this.dragDropDataObj;
+    let _index = 0;
+    console.log(eleHeight.length, '我是第一次计算时的个数')
+    // 保证在没有如何添加或者删除操作时  只进一次
+    if (this.dragObj.length > 0 && this.eleHeightLen === eleHeight.length) {
+      return;
+    }
+    this.dragObj.length = 0;
+    for (let i = 0, len = sectionsOrder; i < len.length; i += 1) {
+      const { isHidden } = this.section[len[i]]
+      const obj = {
+        id: len[i],
+        isHidden,
+      };
+      if (!isHidden) {
+        obj.height = eleHeight[_index] + 30; // 加上30的上边距
+        _index += 1;
+      } else {
+        obj.height = 0;
+      }
+      this.dragObj.push(obj);
+    }
+    console.log(...this.dragObj, '进来了');
+    this.eleHeightLen = this.dragDropDataObj.eleHeight.length;
+  }
+
+  // 拖动完成时跟dragObj数组中的元素交换位置
+  dragObjSort(start, end) {
+    const mou = this.dragObj.splice(start, 1);
+    this.dragObj.splice(end, 0, ...mou);
   }
 
   toJson() {

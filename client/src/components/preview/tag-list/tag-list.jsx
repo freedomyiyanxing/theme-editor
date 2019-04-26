@@ -16,7 +16,7 @@ import classes from './tag-list.less';
 class TagList extends React.Component {
   componentDidMount() {
     const { templateData } = this.props;
-    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight);
   }
 
   render() {

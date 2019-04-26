@@ -25,7 +25,9 @@ import classes from './preview-content.less';
 @observer export default class PreviewContent extends React.Component {
   componentDidMount() {
     const { templateData } = this.props;
-    templateData.dragDropDataObj.eleWrapper = this.wrapper;
+    const { dragDropDataObj } = templateData;
+    dragDropDataObj.eleWrapper = this.wrapper;
+    templateData.setHidden(); // 加载完成后 计算高度
   }
 
   // 判断 是否展示 以及 排序
@@ -52,10 +54,11 @@ import classes from './preview-content.less';
 
   render() {
     const { templateData } = this.props;
-    const { section, dragDropDataObj, sortArr } = templateData;
+    const { section, dragDropDataObj } = templateData;
     // 必须是以 pc 端打开的
     const dropCls = dragDropDataObj.controllerVal === 'start' ? classes.isStart : '';
     const terminalCls = templateData.type === 'Phone' ? classes.phone : '';
+    console.log('更新...')
     return (
       <section className={classes.container}>
         <div
@@ -65,7 +68,7 @@ import classes from './preview-content.less';
           <Header />
           <div>
             {
-              sortArr.map(v => (
+              section.sectionsOrder.map(v => (
                 this.viewComponent(v)
               ))
             }

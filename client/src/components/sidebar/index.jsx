@@ -64,8 +64,8 @@ class ListBar extends React.Component {
           <DragList isRefresh={this.isRefresh} history={history} />
         </div>
         <ListView click={this.handleAdd} styles={styles}>
-          <span className={`icon-add ${classes.icon}`} />
-          <span className={classes.text}>Add Section</span>
+          <span className={`icon-add ${classes.icon} ${classes.iconColor}`} />
+          <span className={`${classes.text} ${classes.bold}`}>Add Section</span>
         </ListView>
         <ListView>
           <span className={`icon-footer ${classes.icon}`} />

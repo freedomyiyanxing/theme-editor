@@ -79,7 +79,7 @@ const html = (obj, isMobile) => {
 @observer class Banner extends React.Component {
   componentDidMount() {
     const { templateData } = this.props;
-    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight);
   }
 
   render() {

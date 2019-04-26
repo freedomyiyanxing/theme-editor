@@ -92,7 +92,7 @@ class BottomBtn extends React.Component {
           trigger={['click']}
         >
           <span className={classes.item}>
-            <span>Click me</span>
+            <span>Actions</span>
             <span className={classes.triangle} />
           </span>
         </Dropdown>

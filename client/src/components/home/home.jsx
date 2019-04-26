@@ -40,7 +40,8 @@ export default class Home extends React.Component {
       .then((resp) => {
         // id 错误的情况
         if (resp.error) {
-          window.location.href = resp.error || 'https://influmonster.com/';
+          console.log(resp.error.toString())
+          // window.location.href = resp.error || 'https://influmonster.com/';
           return;
         }
         // 动态的修改页面标签标题
@@ -61,6 +62,7 @@ export default class Home extends React.Component {
         }
         window.sessionStorage.setItem('section', JSON.stringify(obj.data))
         // 数据传递给mobx
+        console.log(obj, '222')
         templateData.setDefaultData(obj)
         if (this._isMounted) {
           this.setState({
@@ -73,7 +75,8 @@ export default class Home extends React.Component {
         body.removeChild(loadingEle);
       })
       .catch((err) => {
-        window.location.href = err.error || 'https://influmonster.com/';
+        console.log(err.toString())
+        // window.location.href = err.error || 'https://influmonster.com/';
       });
   }
 
