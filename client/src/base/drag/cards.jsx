@@ -45,7 +45,7 @@ export default DropTarget(
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return false;
       }
-      props.moveCard(dragIndex, hoverIndex, hoverBoundingRect.y);
+      props.myMove && props.myMove(dragIndex, hoverIndex, hoverBoundingRect.y);
       monitor.getItem().index = hoverIndex;
       return false;
     },
@@ -58,14 +58,14 @@ export default DropTarget(
     'card',
     {
       beginDrag: (props) => {
-        props.myBeginDrag(props.index);
+        props.myBeginDrag && props.myBeginDrag(props.index);
         return {
           id: props.id,
           index: props.index,
         };
       },
-      endDrag: (props) => {
-        props.myEndDrag(props.index);
+      endDrag: (props, monitor) => {
+        props.myEndDrag && props.myEndDrag(props.index, monitor.getItem().index);
       },
       canDrag: (props) => {
         return !props.isHidden;

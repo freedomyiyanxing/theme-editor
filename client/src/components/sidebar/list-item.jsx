@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import { Modal } from 'antd';
-// import { Draggable } from 'react-beautiful-dnd';
 import update from 'immutability-helper';
 import {
   inject,
@@ -43,7 +42,7 @@ import classes from '../../common/less/list-item.less';
   };
 
   // 拖动过程中 (每次拖过一个元素时触发)
-  moveCard = (dragIndex, hoverIndex) => {
+  myMove = (dragIndex, hoverIndex) => {
     const { templateData } = this.props;
     const { section } = templateData;
     const { sectionsOrder } = section;
@@ -60,7 +59,8 @@ import classes from '../../common/less/list-item.less';
 
   // 拖动结束 (鼠标放手时)
   myEndDrag = (index) => {
-    const { templateData } = this.props;
+    const { templateData, isRefresh } = this.props;
+    isRefresh();
     templateData.handleDropScroll(
       'end',
       index,
@@ -131,16 +131,6 @@ import classes from '../../common/less/list-item.less';
     const { templateData, handleEdit } = this.props;
     const { section } = templateData;
     const { visible } = this.state;
-    // console.log('拖动了出发了吗')
-    // const hiddenArr = [];
-    // let n = 0;
-    // for (let i = 0; i < section.sectionsOrder.length; i += 1) {
-    //   if (section[section.sectionsOrder[i]].isHidden) {
-    //     continue; // eslint-disable-line
-    //   }
-    //   hiddenArr.push(n++) // eslint-disable-line
-    // }
-    // console.log(hiddenArr)
     return [
       section.sectionsOrder.map((value, index) => {
         const { config, isHidden } = section[value]
@@ -150,7 +140,7 @@ import classes from '../../common/less/list-item.less';
             index={index}
             id={value}
             isHidden={isHidden}
-            moveCard={this.moveCard}
+            myMove={this.myMove}
             myBeginDrag={this.myBeginDrag}
             myEndDrag={this.myEndDrag}
           >

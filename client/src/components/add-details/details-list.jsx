@@ -6,7 +6,7 @@ import {
   observer,
 } from 'mobx-react';
 import { notification, Modal } from 'antd';
-import { Draggable } from 'react-beautiful-dnd'
+import Card from '../../base/drag/cards.jsx';
 import ListView from '../../base/list/list.jsx';
 import { TemplateData } from '../../store/index';
 import { isTypeOf, getNumber } from '../../common/js/util';
@@ -103,6 +103,17 @@ const LimitNumber = {
     this.toggle();
   };
 
+  // 拖拽中
+  myMove = (startIndex, endIndex) => {
+    const { templateData, name, refresh } = this.props;
+    refresh();
+    templateData.componentItemsSort(
+      name,
+      startIndex,
+      endIndex,
+    )
+  }
+
   /**
    * 控制弹出框
    * @param index 索引
@@ -122,56 +133,51 @@ const LimitNumber = {
     const { config } = section[name];
     const { modules, modulesOrder } = config;
     const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
+
     return [
-      modulesOrder.map((v, i) => {
-        const { isShow, title } = modules[i][v].config;
+      modulesOrder.map((value, index) => {
+        const { isShow, title } = modules[index][value].config;
         return (
-          <Draggable key={v} draggableId={v} index={i}>
-            {
-              provided => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  <ListView key={uuid()} index={v} styles={{ borderTop: 0 }}>
-                    <div
-                      className={classes.left}
-                      tabIndex={i}
-                      role="button"
-                      onClick={() => { handleEdit(v, i) }}
-                    >
-                      <span className={`${classes.icon} icon-${icon}`} />
-                      <span className={classes.text}>
-                        {title}
-                      </span>
-                    </div>
-                    <div className={classes.right}>
-                      <span
-                        tabIndex={i}
-                        role="button"
-                        className={isShow ? 'icon-hidden' : 'icon-block'}
-                        onClick={() => { this.handleIsHidden(v, i) }}
-                      />
-                      <span
-                        className="icon-edit"
-                        tabIndex={i}
-                        role="button"
-                        onClick={() => { handleEdit(v, i) }}
-                      />
-                      <span
-                        className="icon-delete"
-                        tabIndex={i}
-                        role="button"
-                        onClick={() => { this.handleDelete(i) }}
-                      />
-                      <span className="icon-drag" />
-                    </div>
-                  </ListView>
-                </div>
-              )
-            }
-          </Draggable>
+          <Card
+            key={value}
+            index={index}
+            id={value}
+            isHidden={!isShow}
+            myMove={this.myMove}
+          >
+            <ListView key={uuid()} index={value} styles={{ borderTop: 0 }}>
+              <div
+                className={classes.left}
+                tabIndex={index}
+                role="button"
+                onClick={() => { handleEdit(value, index) }}
+              >
+                <span className={`${classes.icon} icon-${icon}`} />
+                <span className={classes.text}>{title}</span>
+              </div>
+              <div className={classes.right}>
+                <span
+                  tabIndex={index}
+                  role="button"
+                  className={isShow ? 'icon-hidden' : 'icon-block'}
+                  onClick={() => { this.handleIsHidden(value, index) }}
+                />
+                <span
+                  className="icon-edit"
+                  tabIndex={index}
+                  role="button"
+                  onClick={() => { handleEdit(value, index) }}
+                />
+                <span
+                  className="icon-delete"
+                  tabIndex={index}
+                  role="button"
+                  onClick={() => { this.handleDelete(index) }}
+                />
+                <span className="icon-drag" />
+              </div>
+            </ListView>
+          </Card>
         )
       }),
       <Modal
