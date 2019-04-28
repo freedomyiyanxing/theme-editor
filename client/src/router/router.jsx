@@ -18,7 +18,7 @@ const getSessionId = (name) => {
       return s[type]
     } else if (name === 'images') { // eslint-disable-line
       const imgType = JSON.parse(type);
-      return s[imgType.name] && s[imgType.name].config.modulesOrder[imgType.index];
+      return imgType && s[imgType.name] && s[imgType.name].config.modulesOrder[imgType.index];
     } else {
       return window.sessionStorage.getItem(name);
     }
