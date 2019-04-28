@@ -27,7 +27,7 @@ class ListBar extends React.Component {
   handleAdd = () => {
     const { history } = this.props;
     window.sessionStorage.setItem('module', 'module');
-    history.push({ pathname: `/addModule/${window.__get__url__id}` })
+    history.push({ pathname: `${window.__get__url__base__}/addModule/${window.__get__url__id}` })
   }
 
   // 做了操作时 启动禁止刷新 跟 删除

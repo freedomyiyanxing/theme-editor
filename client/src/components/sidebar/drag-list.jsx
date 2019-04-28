@@ -25,7 +25,7 @@ class DragList extends React.Component {
     templateData.utilScroll(templateData.utilScrollVal(index, index));
     console.log('进入详情')
     window.sessionStorage.setItem('details', value);
-    history.push({ pathname: `/addDetails/${window.__get__url__id}` })
+    history.push({ pathname: `${window.__get__url__base__}/addDetails/${window.__get__url__id}` })
   };
 
   render() {

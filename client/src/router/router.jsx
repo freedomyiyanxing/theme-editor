@@ -8,7 +8,7 @@ import AddModule from '../components/add-module/add-module.jsx';
 import AddDetails from '../components/add-details/add-details.jsx';
 import AddImages from '../components/add-img/add-img.jsx';
 
-const url = process.env.URL_BASE || '';
+window.__get__url__base__ = process.env.URL_BASE || '';
 
 const getSessionId = (name) => {
   const type = window.sessionStorage.getItem(name);
@@ -42,7 +42,7 @@ class Refresh extends React.Component {
             : (
               <Redirect
                 to={{
-                  pathname: `${url}/index/${window.__get__url__id}`,
+                  pathname: `${window.__get__url__base__}/index/${window.__get__url__id}`,
                 }}
               />
             )
@@ -56,9 +56,10 @@ Refresh.propTypes = {
   component: PropTypes.func.isRequired,
 };
 
+console.log(window.__get__url__base__, 'router')
 export default () => [
-  <Route key={uuid()} path={`${url}/index/:id`} exact component={ListBar} />,
-  <Refresh key={uuid()} name="module" path="/addModule/:id" component={AddModule} />,
-  <Refresh key={uuid()} name="details" path="/addDetails/:id" component={AddDetails} />,
-  <Refresh key={uuid()} name="images" path="/addImages/:id" component={AddImages} />,
+  <Route key={uuid()} path={`${window.__get__url__base__}/index/:id`} exact component={ListBar} />,
+  <Refresh key={uuid()} name="module" path={`${window.__get__url__base__}/addModule/:id`} component={AddModule} />,
+  <Refresh key={uuid()} name="details" path={`${window.__get__url__base__}/addDetails/:id`} component={AddDetails} />,
+  <Refresh key={uuid()} name="images" path={`${window.__get__url__base__}/addImages/:id`} component={AddImages} />,
 ]

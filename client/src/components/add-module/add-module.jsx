@@ -88,7 +88,7 @@ export default class AddModule extends React.Component {
     // 进入详情页面
     window.sessionStorage.setItem('section', JSON.stringify(section))
     window.sessionStorage.setItem('details', name);
-    history.push({ pathname: `/addDetails/${window.__get__url__id}` })
+    history.push({ pathname: `${window.__get__url__base__}/addDetails/${window.__get__url__id}` })
   }
 
   // 做了操作时 启动禁止刷新 跟 删除

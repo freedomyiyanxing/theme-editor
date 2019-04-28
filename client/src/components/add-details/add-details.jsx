@@ -56,7 +56,7 @@ export default class AddDetails extends React.Component {
     window.sessionStorage.setItem('images', JSON.stringify({
       name: this.name, val: _name, index: len,
     }))
-    history.push({ pathname: `/addImages/${window.__get__url__id}` })
+    history.push({ pathname: `${window.__get__url__base__}/addImages/${window.__get__url__id}` })
   };
 
   // 修改名称

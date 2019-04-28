@@ -9,7 +9,7 @@ class DragList extends React.Component {
   handleEdit = (val, index) => {
     const { history, name } = this.props;
     window.sessionStorage.setItem('images', JSON.stringify({ name, val, index }));
-    history.push({ pathname: `/addImages/${window.__get__url__id}` })
+    history.push({ pathname: `${window.__get__url__base__}/addImages/${window.__get__url__id}` })
   }
 
   render() {
