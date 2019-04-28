@@ -9,9 +9,9 @@ import { notification, Modal } from 'antd';
 import Card from '../../base/drag/cards.jsx';
 import ListView from '../../base/list/list.jsx';
 import { TemplateData } from '../../store/index';
-import { isTypeOf, getNumber } from '../../common/js/util';
+import { isTypeOf } from '../../common/js/util';
 import { deleteUploadImg } from '../../api/http';
-import { promptImgFormat, promptMsg } from '../../common/js/prompt-message'
+import { promptImgFormat, promptMsg } from '../../common/js/prompt-message';
 
 import classes from '../../common/less/list-item.less';
 
@@ -62,7 +62,7 @@ const LimitNumber = {
       } else {
         refresh();
         // 把删除的掉编号保存在store 中
-        templateData.setComponentItems(name, getNumber(modulesOrder[index]));
+        templateData.setComponentItems(name, index);
         // 在修改值
         templateData.deleteComponent(name, index);
       }
@@ -88,7 +88,7 @@ const LimitNumber = {
         if (resp.data.message === 'Success!') {
           refresh();
           // 把删除的掉编号保存在store 中
-          templateData.setComponentItems(name, getNumber(modulesOrder[index]));
+          templateData.setComponentItems(name, index);
           // 清除数据
           templateData.deleteComponent(name, index);
         }
@@ -145,7 +145,7 @@ const LimitNumber = {
             isHidden={!isShow}
             myMove={this.myMove}
           >
-            <ListView key={uuid()} index={value} styles={{ borderTop: 0 }}>
+            <ListView key={uuid()} index={value} styles={{ borderTop: 0, cursor: 'pointer' }}>
               <div
                 className={classes.left}
                 tabIndex={index}

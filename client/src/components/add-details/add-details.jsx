@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid';
 import {
   inject,
 } from 'mobx-react';
@@ -30,28 +31,32 @@ export default class AddDetails extends React.Component {
     return window.sessionStorage && window.sessionStorage.getItem('details')
   }
 
-  // 添加逻辑处理
+  // 添加(子节点)逻辑处理
   handleAddSection = () => {
     this.isRefresh();
-    const { templateData } = this.props;
+    const { templateData, history } = this.props;
     const { section, componentItems } = templateData;
     const { modulesOrder } = section[this.name].config;
     const len = modulesOrder.length;
+    const _name = `modules${uuid().slice(0, 5)}`;
     /*
     * 如果有 componentItems[name]这个数组 且 数组它不等于空
     * 则说明已经操作过删除,  否则根据下标累加数据
     */
     if (componentItems[this.name] && componentItems[this.name].length) {
+      // 有删除时进入
       const comArr = componentItems[this.name];
       const index = comArr[comArr.length - 1];
-      const _name = `modules${index}`;
       templateData.addComponentItems(this.name, _name, this.addSection(_name, index));
       comArr.length -= 1;
     } else {
-      const _name = `modules${len}`;
       templateData.addComponentItems(this.name, _name, this.addSection(_name, len));
     }
     window.sessionStorage.setItem('section', JSON.stringify(section))
+    window.sessionStorage.setItem('images', JSON.stringify({
+      name: this.name, val: _name, index: len,
+    }))
+    history.push({ pathname: `/addImages/${window.__get__url__id}` })
   };
 
   // 修改名称

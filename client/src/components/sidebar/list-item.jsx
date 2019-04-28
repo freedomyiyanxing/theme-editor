@@ -144,7 +144,7 @@ import classes from '../../common/less/list-item.less';
             myBeginDrag={this.myBeginDrag}
             myEndDrag={this.myEndDrag}
           >
-            <ListView styles={{ borderTop: 0, cursor: isHidden ? 'pointer' : 'move' }}>
+            <ListView styles={{ borderTop: 0, cursor: 'pointer' }}>
               <div
                 className={classes.left}
                 tabIndex={index}
