@@ -6,6 +6,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // 是否为开发环境
 const isDev = process.env.NODE_ENV === 'development';
+process.env.URL_BASE = isDev ? '' : '/business/store_themes';
 
 const config = {
   mode: isDev ? 'development' : 'production', //开发模式 || 生产模式,
@@ -128,10 +129,7 @@ if (isDev) {
     historyApiFallback: {
       index: '/public/index.html'
     },
-    proxy: { //解决跨域 代理有请求 /api的全部代理到 // http://192.168.1.16:3333'
-      '/api': {
-        target: 'http://192.168.1.22:3333',
-      },
+    proxy: { //解决跨域 代理有请求 /business的全部代理到 'http://192.168.1.26:8081'
       '/business': {
         target: 'http://192.168.1.26:8081',
       },

@@ -16,7 +16,7 @@ const getSessionId = (name) => {
       return s[type]
     } else if (name === 'images') { // eslint-disable-line
       const imgType = JSON.parse(type);
-      return imgType && s[imgType.name] && s[imgType.name].config.modulesOrder[imgType.index];
+      return s[imgType.name] && s[imgType.name].config.modulesOrder[imgType.index];
     } else {
       return window.sessionStorage.getItem(name);
     }
@@ -54,9 +54,11 @@ Refresh.propTypes = {
   component: PropTypes.func.isRequired,
 };
 
+const url = process.env.URL_BASE || '';
+
 export default () => [
-  <Route key={uuid()} path="/index/:id" exact component={ListBar} />,
-  <Refresh key={uuid()} name="module" path="/addModule/:id" component={AddModule} />,
-  <Refresh key={uuid()} name="details" path="/addDetails/:id" component={AddDetails} />,
-  <Refresh key={uuid()} name="images" path="/addImages/:id" component={AddImages} />,
+  <Route key={uuid()} path={`${url}/index/:id`} exact component={ListBar} />,
+  <Refresh key={uuid()} name="module" path={`${url}/addModule/:id`} component={AddModule} />,
+  <Refresh key={uuid()} name="details" path={`${url}/addDetails/:id`} component={AddDetails} />,
+  <Refresh key={uuid()} name="images" path={`${url}/addImages/:id`} component={AddImages} />,
 ]
