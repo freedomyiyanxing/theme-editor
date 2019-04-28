@@ -10,7 +10,7 @@ import { promptRecover } from '../../common/js/prompt-message';
 import classes from './revert.less';
 
 const MSGTEXT = 'Are you sure you want to revert the theme to the selected version？This will discard all changes.';
-
+const url = process.env.URL_BASE || '';
 class RevertContainer extends React.Component {
   constructor() {
     super();
@@ -92,7 +92,7 @@ class RevertContainer extends React.Component {
               })
             }
             cancel()
-            history.push({ pathname: `/index/${themeId}` })
+            history.push({ pathname: `${url}/index/${themeId}` })
             template.setRevert(JSON.parse(data[value].configData))
             this.openNotificationWithIcon('success', 'Success', promptRecover(data[value].verNO));
           }
