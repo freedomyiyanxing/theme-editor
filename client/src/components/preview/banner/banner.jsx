@@ -78,8 +78,9 @@ const html = (obj, isMobile) => {
 
 @observer class Banner extends React.Component {
   componentDidMount() {
-    const { templateData } = this.props;
-    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight);
+    const { templateData, index } = this.props;
+    // 如果是添加或显示 则会重新调用此组件
+    templateData.eleHeight.splice(index, 0, this.wrapper.clientHeight)
   }
 
   render() {
@@ -103,6 +104,7 @@ const html = (obj, isMobile) => {
 }
 
 Banner.wrappedComponent.propTypes = {
+  index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };

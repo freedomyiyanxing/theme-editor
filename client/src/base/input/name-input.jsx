@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Input } from 'antd';
 import classes from './input.less'
 
-const MAX_VALUE_LENGTH = 14;
+const MAX_VALUE_LENGTH = 18;
 
 export default class NameInput extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class NameInput extends React.Component {
   handleChange = (e) => {
     const { click } = this.props;
     const len = e.target.value.length;
-    // name 长度  max 20
+    // name 长度  max 18
     if (len < MAX_VALUE_LENGTH) {
       this.setState({
         value: e.target.value,

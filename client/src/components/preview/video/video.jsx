@@ -17,8 +17,8 @@ const item = [1, 2, 3, 4, 5];
 
 class Video extends React.Component {
   componentDidMount() {
-    const { templateData } = this.props;
-    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+    const { templateData, index } = this.props;
+    templateData.eleHeight.splice(index, 0, this.wrapper.clientHeight)
   }
 
   render() {
@@ -46,6 +46,7 @@ class Video extends React.Component {
   }
 }
 Video.wrappedComponent.propTypes = {
+  index: PropTypes.number.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

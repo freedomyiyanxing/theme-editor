@@ -84,15 +84,10 @@ export default class AddModule extends React.Component {
       };
     }
     templateData.saveTemplateData(obj, name); // 添加数据
-    // console.log(templateData.dragDropDataObj.eleWrapper.clientHeight)
-    // templateData.dragDropDataObj.eleWrapper.scrollTo(0, 2000)
-    // const len = section.sectionsOrder.length - 1;
-    // templateData.utilScroll(templateData.utilScrollVal(len - 1, len), false);
-
+    templateData.scrollEleWrapper.scrollTo(0, 0);
     // 进入详情页面
     window.sessionStorage.setItem('section', JSON.stringify(section))
     window.sessionStorage.setItem('details', name);
-    console.log('写入 session ', name)
     history.push({ pathname: `/addDetails/${window.__get__url__id}` })
   }
 

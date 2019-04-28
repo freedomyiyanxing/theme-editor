@@ -9,9 +9,9 @@ const DESK_TOP = 'DeskTop'; // 表示pc端;
 export default class TemplateData {
   @observable section; // 保存所有数据
 
-  @observable dragDropDataObj; // 拖拽操作数据对象
+  @observable eleHeight; // 拖拽操作数据对象
 
-  @observable sortArr;
+  @observable controllerVal;
 
   componentItems; // 保存已经删除过的部件下标
 
@@ -19,52 +19,51 @@ export default class TemplateData {
 
   constructor() {
     this.section = null;
-    this.sortArr = null;
     this.componentItems = {};
     this.isNewUser = false;
     this.themeId = null; // 保存 id
     this.dragObj = []; // 保存右侧元素的高度, 及是否隐藏 及唯一的id
+    this.eleHeight = [];
     this.eleHeightLen = 0;
-    this.dragDropDataObj = {
-      eleWrapper: null,
-      controllerVal: null,
-      eleHeight: [],
-    };
+    this.controllerVal = '';
+    this.scrollEleWrapper = null;
     this.type = DESK_TOP; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
   }
 
   // 传递默认数据
   @action setDefaultData(obj) {
-    const { sectionsOrder } = obj.data;
     this.themeId = obj.id;
     this.type = obj.type;
     this.section = obj.data;
     this.isNewUser = obj.bool; // 是否是新用户
-    this.sortArr = sectionsOrder.slice();
   }
 
   // 回退版本
   @action setRevert(obj) {
     this.section = obj;
-    this.sortArr = obj.sectionsOrder.slice();
   }
 
   // 添加新的章节
   @action saveTemplateData(data, name) {
     this.section[name] = data;
-    this.section.sectionsOrder.push(name);
+    this.section.sectionsOrder.unshift(name);
   }
 
   // 点击隐藏 或 显示 ( 章节 )
-  @action setIsHidden(name) {
-    this.section[name].isHidden = !this.section[name].isHidden;
+  @action setIsHidden(name, index) {
+    const { isHidden } = this.section[name];
+    this.section[name].isHidden = !isHidden;
+    // 如果是点击隐藏 则进来
+    if (!isHidden) {
+      this.eleHeight.splice(index, 1)
+    }
   }
 
   // 删除章节
   @action deleteChapters(name, index) {
     delete this.section[name];
     this.section.sectionsOrder.splice(index, 1);
-    this.dragDropDataObj.eleHeight.splice(index, 1)
+    this.eleHeight.splice(index, 1)
   }
 
   // 修改章节名称
@@ -97,7 +96,7 @@ export default class TemplateData {
   // 拖动时 右侧展示区块的样式控制
   @action handleDropClass(type) {
     if (this.type === DESK_TOP) {
-      this.dragDropDataObj.controllerVal = type;
+      this.controllerVal = type;
     }
   }
 
@@ -180,8 +179,8 @@ export default class TemplateData {
     // 如果index 等于 0 则不拖动
     if (!index) return scrollVal;
     // 下标要加 + 1 因为需要排除自身的高度
+    // console.log(...this.dragObj)
     Array.from({ length: index + 1 }).forEach((v, i) => {
-      console.log(i, '---')
       if (!this.dragObj[i].isHidden) {
         scrollVal += this.dragObj[i].height
       }
@@ -199,23 +198,22 @@ export default class TemplateData {
   utilScroll(number, isDelay) {
     if (isDelay) {
       setTimeout(() => {
-        this.dragDropDataObj.eleWrapper.scrollTo(0, number);
+        this.scrollEleWrapper.scrollTo(0, number);
       }, 300)
     } else {
-      this.dragDropDataObj.eleWrapper.scrollTo(0, number);
+      this.scrollEleWrapper.scrollTo(0, number);
     }
   }
 
   // 把右侧元素高度 和 是否是隐藏 存入dragObj 对象中,
   // 这样操作是保证在有隐藏元素的情况下而不会出现存入错误的情况,
-  // (如果有元素隐藏了 会导致dragDropDataObj.eleHeight 获取不到高度)
+  // (如果有元素隐藏了 会导致eleHeight 获取不到高度)
   setHidden() {
     const { sectionsOrder } = this.section;
-    const { eleHeight } = this.dragDropDataObj;
     let _index = 0;
-    console.log(eleHeight.length, '我是第一次计算时的个数')
+    console.log('进来的啦嘛', this.eleHeight.length)
     // 保证在没有如何添加或者删除操作时  只进一次
-    if (this.dragObj.length > 0 && this.eleHeightLen === eleHeight.length) {
+    if (this.dragObj.length > 0 && this.eleHeightLen === this.eleHeight.length) {
       return;
     }
     this.dragObj.length = 0;
@@ -226,15 +224,14 @@ export default class TemplateData {
         isHidden,
       };
       if (!isHidden) {
-        obj.height = eleHeight[_index] + 30; // 加上30的上边距
+        obj.height = this.eleHeight[_index] + 30; // 加上30的上边距
         _index += 1;
       } else {
         obj.height = 0;
       }
       this.dragObj.push(obj);
     }
-    console.log(...this.dragObj, '进来了');
-    this.eleHeightLen = this.dragDropDataObj.eleHeight.length;
+    this.eleHeightLen = this.eleHeight.length;
   }
 
   // 拖动完成时跟dragObj数组中的元素交换位置

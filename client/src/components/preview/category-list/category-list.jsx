@@ -16,8 +16,8 @@ import classes from './category-list.less';
 
 class CategoryList extends React.Component {
   componentDidMount() {
-    const { templateData } = this.props;
-    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+    const { templateData, index } = this.props;
+    templateData.eleHeight.splice(index, 0, this.wrapper.clientHeight)
   }
 
   render() {
@@ -51,6 +51,7 @@ class CategoryList extends React.Component {
 }
 
 CategoryList.wrappedComponent.propTypes = {
+  index: PropTypes.number.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 

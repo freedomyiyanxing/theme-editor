@@ -40,7 +40,6 @@ import classes from '../../common/less/list-item.less';
     const { templateData } = this.props;
     templateData.handleDropStart('start')
     this.startIndex = startIndex;
-    console.log(this.startIndex, '开始拖动');
   };
 
   // 拖动过程中 (每次拖过一个元素时触发)
@@ -57,7 +56,6 @@ import classes from '../../common/less/list-item.less';
       this.startIndex,
       dragIndex > hoverIndex, // 判断上托还是下托
     );
-    console.log('拖拽过程中...', dragIndex > hoverIndex)
   };
 
   // 拖动结束 (鼠标放手时)
@@ -69,7 +67,6 @@ import classes from '../../common/less/list-item.less';
       this.startIndex,
       this.startIndex > index, // 判断上托还是下托
     )
-    console.log('结束始拖动', this.startIndex > index ? '上托' : '下托');
   };
 
   // 区块 隐藏 显示 点击事件

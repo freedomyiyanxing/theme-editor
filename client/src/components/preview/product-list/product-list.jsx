@@ -17,8 +17,8 @@ const arr = [1, 2, 3, 4];
 
 class ProductList extends React.Component {
   componentDidMount() {
-    const { templateData } = this.props;
-    templateData.dragDropDataObj.eleHeight.push(this.wrapper.clientHeight)
+    const { templateData, index } = this.props;
+    templateData.eleHeight.splice(index, 0, this.wrapper.clientHeight)
   }
 
   render() {
@@ -96,6 +96,7 @@ class ProductList extends React.Component {
 }
 
 ProductList.wrappedComponent.propTypes = {
+  index: PropTypes.number.isRequired,
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
 };
 
