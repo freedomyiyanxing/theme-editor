@@ -6,8 +6,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // 是否为开发环境
 const isDev = process.env.NODE_ENV === 'development';
-process.env.URL_BASE = isDev ? '' : '/business/store_themes';
-
 const config = {
   mode: isDev ? 'development' : 'production', //开发模式 || 生产模式,
   entry: {
@@ -92,8 +90,10 @@ const config = {
     new Webpack.DefinePlugin({ // 根据环境不同  图片前缀请求不同的域名
       'process.env.IMG_BASE': isDev
         ? JSON.stringify("https://cdn.influmonsters.com")
-        : JSON.stringify("https://cdn.influmonsters.com")
-      // https://img.influmonsters.com
+        : JSON.stringify("https://cdn.influmonsters.com"),
+      'process.env.URL_BASE': isDev
+        ? JSON.stringify("")
+        : JSON.stringify("/business/store_themes")
     }),
     new OptimizeCssAssetsPlugin(),
   ],

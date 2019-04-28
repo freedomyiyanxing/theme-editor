@@ -55,7 +55,7 @@ Refresh.propTypes = {
 };
 
 const url = process.env.URL_BASE || '';
-
+console.log(`${url}/index/:id`, ' --- 我是路径呀... ----')
 export default () => [
   <Route key={uuid()} path={`${url}/index/:id`} exact component={ListBar} />,
   <Refresh key={uuid()} name="module" path={`${url}/addModule/:id`} component={AddModule} />,
