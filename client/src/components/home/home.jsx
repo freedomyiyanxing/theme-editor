@@ -77,6 +77,7 @@ export default class Home extends React.Component {
         console.log(err.toString())
         window.location.href = err.error || 'https://influmonster.com/';
       });
+    console.log('w s shishi');
   }
 
   componentWillUnmount() {
