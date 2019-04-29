@@ -211,7 +211,6 @@ export default class TemplateData {
   setHidden() {
     const { sectionsOrder } = this.section;
     let _index = 0;
-    console.log('进来的啦嘛', this.eleHeight.length)
     // 保证在没有如何添加或者删除操作时  只进一次
     if (this.dragObj.length > 0 && this.eleHeightLen === this.eleHeight.length) {
       return;

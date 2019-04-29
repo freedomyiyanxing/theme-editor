@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { DatePicker } from 'antd';
 import classes from './input.less'
 
+const GetGMT = () => {
+  const now = new Date();
+  const index1 = now.toString().match(/GMT(\+|-)[0-9]{0,4}/);
+  return <span className={classes.gmt}>( {index1 ? index1[0] : ''} )</span>
+};
+
 export default class DateInput extends React.Component {
   render() {
     const {
@@ -11,7 +17,7 @@ export default class DateInput extends React.Component {
     } = this.props;
     return (
       <div className={classes.container}>
-        <span className={classes.title}>{title} :</span>
+        <span className={classes.title}>{title} : <GetGMT /></span>
         <DatePicker
           format="YYYY-MM-DD  HH:mm:ss"
           style={{ width: '100%' }}

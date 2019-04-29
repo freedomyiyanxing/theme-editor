@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   inject,
 } from 'mobx-react';
-
 import { Route } from 'react-router-dom';
 import { TemplateData } from '../../store/index';
 import Index from '../../router/router.jsx';
@@ -41,7 +40,7 @@ export default class Home extends React.Component {
         // id 错误的情况
         if (resp.error) {
           console.log(resp.error.toString())
-          // window.location.href = resp.error || 'https://influmonster.com/';
+          window.location.href = resp.error || 'https://influmonster.com/';
           return;
         }
         // 动态的修改页面标签标题
@@ -62,7 +61,7 @@ export default class Home extends React.Component {
         }
         window.sessionStorage.setItem('section', JSON.stringify(obj.data))
         // 数据传递给mobx
-        console.log(obj, '222')
+        // console.log(resp, '222')
         templateData.setDefaultData(obj)
         if (this._isMounted) {
           this.setState({
@@ -76,7 +75,7 @@ export default class Home extends React.Component {
       })
       .catch((err) => {
         console.log(err.toString())
-        // window.location.href = err.error || 'https://influmonster.com/';
+        window.location.href = err.error || 'https://influmonster.com/';
       });
   }
 

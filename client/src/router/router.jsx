@@ -56,7 +56,6 @@ Refresh.propTypes = {
   component: PropTypes.func.isRequired,
 };
 
-console.log(window.__get__url__base__, 'router')
 export default () => [
   <Route key={uuid()} path={`${window.__get__url__base__}/index/:id`} exact component={ListBar} />,
   <Refresh key={uuid()} name="module" path={`${window.__get__url__base__}/addModule/:id`} component={AddModule} />,

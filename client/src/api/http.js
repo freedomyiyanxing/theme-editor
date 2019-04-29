@@ -71,6 +71,11 @@ export const get = (url, params, token) => new Promise((resolve, reject) => {
     })
 });
 
+/**
+ * post请求
+ * @param {*} url 地址
+ * @param {*} data 数据
+ */
 export const post = (url, data) => new Promise((resolve, reject) => {
   axios.post(url, qs.stringify(data), {
     headers: { 'X-Csrf-Token': csrfToken },
@@ -84,15 +89,19 @@ export const post = (url, data) => new Promise((resolve, reject) => {
 });
 
 // 删除上传图片
-export const deleteUploadImg = (data) => {
-  const url = '/business/store_themes/deleteThemeImage';
-  return new Promise((resolve, reject) => {
-    axios.post(
-      url, qs.stringify({ imgUrl: data }, { indices: false }), // qs.stringify({ imgUrl: data }),
-    ).then((resp) => {
-      resolve(resp)
-    }).catch((err) => {
-      reject(err)
-    });
-  })
-};
+// export const deleteUploadImg = (data) => {
+//   const url = '/business/store_themes/deleteThemeImage';
+//   return new Promise((resolve, reject) => {
+//     axios.post(
+//       url, qs.stringify({ imgUrl: data }, { indices: false }), {
+//         headers: {
+//           'X-Csrf-Token': csrfToken,
+//         },
+//       },
+//     ).then((resp) => {
+//       resolve(resp)
+//     }).catch((err) => {
+//       reject(err)
+//     });
+//   })
+// };

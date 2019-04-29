@@ -8,7 +8,7 @@ import {
 
 import classes from './upload.less';
 import { TemplateData } from '../../store/index';
-import { Xhr, deleteUploadImg } from '../../api/http';
+import { Xhr, post } from '../../api/http';
 
 const IMGUrl = process.env.IMG_BASE || '';
 
@@ -68,7 +68,9 @@ const IMGUrl = process.env.IMG_BASE || '';
     this.isRefresh();
     const { obj, templateData } = this.props;
     const { config } = templateData.section[obj.name].config.modules[obj.index][obj.val];
-    deleteUploadImg(config.imgPath)
+    const url = '/business/store_themes/deleteThemeImage';
+    console.log(url);
+    post(url, { imgUrl: config.imgPath }, { indices: false })
       .then((resp) => {
         if (resp.data.message === 'Success!') {
           templateData.deleteUploadImg(obj);
