@@ -11,6 +11,11 @@ const getCookie = (name) => {
 
 const csrfToken = getCookie('csrfToken')
 
+/**
+ * 上传图片请求的接口
+ * @param {} url
+ * @param {*} data
+ */
 export const Xhr = function (url, data) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -34,23 +39,6 @@ const parseUrl = (url, params) => {
   }, '') : '';
   return `${url}?${str.substr(0, str.length - 1)}`
 };
-
-// $(document).ajaxSend(function(event, xhr, settings) {
-//   if (!settings.crossDomain && !/^(GET|HEAD|TRACE|OPTIONS)$/i.test(settings.type)) {
-//     var csrfToken = getCookie("csrfToken");
-//     if (csrfToken != null) {
-//       xhr.setRequestHeader("X-Csrf-Token", csrfToken);
-//     }
-//   }
-// });
-// // 获取Cookie
-// function getCookie(name) {
-//   if (name != null) {
-//     var value = new RegExp("(?:^|; )" + encodeURIComponent(String(name)) + "=([^;]*)")
-// .exec(document.cookie);
-//     return value ? decodeURIComponent(value[1]) : null;
-//   }
-// }
 
 /**
  * get请求
@@ -87,21 +75,3 @@ export const post = (url, data) => new Promise((resolve, reject) => {
       reject(err)
     })
 });
-
-// 删除上传图片
-// export const deleteUploadImg = (data) => {
-//   const url = '/business/store_themes/deleteThemeImage';
-//   return new Promise((resolve, reject) => {
-//     axios.post(
-//       url, qs.stringify({ imgUrl: data }, { indices: false }), {
-//         headers: {
-//           'X-Csrf-Token': csrfToken,
-//         },
-//       },
-//     ).then((resp) => {
-//       resolve(resp)
-//     }).catch((err) => {
-//       reject(err)
-//     });
-//   })
-// };

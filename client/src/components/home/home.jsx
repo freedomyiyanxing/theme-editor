@@ -40,7 +40,7 @@ export default class Home extends React.Component {
         // id 错误的情况
         if (resp.error) {
           console.log(resp.error.toString())
-          window.location.href = resp.error || 'https://influmonster.com/';
+          // window.location.href = resp.error || 'https://influmonster.com/';
           return;
         }
         // 动态的修改页面标签标题
@@ -50,6 +50,7 @@ export default class Home extends React.Component {
         const obj = {
           id: window.__get__url__id,
           type: resp.type,
+          // serverZone: resp.serverZone,
         };
         // 判断当前用户是否是新用户
         if (resp.draftData && resp.draftData !== '') {
@@ -75,7 +76,7 @@ export default class Home extends React.Component {
       })
       .catch((err) => {
         console.log(err.toString())
-        window.location.href = err.error || 'https://influmonster.com/';
+        // window.location.href = err.error || 'https://influmonster.com/';
       });
   }
 

@@ -31,7 +31,7 @@ export default class AddImages extends React.Component {
     const { config } = templateData.section[this.obj.name].config.modules[this.obj.index][this.obj.val];
     const eff = 'effDate';
     const exp = 'expDate';
-    if (!(config[eff] && config[exp])) { // 当前时间数据为null
+    if (!(config[eff] && config[exp])) { // 当前时间数据为null时, 设置默认时间
       this.stateDate = new Date().getTime();
       this.endDate = new Date('2099-12-29 23:59:59').getTime();
       templateData.setImgInvalidDate(this.obj, this.stateDate, eff);

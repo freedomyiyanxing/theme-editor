@@ -27,15 +27,17 @@ export default class TemplateData {
     this.eleHeightLen = 0;
     this.controllerVal = '';
     this.scrollEleWrapper = null;
+    // this.serverZone = '';
     this.type = DESK_TOP; // 默认展示pc端, // DeskTop (pc端) Phone (手机端)
   }
 
   // 传递默认数据
   @action setDefaultData(obj) {
-    this.themeId = obj.id;
-    this.type = obj.type;
-    this.section = obj.data;
+    this.themeId = obj.id; // 店铺ID
+    this.type = obj.type; // 是否是手机还是pc
+    this.section = obj.data; // 数据
     this.isNewUser = obj.bool; // 是否是新用户
+    // this.serverZone = obj.serverZone; // 服务端的时区的偏移量
   }
 
   // 回退版本
