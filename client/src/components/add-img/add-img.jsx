@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
@@ -28,7 +27,8 @@ export default class AddImages extends React.Component {
     super(props);
     const { templateData } = this.props;
     this.obj = this.getSessionName();
-    const { config } = templateData.section[this.obj.name].config.modules[this.obj.index][this.obj.val];
+    const { config } = templateData.section[this.obj.name]
+      .config.modules[this.obj.index][this.obj.val];
     const eff = 'effDate';
     const exp = 'expDate';
     if (!(config[eff] && config[exp])) { // 当前时间数据为null时, 设置默认时间
@@ -42,19 +42,13 @@ export default class AddImages extends React.Component {
     }
   }
 
-  // 修改名称
-  handleSetName = (val) => {
-    this.isRefresh()
-    const { templateData } = this.props;
-    templateData.setComponentName(this.obj, val);
-  };
-
-  // 获取 url
-  handleGetUrl = (val) => {
-    this.isRefresh()
-    const { templateData } = this.props;
-    templateData.setComponentUrl(this.obj, val);
-  };
+  getSessionName() {
+    if (window.sessionStorage) {
+      const obj = window.sessionStorage.getItem('images')
+      return JSON.parse(obj);
+    }
+    return false;
+  }
 
   /*  开始时间 调用 */
   // 点击ok时调用
@@ -93,12 +87,20 @@ export default class AddImages extends React.Component {
   };
   /*  开始时间 调用 */
 
-  getSessionName() {
-    if (window.sessionStorage) {
-      const obj = window.sessionStorage.getItem('images')
-      return JSON.parse(obj);
-    }
-  }
+  // 修改名称
+  handleSetName = (val) => {
+    this.isRefresh()
+    const { templateData } = this.props;
+    templateData.setComponentName(this.obj, val);
+  };
+
+  // 获取 url
+  handleGetUrl = (val) => {
+    this.isRefresh()
+    const { templateData } = this.props;
+    templateData.setComponentUrl(this.obj, val);
+  };
+
 
   // 做了操作时 启动禁止刷新 跟 删除
   isRefresh() {
@@ -112,7 +114,7 @@ export default class AddImages extends React.Component {
     const { section } = templateData;
     const { config } = section[this.obj.name].config.modules[this.obj.index][this.obj.val];
     const isBanner = isTypeOf(this.obj.name);
-    const text = isBanner  ? 'Banner' : 'Picture';
+    const text = isBanner ? 'Banner' : 'Picture';
     return [
       <SidebarHeader key={uuid()} history={history}>
         Edit {text}

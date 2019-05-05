@@ -65,7 +65,7 @@ export const get = (url, params, token) => new Promise((resolve, reject) => {
  * @param {*} data 数据
  */
 export const post = (url, data) => new Promise((resolve, reject) => {
-  axios.post(url, qs.stringify(data), {
+  axios.post(url, qs.stringify(data, { indices: false }), {
     headers: { 'X-Csrf-Token': csrfToken },
   })
     .then((resp) => {

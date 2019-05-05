@@ -12,7 +12,7 @@ import ListView from '../../base/list/list.jsx';
 import Card from '../../base/drag/cards.jsx';
 import { TemplateData } from '../../store/index';
 import { chapterType, iconName } from '../../common/js/util';
-import { deleteUploadImg } from '../../api/http';
+import { post } from '../../api/http';
 import { promptMsg } from '../../common/js/prompt-message';
 
 import classes from '../../common/less/list-item.less';
@@ -100,7 +100,8 @@ import classes from '../../common/less/list-item.less';
   handleOk = () => {
     const { templateData } = this.props;
     const { img, name, index } = this.state;
-    deleteUploadImg(img)
+    const url = '/business/store_themes/deleteThemeImage';
+    post(url, { imgUrl: img })
       .then((resp) => {
         if (resp.data.message === 'Success!') {
           templateData.deleteChapters(name, index)
@@ -202,84 +203,6 @@ import classes from '../../common/less/list-item.less';
       </Modal>,
     ]
   }
-
-  // render() {
-  //   const { templateData, handleEdit } = this.props;
-  //   const { section } = templateData;
-  //   const { visible } = this.state;
-  //   return [
-  //     section.sectionsOrder.map((value, index) => {
-  //       const { config, isHidden } = section[value]
-  //       return (
-  //         <Draggable key={value} isDragDisabled={isHidden} draggableId={value} index={index}>
-  //           {
-  //             provided => (
-  //               <div
-  //                 ref={provided.innerRef}
-  //                 {...provided.draggableProps}
-  //                 {...provided.dragHandleProps}
-  //               >
-  //                 <ListView styles={{ borderTop: 0 }}>
-  //                   <div
-  //                     className={classes.left}
-  //                     tabIndex={index}
-  //                     role="button"
-  //                     onClick={() => { handleEdit(value, index) }}
-  //                   >
-  //                     <span className={`${classes.icon} icon-${iconName(value)}`} />
-  //                     <span className={classes.text}>{config.title}</span>
-  //                   </div>
-  //                   <div className={classes.right}>
-  //                     <span
-  //                       tabIndex={0}
-  //                       role="button"
-  //                       onClick={() => { this.handleIsHidden(value, index) }}
-  //                       className={isHidden ? 'icon-block' : 'icon-hidden'}
-  //                     />
-  //                     {
-  //                       chapterType(value)
-  //                         ? (
-  //                           <span
-  //                             className="icon-edit"
-  //                             tabIndex={index}
-  //                             role="button"
-  //                             onClick={() => { handleEdit(value, index) }}
-  //                           />
-  //                         )
-  //                         : null
-  //                     }
-  //                     {
-  //                       chapterType(value)
-  //                         ? (
-  //                           <span
-  //                             className="icon-delete"
-  //                             tabIndex={0}
-  //                             role="button"
-  //                             onClick={() => { this.handleDelete(value, index) }}
-  //                           />
-  //                         )
-  //                         : null
-  //                     }
-  //                     <span className="icon-drag" />
-  //                   </div>
-  //                 </ListView>
-  //               </div>
-  //             )
-  //           }
-  //         </Draggable>
-  //       )
-  //     }),
-  //     <Modal
-  //       key={uuid()}
-  //       title="Basic Modal"
-  //       visible={visible}
-  //       onOk={this.handleOk}
-  //       onCancel={this.handleCancel}
-  //     >
-  //       <div>{promptMsg._delete}</div>
-  //     </Modal>,
-  //   ]
-  // }
 }
 
 ListItem.wrappedComponent.propTypes = {

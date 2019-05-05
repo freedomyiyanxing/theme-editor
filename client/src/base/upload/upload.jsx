@@ -69,8 +69,7 @@ const IMGUrl = process.env.IMG_BASE || '';
     const { obj, templateData } = this.props;
     const { config } = templateData.section[obj.name].config.modules[obj.index][obj.val];
     const url = '/business/store_themes/deleteThemeImage';
-    console.log(url);
-    post(url, { imgUrl: config.imgPath }, { indices: false })
+    post(url, { imgUrl: config.imgPath })
       .then((resp) => {
         if (resp.data.message === 'Success!') {
           templateData.deleteUploadImg(obj);
