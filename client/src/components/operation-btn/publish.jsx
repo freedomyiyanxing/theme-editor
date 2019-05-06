@@ -14,7 +14,7 @@ const MSGTEXT = 'Are you sure you want to publish this theme？This will replace
 const styles = {
   backgroundColor: '#fff',
   border: '1px solid #d9d9d9',
-  color: 'rgba(0,0,0,.25)',
+  color: 'rgba(0, 0, 0, .8)',
 }
 
 class PublishContainer extends React.Component {
@@ -45,10 +45,12 @@ class PublishContainer extends React.Component {
               data: resp,
               isOkBtn: !isPublish,
             });
+            console.log(typeof resp)
             this.publish_1_source = null;
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.info(err)
           this.publish_1_source = null;
         });
     }, 500)

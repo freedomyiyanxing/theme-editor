@@ -45,12 +45,11 @@ export default class Home extends React.Component {
         }
         // 动态的修改页面标签标题
         const title = document.getElementById('title');
-        title.innerHTML = resp.name;
+        title.innerHTML = resp.name || 'Store Template';
         //
         const obj = {
           id: window.__get__url__id,
           type: resp.type,
-          // serverZone: resp.serverZone,
         };
         // 判断当前用户是否是新用户
         if (resp.draftData && resp.draftData !== '') {
@@ -62,7 +61,6 @@ export default class Home extends React.Component {
         }
         window.sessionStorage.setItem('section', JSON.stringify(obj.data))
         // 数据传递给mobx
-        // console.log(resp, '222')
         templateData.setDefaultData(obj)
         if (this._isMounted) {
           this.setState({

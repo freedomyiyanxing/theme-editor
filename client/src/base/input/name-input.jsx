@@ -14,6 +14,7 @@ export default class NameInput extends React.Component {
     }
   }
 
+  // 点击事件
   handleChange = (e) => {
     const { click } = this.props;
     const len = e.target.value.length;
@@ -26,6 +27,19 @@ export default class NameInput extends React.Component {
     }
   };
 
+  // 失去焦点时触发
+  handleBlur = (e) => {
+    const { defaultVal, click } = this.props;
+    const len = e.target.value.length;
+    if (len <= 0) {
+      this.setState({
+        value: defaultVal,
+      });
+      click(defaultVal)
+      console.log(len, '失去焦点时...', defaultVal)
+    }
+  }
+
   render() {
     const { value } = this.state;
     return (
@@ -33,6 +47,7 @@ export default class NameInput extends React.Component {
         <span className={classes.title}>Title :</span>
         <Input
           onChange={this.handleChange}
+          onBlur={this.handleBlur}
           value={value}
           placeholder="title"
         />
