@@ -19,7 +19,7 @@ class Footer extends React.Component {
   render() {
     const { templateData, flooterData } = this.props;
     const isMobile = templateData.type === 'Phone';
-    console.log(flooterData)
+    console.log(flooterData, 1)
     return (
       <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
         {
