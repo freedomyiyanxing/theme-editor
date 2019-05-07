@@ -252,6 +252,51 @@ body {
   line-height: 1;
 }
 
+.ant-menu-horizontal>.ant-menu-submenu{
+  margin: 0 15px;
+  top: 0;
+  /* color: var(--color-text); */
+}
+.ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open {
+  color: var(--color-text);
+  border-bottom-color: var(--color-text)
+}
+.ant-menu-horizontal>.ant-menu-submenu:hover {
+  color: var(--color-text);
+
+  border-bottom-color: var(--color-text);
+}
+.ant-menu-horizontal>.ant-menu-submenu-open{
+  border-bottom-color: var(--color-text)
+}
+.ant-menu-submenu-title{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.ant-menu-submenu-title:hover {
+  color: var(--color-text);
+}
+.ant-menu-submenu>.ant-menu,
+.ant-menu-submenu-popup{
+  border-radius: 0;
+  color: var(--color-text);
+  background: var(--color-background-md);
+}
+ant-menu-item:hover{
+  color: var(--color-text);
+  background: var(--color-background-md);
+}
+.ant-menu-item:active{
+  color: var(--color-text);
+  background: var(--color-background-md);
+}
+.ant-menu-item-disabled{
+  color: var(--color-text) !important;
+  cursor: initial;
+}
+
 @media (max-width: 767px){
   .ant-modal {
     max-width: inherit;

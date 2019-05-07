@@ -17,8 +17,9 @@ const ARR = [1, 2, 3];
 
 class Footer extends React.Component {
   render() {
-    const { templateData } = this.props;
+    const { templateData, flooterData } = this.props;
     const isMobile = templateData.type === 'Phone';
+    console.log(flooterData)
     return (
       <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
         {
@@ -44,6 +45,7 @@ class Footer extends React.Component {
 
 Footer.wrappedComponent.propTypes = {
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
+  flooterData: PropTypes.object.isRequired,
 };
 
 export default Footer;

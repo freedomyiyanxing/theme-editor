@@ -39,7 +39,7 @@ export const isTypeOf = str => str.includes('scrollBanner') || str.includes('sli
 // 字符串中获取数字
 export const getNumber = str => parseFloat(str.replace(/[^0-9]/ig, ''));
 
-const IMGUrl = process.env.IMG_BASE || '';
+export const IMGUrl = process.env.IMG_BASE || '';
 
 // 导出背景图片
 export const _bg = (v) => {

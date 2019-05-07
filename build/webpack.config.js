@@ -93,7 +93,8 @@ const config = {
         : JSON.stringify("https://cdn.influmonsters.com"),
       'process.env.URL_BASE': isDev
         ? JSON.stringify("")
-        : JSON.stringify("/business/store_themes")
+        : JSON.stringify("/business/store_themes"),
+      'process.env.IS_DEV': isDev
     }),
     new OptimizeCssAssetsPlugin(),
   ],

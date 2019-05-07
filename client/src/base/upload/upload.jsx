@@ -9,8 +9,7 @@ import {
 import classes from './upload.less';
 import { TemplateData } from '../../store/index';
 import { Xhr, post } from '../../api/http';
-
-const IMGUrl = process.env.IMG_BASE || '';
+import { IMGUrl } from '../../common/js/util';
 
 @inject((stores) => {
   return {

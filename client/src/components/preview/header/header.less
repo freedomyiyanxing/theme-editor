@@ -1,5 +1,4 @@
 @import "../../../common/less/variable.less";
-
 .container{
   width: 100%;
   display: flex;
@@ -55,21 +54,21 @@
   padding: 10px 10px 0;
 }
 
+.logoMobileDefault {
+  width: 80px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .phoneIconLogo{
   font-size: 40px;
   background: @color-background-lg;
   color: @color-text-E0E0E0;
 }
 
-.logo{
-  width: 120px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  background: @color-background-lg;
-}
+
 .right{
   height: 100%;
   display: flex;
@@ -102,19 +101,40 @@
   height: 30px;
   display: flex;
   justify-content: center;
-  padding-bottom: 1px;
   background: @color-background-md;
   color: @color-text;
-  span{
+}
+
+.logoWrapper{
+  width: 120px;
+  height: 60px;
+  margin-right: 6px;
+  img{
     height: 100%;
-    display: flex;
-    align-items: center;
-    margin-right: 24px;
-    cursor: pointer;
-    font-size: @font-size-xs;
-    &:last-child{
-      margin-right: 0;
-    }
+  }
+}
+.logoMobileWrapper{
+  width: 80px;
+  height: 40px;
+  img {
+    height: 100%;
+  }
+}
+
+.logoDefault {
+  width: 120px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  background: @color-background-lg;
+}
+
+.photoWrapper {
+  width: 60px;
+  img {
+    border-radius: 50%;
   }
 }
 

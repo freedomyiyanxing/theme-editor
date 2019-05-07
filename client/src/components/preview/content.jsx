@@ -52,7 +52,7 @@ import classes from './preview-content.less';
   }
 
   render() {
-    const { templateData } = this.props;
+    const { templateData, headerDate, flooterData } = this.props;
     const { section, controllerVal } = templateData;
     // 必须是以 pc 端打开的
     const dropCls = controllerVal === 'start' ? classes.isStart : '';
@@ -64,7 +64,7 @@ import classes from './preview-content.less';
           ref={n => this.wrapper = n}
           className={`${classes.wrapper} ${dropCls} ${terminalCls}`}
         >
-          <Header />
+          <Header headerDate={headerDate} />
           <div>
             {
               section.sectionsOrder.map((v, i) => (
@@ -72,7 +72,7 @@ import classes from './preview-content.less';
               ))
             }
           </div>
-          <Footer />
+          <Footer flooterData={flooterData} />
         </div>
       </section>
     )
@@ -81,4 +81,6 @@ import classes from './preview-content.less';
 
 PreviewContent.wrappedComponent.propTypes = {
   templateData: PropTypes.instanceOf(TemplateData).isRequired,
+  headerDate: PropTypes.object.isRequired,
+  flooterData: PropTypes.object.isRequired,
 };
