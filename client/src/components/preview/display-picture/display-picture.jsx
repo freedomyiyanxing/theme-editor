@@ -13,11 +13,16 @@ import classes from './display-picture.less';
 
 const sizeObj = {
   images_1: ['1370 * 620', '685 * 620', '465 * 620', '342 * 620', '274 * 620'],
-  images_2: ['685* 620', '342 * 310', '342 * 310', '342 * 310', '342 * 310'],
-  images_3: ['342 * 310', '342 * 310', '685* 620', '342 * 310', '342 * 310'],
-  images_4: ['342 * 310', '342 * 310', '342 * 310', '342 * 310', '685* 620'],
-  images_5: ['1370 * 382', '1370 * 238', '685 * 238', '456 * 238', '342 * 238'],
+  images_234: {
+    max: '685* 620',
+    min: ['342 * 310', '342 * 310'],
+  },
+  images_5: {
+    max: '1370 * 382',
+    min: ['1370 * 238', '685 * 238', '456 * 238', '342 * 238'],
+  },
 }
+
 
 // 先遍历所有数据, 踢掉(隐藏 , 过期)的数据
 const createSuccessData = (config) => {
@@ -65,8 +70,9 @@ const _cls = (index, bool, len, i) => {
  * @param type
  * @param isMobile
  * @param index  当前style的标识
+ * @param {*} sizeArr
  */
-const publicCreateHtml = (obj, type, isMobile, index) => {
+const publicCreateHtml = (obj, type, isMobile, index, sizeArr) => {
   // 判断数组中的每一项是否都有图片
   const isArrImg = obj.every(v => v.imgPath);
   // 只有是style2 || style4 才会进此判断
@@ -87,7 +93,7 @@ const publicCreateHtml = (obj, type, isMobile, index) => {
                   }
                   <span className={classes.sizeWrapper}>
                     <span>{v.title}</span>
-                    <span>{sizeObj[type] && sizeObj[type][obj.length - 1]}</span>
+                    <span>{sizeArr[obj.length - 1]}</span>
                   </span>
                 </span>
               )
@@ -105,10 +111,8 @@ const publicCreateHtml = (obj, type, isMobile, index) => {
  * @param isMobile
  * @param index 当前是那个style
  */
-const single = (obj, isMobile, index) => {
+const single = (obj, isMobile, index, size) => {
   const cls = index && !obj.imgPath ? `picture-items-${index}` : '';
-  const type = `images_${index}`;
-  console.log(index, '000', sizeObj[type])
   return (
     <span key={uuid()} className={`${classes.item} ${cls}`} style={_bg(obj.imgPath)}>
       {
@@ -118,7 +122,7 @@ const single = (obj, isMobile, index) => {
             <span key={uuid()} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
             <span key={uuid()} className={classes.sizeWrapper}>
               <span>{obj.title}</span>
-              <span>{sizeObj[type] && sizeObj[type][obj.length - 1]}</span>
+              <span>{size}</span>
             </span>,
           ]
       }
@@ -264,9 +268,9 @@ const _img5 = (config, resp = {}) => {
  */
 const htmlImg2 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {single(obj.config.max, isMobile, 2)}
-    {publicCreateHtml(obj.config.center, 'style2', isMobile, 2)}
-    {publicCreateHtml(obj.config.min, 'style2', isMobile, 2)}
+    {single(obj.config.max, isMobile, 2, sizeObj.images_234.max)}
+    {publicCreateHtml(obj.config.center, 'style2', isMobile, 2, sizeObj.images_234.min)}
+    {publicCreateHtml(obj.config.min, 'style2', isMobile, 2, sizeObj.images_234.min)}
   </span>
 );
 
@@ -278,9 +282,9 @@ const htmlImg2 = (obj, type, isMobile) => (
  */
 const htmlImg3 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {publicCreateHtml(obj.config.left, 'style3', isMobile, 3)}
-    {single(obj.config.center, isMobile, 3)}
-    {publicCreateHtml(obj.config.right, 'style3', isMobile, 3)}
+    {publicCreateHtml(obj.config.left, 'style3', isMobile, 3, sizeObj.images_234.min)}
+    {single(obj.config.center, isMobile, 3, sizeObj.images_234.max)}
+    {publicCreateHtml(obj.config.right, 'style3', isMobile, 3, sizeObj.images_234.min)}
   </span>
 );
 
@@ -292,9 +296,9 @@ const htmlImg3 = (obj, type, isMobile) => (
  */
 const htmlImg4 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {publicCreateHtml(obj.config.max, 'style2', isMobile, 2)}
-    {publicCreateHtml(obj.config.center, 'style2', isMobile, 2)}
-    {single(obj.config.min, isMobile)}
+    {publicCreateHtml(obj.config.max, 'style2', isMobile, 2, sizeObj.images_234.min)}
+    {publicCreateHtml(obj.config.center, 'style2', isMobile, 2, sizeObj.images_234.min)}
+    {single(obj.config.min, isMobile, 2, sizeObj.images_234.max)}
   </span>
 );
 
@@ -306,8 +310,8 @@ const htmlImg4 = (obj, type, isMobile) => (
  */
 const htmlImg5 = (obj, type, isMobile) => (
   <span className={`${classes[type]} ${isMobile ? classes.phoneWrapper : ''}`}>
-    {single(obj.config.max, isMobile, 5)}
-    {publicCreateHtml(obj.config.min, 'style5', isMobile, 5)}
+    {single(obj.config.max, isMobile, 5, sizeObj.images_5.max)}
+    {publicCreateHtml(obj.config.min, 'style5', isMobile, 5, sizeObj.images_5.min)}
   </span>
 );
 
@@ -337,7 +341,7 @@ const htmlImg5 = (obj, type, isMobile) => (
         >
           {
             type === 'images_1' && modulesOrder.length
-              ? publicCreateHtml(createSuccessData(config), type, isMobile, 1)
+              ? publicCreateHtml(createSuccessData(config), type, isMobile, 1, sizeObj.images_1)
               : type === 'images_2' && modulesOrder.length
                 ? htmlImg2(_img2(config), type, isMobile)
                 : type === 'images_3' && modulesOrder.length

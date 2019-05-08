@@ -159,7 +159,6 @@ const LimitNumber = {
     const { config } = section[name];
     const { modules, modulesOrder } = config;
     const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
-
     return [
       modulesOrder.map((value, index) => {
         const { isShow, title } = modules[index][value].config;

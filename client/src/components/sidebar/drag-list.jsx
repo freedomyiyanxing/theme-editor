@@ -23,7 +23,6 @@ class DragList extends React.Component {
     const { templateData, history } = this.props;
     // 回到滚动位置
     templateData.utilScroll(templateData.utilScrollVal(index, index));
-    console.log('进入详情')
     window.sessionStorage.setItem('details', value);
     history.push({ pathname: `${window.__get__url__base__}/addDetails/${window.__get__url__id}` })
   };

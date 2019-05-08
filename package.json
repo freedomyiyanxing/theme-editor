@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.js",
     "start": "rimraf dist && npm run build",
-    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js",
+    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js"
   },
   "author": "freedom.yi",
   "license": "ISC",
