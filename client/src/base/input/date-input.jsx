@@ -7,7 +7,8 @@ import classes from './input.less'
 const GetGMT = () => {
   const now = new Date();
   const index1 = now.toString().match(/GMT(\+|-)[0-9]{0,4}/);
-  return <span className={classes.gmt}>( {index1 ? index1[0] : ''} )</span>
+  const news = index1 ? `${index1[0].slice(0, 6)}:${index1[0].slice(6)}` : '';
+  return <span className={classes.gmt}>( {news} )</span>
 };
 
 export default class DateInput extends React.Component {

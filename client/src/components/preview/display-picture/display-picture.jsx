@@ -11,6 +11,14 @@ import { _bg, IMAGE_MAX_LENGTH } from '../../../common/js/util';
 
 import classes from './display-picture.less';
 
+const sizeObj = {
+  images_1: ['1370 * 620', '685 * 620', '465 * 620', '342 * 620', '274 * 620'],
+  images_2: ['685* 620', '342 * 310', '342 * 310', '342 * 310', '342 * 310'],
+  images_3: ['342 * 310', '342 * 310', '685* 620', '342 * 310', '342 * 310'],
+  images_4: ['342 * 310', '342 * 310', '342 * 310', '342 * 310', '685* 620'],
+  images_5: ['1370 * 382', '1370 * 238', '685 * 238', '456 * 238', '342 * 238'],
+}
+
 // 先遍历所有数据, 踢掉(隐藏 , 过期)的数据
 const createSuccessData = (config) => {
   const img = config.modules;
@@ -77,7 +85,10 @@ const publicCreateHtml = (obj, type, isMobile, index) => {
                       ? <span style={{ height: 50 }} />
                       : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
                   }
-                  <span>{v.title}</span>
+                  <span className={classes.sizeWrapper}>
+                    <span>{v.title}</span>
+                    <span>{sizeObj[type] && sizeObj[type][obj.length - 1]}</span>
+                  </span>
                 </span>
               )
             })
@@ -96,17 +107,20 @@ const publicCreateHtml = (obj, type, isMobile, index) => {
  */
 const single = (obj, isMobile, index) => {
   const cls = index && !obj.imgPath ? `picture-items-${index}` : '';
+  const type = `images_${index}`;
+  console.log(index, '000', sizeObj[type])
   return (
     <span key={uuid()} className={`${classes.item} ${cls}`} style={_bg(obj.imgPath)}>
       {
-        obj !== ''
-          ? obj.imgPath
-            ? <span key={uuid()} />
-            : [
-              <span key={uuid()} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
-              <span key={uuid()}>{obj.title}</span>,
-            ]
-          : null
+        obj.imgPath
+          ? <span key={uuid()} />
+          : [
+            <span key={uuid()} className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />,
+            <span key={uuid()} className={classes.sizeWrapper}>
+              <span>{obj.title}</span>
+              <span>{sizeObj[type] && sizeObj[type][obj.length - 1]}</span>
+            </span>,
+          ]
       }
     </span>
   )

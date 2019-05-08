@@ -27,105 +27,153 @@
 .icon-add:before {
   content: "\e900";
 }
+
 .icon-block:before {
   content: "\e901";
 }
+
 .icon-categoryList:before {
   content: "\e902";
 }
+
 .icon-default-logo:before {
   content: "\e903";
 }
+
 .icon-default-portrait .path1:before {
   content: "\e904";
   color: rgb(243, 243, 243);
 }
+
 .icon-default-portrait .path2:before {
   content: "\e905";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
+
 .icon-default-portrait .path3:before {
   content: "\e906";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
+
 .icon-delete:before {
   content: "\e907";
 }
+
 .icon-displayPicture:before {
   content: "\e908";
 }
+
 .icon-displayPicture-single:before {
   content: "\e909";
 }
+
 .icon-drag:before {
   content: "\e90a";
 }
+
 .icon-drop-down:before {
   content: "\e90b";
 }
+
 .icon-edit:before {
   content: "\e90c";
 }
-.icon-files:before {
+
+.icon-facebook:before {
   content: "\e90d";
 }
-.icon-footer:before {
+
+.icon-files:before {
   content: "\e90e";
 }
-.icon-handle-view:before {
+
+.icon-footer:before {
   content: "\e90f";
 }
-.icon-header:before {
+
+.icon-handle-view:before {
   content: "\e910";
 }
-.icon-hidden:before {
+
+.icon-header:before {
   content: "\e911";
 }
-.icon-logo:before {
+
+.icon-hidden:before {
   content: "\e912";
 }
-.icon-productList:before {
+
+.icon-instagram:before {
   content: "\e913";
 }
-.icon-publish:before {
+
+.icon-interest:before {
   content: "\e914";
 }
-.icon-revirt:before {
+
+.icon-logo:before {
   content: "\e915";
 }
-.icon-scrollBanner:before {
+
+.icon-productList:before {
   content: "\e916";
 }
-.icon-scrollBanner-single:before {
+
+.icon-publish:before {
   content: "\e917";
 }
-.icon-style1:before {
+
+.icon-revirt:before {
   content: "\e918";
 }
-.icon-style2:before {
+
+.icon-scrollBanner:before {
   content: "\e919";
 }
-.icon-style3:before {
+
+.icon-scrollBanner-single:before {
   content: "\e91a";
 }
-.icon-style4:before {
+
+.icon-style1:before {
   content: "\e91b";
 }
-.icon-style5:before {
+
+.icon-style2:before {
   content: "\e91c";
 }
-.icon-subscribe:before {
+
+.icon-style3:before {
   content: "\e91d";
 }
-.icon-tagList:before {
+
+.icon-style4:before {
   content: "\e91e";
 }
-.icon-upload:before {
+
+.icon-style5:before {
   content: "\e91f";
 }
-.icon-video:before {
+
+.icon-subscribe:before {
   content: "\e920";
+}
+
+.icon-tagList:before {
+  content: "\e921";
+}
+
+.icon-tuite:before {
+  content: "\e922";
+}
+
+.icon-upload:before {
+  content: "\e923";
+}
+
+.icon-video:before {
+  content: "\e924";
 }
 

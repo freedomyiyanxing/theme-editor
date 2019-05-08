@@ -7,8 +7,6 @@ import {
 import { TemplateData } from '../../../store/index';
 import classes from './footer.less';
 
-const ARR = [1, 2, 3];
-
 @inject((stores) => {
   return {
     templateData: stores.templateData,
@@ -18,26 +16,63 @@ const ARR = [1, 2, 3];
 class Footer extends React.Component {
   render() {
     const { templateData, flooterData } = this.props;
+    const { leftNavigation, middleNavigation } = flooterData;
     const isMobile = templateData.type === 'Phone';
-    console.log(flooterData, 1)
     return (
-      <div className={`${classes.container} ${isMobile ? classes.phone : ''}`}>
+      <div className={`${classes.container} ${isMobile && classes.phoneConatiner}`}>
         {
-          ARR.map(val => (
-            <div key={val} className={`${isMobile ? classes.phoneItems : classes.footerItems}`}>
-              <div className={classes.header}>
-                <span />
+          isMobile
+            ? (
+              <div className={classes.phoneConrent}>
+                <span>ABOUT iNFLUMONSTER</span>
+                <span>CUSTOMER SERVICE</span>
+                <span>CUSTOMER SERVICE</span>
               </div>
-              <div className={classes.content}>
-                {
-                  ARR.map(v => (
-                    <span className={classes.contentItems} key={v} />
-                  ))
-                }
+            )
+            : (
+              <div className={classes.wrapper}>
+                <div>
+                  <div className={classes.header}>
+                    <span>ABOUT INFLUMONSTER</span>
+                  </div>
+                  <div className={classes.content}>
+                    {
+                      leftNavigation.map(v => (
+                        <span key={v.id}>{v.name}</span>
+                      ))
+                    }
+                  </div>
+                </div>
+                <div>
+                  <div className={classes.header}>
+                    <span>CUSTOMER SERVICE</span>
+                  </div>
+                  <div className={classes.content}>
+                    {
+                      middleNavigation.map(v => (
+                        <span key={v.id}>{v.name}</span>
+                      ))
+                    }
+                  </div>
+                </div>
+                <div>
+                  <div className={classes.header}>
+                    <span>FOLLOW INFLUMONSTER</span>
+                  </div>
+                  <div className={classes.iconWrapper}>
+                    <span className="icon-tuite" />
+                    <span className="icon-facebook" />
+                    <span className="icon-interest" />
+                    <span className="icon-instagram" />
+                  </div>
+                </div>
               </div>
-            </div>
-          ))
+            )
         }
+        <div className={`${classes.footer} ${isMobile && classes.phoneFotter}`}>
+          <p>©Copyright 2016 - 2019 InfluDigital Corporation.</p>
+          <p> All Rights Reserved.</p>
+        </div>
       </div>
     )
   }

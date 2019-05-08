@@ -2,44 +2,73 @@
 
 .container{
   width: 100%;
-  height: 204px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 90px;
+  padding: 20px 90px;
   background: @color-background-md;
   margin-top: 30px;
 }
 
-.phone {
+.phoneConatiner{
+  margin-top: 10px;
+  padding: 10px;
+}
+.phoneConrent{
+  display: flex;
+  flex-direction: column;
+  span{
+    line-height: 2;
+    font-size: @font-size-xs;
+    color: @color-text-style;
+  }
+}
+
+
+.wrapper{
+ display: flex;
+ justify-content: space-between;
+}
+
+.footer{
   margin-top: 20px;
-  padding: 0 10px;
-  height: 160px;
+  p{
+    line-height: 20px;
+    font-size: @font-size;
+    color: @color-text-aaa;
+  }
 }
 
-.footerItems{
-  width: 135px;
-}
-
-.phoneItems{
-  flex: 0 0 30%;
+.phoneFotter {
+  margin-top: 10px;
 }
 
 .header{
-  padding: 0 20px;
   margin-bottom: 16px;
-  border-radius: 2px;
   span{
     display: block;
     width: 100%;
-    height: 20px;
-    background: @color-background-sm;
+    color: @color-text-style;
+    font-size: @font-size-sm;
   }
 }
 .content{
   display: flex;
   flex-direction: column;
+  span{
+    color: @color-text-xs;
+    font-size: @font-size;
+    line-height: 22px;
+  }
 }
+
+.iconWrapper{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 6px;
+  span{
+    font-size: 24px;
+    color: @color-text;
+  }
+}
+
 .contentItems{
   width: 100%;
   height: 14px;

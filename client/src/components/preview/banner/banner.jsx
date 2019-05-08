@@ -59,8 +59,9 @@ const html = (obj, isMobile) => {
                   ? <span style={{ height: 50 }} />
                   : <span className={`icon-default-logo ${isMobile ? classes.phoneIcon : classes.icon}`} />
               }
-              <span>
-                {v.title}
+              <span className={classes.text}>
+                <span>{v.title}</span>
+                <span>Optimum size 1370 * 620</span>
               </span>
             </span>
           </div>

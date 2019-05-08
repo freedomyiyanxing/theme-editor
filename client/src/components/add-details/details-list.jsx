@@ -21,7 +21,7 @@ const LimitNumber = {
   images_2: 5, // picture 中的 style-2 最少五个
   images_3: 5, // picture 中的 style-3 最少五个
   images_4: 5, // picture 中的 style-4 最少五个
-  images_5: 2, // picture 中的 style-5 最少四个
+  images_5: 2, // picture 中的 style-5 最少二个
   slideshow: 1, // scroll-banner 最少一个
 };
 
@@ -45,7 +45,7 @@ const LimitNumber = {
     notification[type]({
       message: title,
       description: val,
-      duration: 5,
+      duration: 3,
       placement: 'topLeft',
     });
   };
@@ -55,7 +55,8 @@ const LimitNumber = {
     const { templateData, name, refresh } = this.props;
     const { modules, modulesOrder } = templateData.section[name].config;
     const { type } = templateData.section[name];
-    if (modulesOrder.length > LimitNumber[type]) {
+    // 判断是否可删除
+    if (this.isOperation(modules, modulesOrder, index) >= LimitNumber[type]) {
       // 判断 如果有 图片 则 弹出提示框;
       if (modules[index][modulesOrder[index]].config.imgPath) {
         this.toggle(index);
@@ -74,8 +75,15 @@ const LimitNumber = {
   // 隐藏
   handleIsHidden = (val, index) => {
     const { templateData, name, refresh } = this.props;
+    const { type } = templateData.section[name];
+    const { modules, modulesOrder } = templateData.section[name].config;
     refresh();
-    templateData.setComponentIsHidden(name, val, index)
+    // 判断是否可隐藏
+    if (this.isOperation(modules, modulesOrder, index) >= LimitNumber[type]) {
+      templateData.setComponentIsHidden(name, val, index)
+    } else {
+      this.openNotificationWithIcon('error', 'Error', promptImgFormat(LimitNumber[type]))
+    }
   };
 
   // 确定删除
@@ -125,6 +133,24 @@ const LimitNumber = {
       visible: !visible,
     })
   };
+
+  /**
+   * 查找出当前对象中 没有被隐藏或者删除的对象
+   * 返回 数值
+   * @param {*} modules
+   * @param {*} modulesOrder
+   * @param {*} index
+   */
+  isOperation(modules, modulesOrder, index) {
+    let isShowNumber = 0;
+    for (let i = 0; i < modulesOrder.length; i += 1) {
+      if (i === index) continue; // eslint-disable-line
+      if (modules[i][modulesOrder[i]].config.isShow) {
+        isShowNumber += 1;
+      }
+    }
+    return isShowNumber;
+  }
 
   render() {
     const { name, templateData, handleEdit } = this.props;

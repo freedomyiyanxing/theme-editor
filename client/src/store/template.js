@@ -87,12 +87,14 @@ export default class TemplateData {
 
   // index => 拖住完成 (鼠标已经放手时)
   @action handleDropScroll(type, endIndex, startIndex, isTop) {
-    this.handleDropClass(type);
-    this.utilScroll(
-      this.utilScrollVal(endIndex, startIndex, isTop),
-      true,
-    );
-    this.dragObjSort(startIndex, endIndex)
+    if (this.type === DESK_TOP) {
+      this.handleDropClass(type);
+      this.utilScroll(
+        this.utilScrollVal(endIndex, startIndex, isTop),
+        true,
+      );
+      this.dragObjSort(startIndex, endIndex)
+    }
   }
 
   // 拖动时 右侧展示区块的样式控制
@@ -187,11 +189,11 @@ export default class TemplateData {
         scrollVal += this.dragObj[i].height
       }
     })
-    console.log(
-      scrollVal + 168 - this.dragObj[isTop ? index : startIndex].height,
-      '需要滚动的距离',
-      this.dragObj[startIndex].height,
-    )
+    // console.log(
+    //   scrollVal + 168 - this.dragObj[isTop ? index : startIndex].height,
+    //   '需要滚动的距离',
+    //   this.dragObj[startIndex].height,
+    // )
     // 加上头部的高度 // 还需要减去自身的高度 => 得到正确的滚动高度
     return scrollVal + 168 - this.dragObj[isTop ? index : startIndex].height
   }
