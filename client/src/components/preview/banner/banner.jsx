@@ -61,7 +61,7 @@ const html = (obj, isMobile) => {
               }
               <span className={classes.text}>
                 <span>{v.title}</span>
-                <span>Optimum size 1370 * 620</span>
+                <span>1370 * 620</span>
               </span>
             </span>
           </div>
