@@ -5,8 +5,10 @@
   "main": "index.js",
   "homepage": ".",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.js",
-    "start": "rimraf dist && npm run build",
+    "build:test": "cross-env NODE_ENV=production ENVIRONMENT=test webpack --config build/webpack.config.js",
+    "build:pre": "cross-env NODE_ENV=production ENVIRONMENT=pre webpack --config build/webpack.config.js",
+    "start:test": "rimraf dist && npm run build:test",
+    "start:pre": "rimraf dist && npm run build:pre",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js"
   },
   "author": "freedom.yi",
