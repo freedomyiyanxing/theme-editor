@@ -17,16 +17,14 @@ const config = {
     publicPath: isDev ? '/public/' : '/storetheme/',
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(js|jsx)$/,
         loader: ['babel-loader', 'eslint-loader'],
         exclude: path.join(__dirname, '../node_modules')
       },
       {
         test: /\.css$/,
-        use: [
-          {
+        use: [{
             loader: MiniCssExtractPlugin.loader,
           },
           {
@@ -88,12 +86,12 @@ const config = {
       chunkFilename: isDev ? '[id].[hash].css' : '[name].[id].[hash].css',
     }),
     new Webpack.DefinePlugin({ // 根据环境不同  图片前缀请求不同的域名
-      'process.env.IMG_BASE': isDev
-        ? JSON.stringify("https://cdn.influmonsters.com")
-        : JSON.stringify("https://cdn.influmonsters.com"),
-      'process.env.URL_BASE': isDev
-        ? JSON.stringify("")
-        : JSON.stringify("/business/store_themes"),
+      'process.env.IMG_BASE': isDev ?
+        JSON.stringify("https://cdn.influmonsters.com") :
+        JSON.stringify("https://cdn.influmonsters.com"),
+      'process.env.URL_BASE': isDev ?
+        JSON.stringify("") :
+        JSON.stringify("/business/store_themes"),
       'process.env.IS_DEV': isDev
     }),
     new OptimizeCssAssetsPlugin(),
