@@ -9,7 +9,7 @@
     "build:pre": "cross-env NODE_ENV=production ENVIRONMENT=pre webpack --config build/webpack.config.js",
     "start:test": "rimraf dist && npm run build:test",
     "start:pre": "rimraf dist && npm run build:pre",
-    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js"
+    "dev:client": "cross-env NODE_ENV=development ENVIRONMENT=test webpack-dev-server --config build/webpack.config.js"
   },
   "author": "freedom.yi",
   "license": "ISC",
