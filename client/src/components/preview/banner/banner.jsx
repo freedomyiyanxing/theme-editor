@@ -84,21 +84,39 @@ const html = (obj, isMobile) => {
     templateData.eleHeight.splice(index, 0, this.wrapper.clientHeight)
   }
 
+  conputer(config) {
+    const { modulesOrder, modules } = config;
+    let len = 0;
+    for (let i = 0; i < modules.length; i += 1) {
+      if (modules[i][modulesOrder[i]].config.isShow) {
+        len = i;
+      }
+    }
+    return len;
+  }
+
   render() {
     const { name, templateData } = this.props;
     const { section } = templateData;
     const { config } = section[name];
     const isMobile = templateData.type === 'Phone';
+    this.conputer(config);
     return (
       <div
         ref={n => this.wrapper = n}
         className={isMobile ? classes.phone : classes.container}
       >
-        <Carousel autoplay effect="fade">
-          {
-            html(filterData(config), isMobile)
-          }
-        </Carousel>
+        {
+          this.conputer(config)
+            ? (
+              <Carousel autoplay effect="fade">
+                {
+                  html(filterData(config), isMobile)
+                }
+              </Carousel>
+            )
+            : html(filterData(config), isMobile)
+        }
       </div>
     )
   }
