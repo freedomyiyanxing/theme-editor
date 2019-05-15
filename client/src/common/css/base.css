@@ -131,6 +131,9 @@ body {
 
 
 /* --------- andt --------- */
+.ant-carousel .slick-dots{
+  height: 8px;
+}
 .ant-input{
   height: 38px;
   border-radius: 0;

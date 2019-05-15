@@ -17,74 +17,9 @@ export const template = {
             },
           },
         },
-        {
-          modules1: {
-            config: {
-              title: 'Banner - 2',
-              url: null,
-              isShow: true,
-              effDate: null,
-              expDate: null,
-              imgPath: null,
-            },
-          },
-        },
-        {
-          modules2: {
-            config: {
-              title: 'Banner - 3',
-              url: null,
-              isShow: true,
-              effDate: null,
-              expDate: null,
-              imgPath: null,
-            },
-          },
-        },
-        {
-          modules3: {
-            config: {
-              title: 'Banner - 4',
-              url: null,
-              isShow: true,
-              effDate: null,
-              expDate: null,
-              imgPath: null,
-            },
-          },
-        },
-        {
-          modules4: {
-            config: {
-              title: 'Banner - 5',
-              url: null,
-              isShow: true,
-              effDate: null,
-              expDate: null,
-              imgPath: null,
-            },
-          },
-        },
-        {
-          modules5: {
-            config: {
-              title: 'Banner - 6',
-              url: null,
-              isShow: true,
-              effDate: null,
-              expDate: null,
-              imgPath: null,
-            },
-          },
-        },
       ],
       modulesOrder: [
         'modules0',
-        'modules1',
-        'modules2',
-        'modules3',
-        'modules4',
-        'modules5',
       ],
     },
   },

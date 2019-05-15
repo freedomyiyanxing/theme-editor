@@ -10,8 +10,8 @@ import Card from '../../base/drag/cards.jsx';
 import ListView from '../../base/list/list.jsx';
 import { TemplateData } from '../../store/index';
 import { isTypeOf } from '../../common/js/util';
-import { deleteUploadImg } from '../../api/http';
-import { promptImgFormat, promptMsg } from '../../common/js/prompt-message';
+import { post } from '../../api/http';
+import { promptImgFormat, promptDelete } from '../../common/js/prompt-message';
 
 import classes from '../../common/less/list-item.less';
 
@@ -24,6 +24,8 @@ const LimitNumber = {
   images_5: 2, // picture 中的 style-5 最少二个
   slideshow: 1, // scroll-banner 最少一个
 };
+
+const prompt = (type, name) => `${promptImgFormat(LimitNumber[type])} ${isTypeOf(name) ? 'bannes;' : 'pictures'}.`;
 
 @inject((stores) => {
   return {
@@ -68,7 +70,7 @@ const LimitNumber = {
         templateData.deleteComponent(name, index);
       }
     } else {
-      this.openNotificationWithIcon('error', 'Error', promptImgFormat(LimitNumber[type]))
+      this.openNotificationWithIcon('error', 'Error', prompt(type, name));
     }
   };
 
@@ -82,16 +84,18 @@ const LimitNumber = {
     if (this.isOperation(modules, modulesOrder, index) >= LimitNumber[type]) {
       templateData.setComponentIsHidden(name, val, index)
     } else {
-      this.openNotificationWithIcon('error', 'Error', promptImgFormat(LimitNumber[type]))
+      this.openNotificationWithIcon('error', 'Error', prompt(type, name))
     }
   };
 
   // 确定删除
   handleOk = () => {
     const { templateData, name, refresh } = this.props;
-    const { modules, modulesOrder } = templateData.section[name].config;
     const { index } = this.state;
-    deleteUploadImg(modules[index][modulesOrder[index]].config.imgPath)
+    const { modules, modulesOrder } = templateData.section[name].config;
+    const { config } = modules[index][modulesOrder[index]];
+    const url = '/business/store_themes/deleteThemeImage';
+    post(url, { imgUrl: config.imgPath })
       .then((resp) => {
         if (resp.data.message === 'Success!') {
           refresh();
@@ -102,7 +106,7 @@ const LimitNumber = {
         }
       }).catch((err) => {
         console.error(err)
-      });
+      })
     this.toggle();
   };
 
@@ -158,7 +162,8 @@ const LimitNumber = {
     const { section } = templateData;
     const { config } = section[name];
     const { modules, modulesOrder } = config;
-    const icon = isTypeOf(name) ? 'scrollBanner-single' : 'displayPicture-single';
+    const isTypes = isTypeOf(name);
+    const icon = isTypes ? 'scrollBanner-single' : 'displayPicture-single';
     return [
       modulesOrder.map((value, index) => {
         const { isShow, title } = modules[index][value].config;
@@ -212,7 +217,7 @@ const LimitNumber = {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
-        <div>{promptMsg._delete}</div>
+        <div>{promptDelete(isTypes)}</div>
       </Modal>,
     ]
   }

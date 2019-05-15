@@ -13,7 +13,7 @@ import Card from '../../base/drag/cards.jsx';
 import { TemplateData } from '../../store/index';
 import { chapterType, iconName } from '../../common/js/util';
 import { post } from '../../api/http';
-import { promptMsg } from '../../common/js/prompt-message';
+import { promptDelete } from '../../common/js/prompt-message';
 
 import classes from '../../common/less/list-item.less';
 
@@ -131,7 +131,7 @@ import classes from '../../common/less/list-item.less';
   render() {
     const { templateData, handleEdit } = this.props;
     const { section } = templateData;
-    const { visible } = this.state;
+    const { visible, name } = this.state;
     return [
       section.sectionsOrder.map((value, index) => {
         const { config, isHidden } = section[value]
@@ -199,7 +199,7 @@ import classes from '../../common/less/list-item.less';
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
-        <div>{promptMsg._delete}</div>
+        <div>{promptDelete(name === 'scrollBanner')}</div>
       </Modal>,
     ]
   }
