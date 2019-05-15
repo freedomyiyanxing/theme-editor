@@ -76,6 +76,12 @@ class BottomBtn extends React.Component {
     this.setState({
       tooltipVisible: true,
     })
+
+    setTimeout(() => {
+      this.setState({
+        tooltipVisible: false,
+      })
+    }, 3000);
   }
 
   render() {

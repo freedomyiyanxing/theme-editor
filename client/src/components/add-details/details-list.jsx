@@ -25,7 +25,7 @@ const LimitNumber = {
   slideshow: 1, // scroll-banner 最少一个
 };
 
-const prompt = (type, name) => `${promptImgFormat(LimitNumber[type])} ${isTypeOf(name) ? 'bannes;' : 'pictures'}.`;
+const prompt = (type, name) => `${promptImgFormat(LimitNumber[type])} ${isTypeOf(name) ? 'banners;' : 'pictures'}.`;
 
 @inject((stores) => {
   return {
