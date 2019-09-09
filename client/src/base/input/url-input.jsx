@@ -26,7 +26,7 @@ export default class UrlInput extends React.Component {
       <div className={classes.container}>
         <span className={classes.title}>Destination URL :</span>
         <Input
-          addonBefore="https://"
+          // addonBefore="https://"
           onChange={this.handleChange}
           value={value}
           placeholder="url"
