@@ -60,7 +60,7 @@
     "immutability-helper": "^3.0.0",
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "prop-types": "^15.6.2",
     "qs": "^6.6.0",
     "react": "^16.4.1",
