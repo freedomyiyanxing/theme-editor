@@ -62,7 +62,7 @@
     "mobx-react": "^5.2.3",
     "moment": "^2.24.0",
     "prop-types": "^15.6.2",
-    "qs": "^6.6.0",
+    "qs": "^6.7.3",
     "react": "^16.4.1",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
